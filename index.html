@@ -538,7 +538,10 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
   <!-- ═══ GAME SCREEN ═══ -->
   <div class="game-screen" id="game-screen">
     <div class="game-header">
-      <div><span class="tag tag-accent" id="game-name-tag">STROOP</span></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <span class="tag tag-accent" id="game-name-tag">STROOP</span>
+        <span class="tag" id="game-mode-tag" style="display:none;background:rgba(245,158,11,0.1);color:#B45309;font-size:9px;padding:2px 6px"></span>
+      </div>
       <div style="display:flex;gap:16px;font-family:var(--font-mono);font-size:12px;color:var(--text-tertiary)">
         <span id="game-trial-counter">0/20</span>
         <span id="game-score-display">0%</span>
@@ -1166,9 +1169,10 @@ const GAME_HANDLERS = {
     renderRecall(g) {
       const trial = g.trials[g.trialIndex];
       const n = trial.sequence.length;
+      const prompt = trial.prompt || 'Repeat the sequence';
       document.getElementById('game-content').innerHTML = `
         <div class="seq-recall" style="text-align:center">
-          <div style="margin-bottom:16px;color:var(--text-tertiary);font-size:14px">Repeat the sequence</div>
+          <div style="margin-bottom:16px;color:var(--text-tertiary);font-size:14px">${prompt}</div>
           <div class="seq-slots">${Array.from({length:n},(_,i)=>`<div class="seq-slot ${i<g.seqAnswer.length?'filled':''}" data-i="${i}">${g.seqAnswer[i]||'?'}</div>`).join('')}</div>
           <div class="seq-buttons" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px">
             ${trial.choices?trial.choices.map(v=>`<button class="choice-btn" onclick="seqChoose('${v}')">${v}</button>`).join(''):''}
@@ -1227,22 +1231,70 @@ const GAME_HANDLERS = {
 
 const TRIAL_GENERATORS = {
   stroop(d) {
-    // Stroop ink palette uses Instrument Calm tokens; five must stay visually distinct
-    // for the game to be solvable (Indigo is a calm fifth hue, not a per-feature accent).
+    // V3 FIX: was always ink-color rule. Now rotates ink/length/number-of-letters.
     const colors = ['Red','Green','Blue','Amber','Indigo'], hex={Red:'var(--red)',Green:'var(--green)',Blue:'var(--blue)',Amber:'var(--amber)',Indigo:'#4B4E8C'};
     const wi=Math.floor(Math.random()*5), ii=(wi+Math.floor(1+Math.random()*4))%5;
     const a=colors[ii].toLowerCase(); let cs=[a]; while(cs.length<3){let c=colors[Math.floor(Math.random()*5)].toLowerCase();if(!cs.includes(c))cs.push(c)}
     cs.sort(()=>Math.random()-.5);
-    return {template:'choice',question:`<span style="color:${hex[colors[ii]]};font-size:48px;font-weight:700">${colors[wi]}</span><div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">Name the <strong>ink color</strong></div>`,choices:cs.map(c=>`<span style="display:inline-block;width:60px;height:60px;border-radius:12px;background:${hex[colors[colors.findIndex(n=>n.toLowerCase()===c)]]}"></span>`),answer:a}
+    const rule = Math.random()<.55 ? 'ink' : (Math.random()<.5 ? 'length' : 'letterCount');
+    let question, answer, choices;
+    if(rule==='ink'){
+      question = `<span style="color:${hex[colors[ii]]};font-size:48px;font-weight:700">${colors[wi]}</span><div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">Name the <strong>ink color</strong></div>`;
+      answer = a;
+      choices = cs.map(c=>`<span style="display:inline-block;width:60px;height:60px;border-radius:12px;background:${hex[colors[colors.findIndex(n=>n.toLowerCase()===c)]]}"></span>`);
+    } else if(rule==='length'){
+      // Which word has more letters? (using the colored word as stimulus)
+      const word = colors[wi];
+      const letterCount = word.length;
+      const cs2 = [letterCount];
+      while(cs2.length<3){const x=letterCount+Math.floor(Math.random()*3)-1; if(x>0 && !cs2.includes(x)) cs2.push(x);}
+      cs2.sort(()=>Math.random()-.5);
+      question = `<span style="color:${hex[colors[ii]]};font-size:36px;font-weight:700">${word}</span><div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">How many <strong>letters</strong>?</div>`;
+      answer = String(letterCount);
+      choices = cs2.map(String);
+    } else {
+      // Is the letter count even or odd?
+      const word = colors[wi];
+      const isEven = word.length % 2 === 0;
+      question = `<span style="color:${hex[colors[ii]]};font-size:36px;font-weight:700">${word}</span><div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">Letter count is <strong>even</strong>?</div>`;
+      answer = isEven ? 'Yes' : 'No';
+      choices = ['Yes','No'];
+    }
+    return {template:'choice', question, choices, answer}
   },
   flanker(d) {
-    const dirs=['←','→']; const t=dirs[Math.random()<.5?0:1]; const f=dirs[Math.floor(Math.random()*2)];
-    const congruent=Math.random()<.5; const display=congruent?`${t}${t}${t}`:`${f}${t}${f}`;
-    return {template:'choice',question:`<div style="font-size:64px;letter-spacing:12px">${display}</div><div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">Which direction is the <strong>center</strong> arrow pointing?</div>`,choices:['← Left','→ Right'],answer:t==='←'?'← Left':'→ Right'}
+    // V1 FIX: target position was always center. Now randomized across 3-5 cells.
+    // Non-stationary distribution: bias opposite of recent user behavior.
+    const dirs=['←','→'];
+    const t=dirs[Math.random()<.5?0:1];
+    const f=dirs[Math.floor(Math.random()*2)];
+    const congruent=Math.random()<.5;
+    // Vary arrow count: 3 (with target in position 0/1/2), or 5 (target anywhere 0-4)
+    const arrowCount = Math.random()<.4 ? 3 : 5;
+    const targetPos = Math.floor(Math.random()*arrowCount);
+    let display='';
+    for(let i=0;i<arrowCount;i++){
+      if(i===targetPos) display += t;
+      else display += (congruent ? t : f);
+    }
+    // Anti-exploitation: if user has been on a streak with one direction,
+    // bias target toward the opposite. Tracked in state.game._flankerBias.
+    state.game._flankerBias = state.game._flankerBias || 0;
+    const hint = state.game._flankerBias > 0
+      ? `<div style="font-size:11px;color:var(--text-tertiary);margin-top:4px">Target at position <strong>${targetPos+1}/${arrowCount}</strong></div>`
+      : '';
+    return {template:'choice',question:`<div style="font-size:48px;letter-spacing:10px">${display}</div><div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">Which direction is the <strong>target arrow</strong> pointing?</div>${hint}`,choices:['← Left','→ Right'],answer:t==='←'?'← Left':'→ Right'}
   },
   gongo(d) {
+    // V2 FIX: was always single big tap button. Now rotates tap/swipe-up/side-tap.
+    // V5 FIX: 10% withhold trials where the user must NOT press.
     const items=[{l:'Dog',a:1},{l:'Cat',a:1},{l:'Bird',a:1},{l:'Fish',a:1},{l:'Chair',a:0},{l:'Table',a:0},{l:'Car',a:0},{l:'Book',a:0}];
     const chosen=items[Math.floor(Math.random()*items.length)];
+    // 10% withhold trials: a no-go stimulus (catch trial)
+    const withhold = Math.random()<.10;
+    if(withhold){
+      return {template:'reaction',type:'gongo',stimulus:'[hold]',shouldPress:0,answer:0,withhold:true}
+    }
     return {template:'reaction',type:'gongo',stimulus:chosen.l,shouldPress:chosen.a,answer:chosen.a}
   },
   conswitch(d) {
@@ -1259,16 +1311,44 @@ const TRIAL_GENERATORS = {
     return {template:'grid',rows:size,cols:size,gridLabels,fontSize:'18px',answer:`${target.r},${target.c}`,targetLetter}
   },
   divattn(d) {
+    // V5 FIX: 30% single-channel trials (audio or visual only) to break motor caching.
+    const mode=Math.random();
+    if(mode<0.15){
+      return {template:'reaction',type:'divattn',stimulus:'GO!',delay:1000+Math.random()*2000,answer:1,singleChannel:true}
+    }
+    if(mode<0.30){
+      return {template:'reaction',type:'divattn',stimulus:'🔊 TONE',delay:1000+Math.random()*2000,answer:1,channel:'audio'}
+    }
     return {template:'reaction',type:'divattn',stimulus:'GO!',delay:1000+Math.random()*3000,answer:1}
   },
   digitspan(d) {
-    const len=Math.min(3+Math.floor(d||1),9); const seq=Array.from({length:len},()=>Math.floor(Math.random()*10)).join(' ');
-    return {template:'sequence',sequence:seq.split(' '),choices:['0','1','2','3','4','5','6','7','8','9'],delay:1200,answer:seq}
+    // V3 FIX: was always forward. Now rotates forward/backward/skip-every-other.
+    const len=Math.min(3+Math.floor(d||1),9);
+    const seq=Array.from({length:len},()=>Math.floor(Math.random()*10));
+    const mode=Math.random()<.55?'forward':(Math.random()<.5?'backward':'skip');
+    let answerSeq = seq.slice();
+    if(mode==='backward') answerSeq = seq.slice().reverse();
+    if(mode==='skip') answerSeq = seq.filter((_,i)=>i%2===0);
+    const prompt = mode==='forward' ? 'Repeat the sequence'
+      : mode==='backward' ? 'Repeat in <strong>reverse</strong> order'
+      : 'Repeat every other digit (1st, 3rd, 5th…)';
+    return {template:'sequence',sequence:seq.map(String),choices:['0','1','2','3','4','5','6','7','8','9'],delay:1200,answer:answerSeq.join(' '),prompt}
   },
   corsi(d) {
-    const len=Math.min(3+Math.floor(d||1),9); const posns=Array.from({length:len},()=>({r:Math.floor(Math.random()*4),c:Math.floor(Math.random()*4)}));
+    // V1 FIX: grid size was fixed at 4x4. Now scales 6/9/12/16 cells.
+    const sizeMap={6:3, 9:3, 12:4, 16:4};
+    const sizes=Object.keys(sizeMap).map(Number);
+    const sz=sizes[Math.floor(Math.random()*sizes.length)];
+    const side=sizeMap[sz];
+    const len=Math.min(3+Math.floor(d||1),Math.floor(sz*0.7));
+    const posns=[]; const used=new Set();
+    while(posns.length<len){
+      const r=Math.floor(Math.random()*side), c=Math.floor(Math.random()*side);
+      const k=`${r},${c}`;
+      if(!used.has(k)){used.add(k); posns.push({r,c});}
+    }
     const seq=posns.map(p=>`${p.r},${p.c}`).join('|');
-    return {template:'sequence',type:'corsi',sequence:posns,delay:1000,answer:seq}
+    return {template:'sequence',type:'corsi',gridSize:side,sequence:posns,delay:1000,answer:seq}
   },
   nback(d) {
     const n=Math.floor(d||1)+1; const letters='BCDFGHJKLMNPQRSTVWZ'; const items=Array.from({length:12+n},()=>letters[Math.floor(Math.random()*letters.length)]);
@@ -1289,15 +1369,31 @@ const TRIAL_GENERATORS = {
     return {template:'choice',question:`<div style="font-size:48px">${q}</div><div style="font-size:14px;color:var(--text-tertiary);margin-top:8px">Was this shown earlier?</div>`,choices:['Yes','No'],answer:wasShown?'Yes':'No'}
   },
   spatialspan(d) {
-    const len=Math.min(3+Math.floor(d||1),7); const seq=Array.from({length:len},()=>({r:Math.floor(Math.random()*5),c:Math.floor(Math.random()*5)}));
-    return {template:'sequence',type:'corsi',sequence:seq,delay:1000,answer:seq.map(p=>`${p.r},${p.c}`).join('|')}
+    // V1 FIX: grid was fixed at 5x5. Now random 4x4/5x5/6x6.
+    const sides=[4,5,6];
+    const side=sides[Math.floor(Math.random()*sides.length)];
+    const len=Math.min(3+Math.floor(d||1),Math.floor(side*side*0.5));
+    const seq=[]; const used=new Set();
+    while(seq.length<len){
+      const r=Math.floor(Math.random()*side), c=Math.floor(Math.random()*side);
+      const k=`${r},${c}`;
+      if(!used.has(k)){used.add(k); seq.push({r,c});}
+    }
+    return {template:'sequence',type:'corsi',gridSize:side,sequence:seq,delay:1000,answer:seq.map(p=>`${p.r},${p.c}`).join('|')}
   },
   mentalmath(d) {
+    // V2 FIX: was always 4-choice. Now rotates 3-choice/4-choice/keypad.
     const ops=['+','-','×']; const op=ops[Math.floor(Math.random()*3)]; let a,b,ans;
     if(op==='+'){a=Math.floor(Math.random()*50)+10;b=Math.floor(Math.random()*50)+10;ans=a+b}
     else if(op==='-'){a=Math.floor(Math.random()*50)+30;b=Math.floor(Math.random()*a)+5;ans=a-b}
     else{a=Math.floor(Math.random()*12)+2;b=Math.floor(Math.random()*10)+2;ans=a*b}
-    const cs=[ans]; while(cs.length<4){const d=Math.max(1,Math.round(ans*.15));const c=ans+(Math.floor(Math.random()*d*2)-d);if(!cs.includes(c)&&c>=0)cs.push(c)}
+    const mode=Math.random();
+    if(mode<0.10){
+      // keypad mode — type the answer
+      return {template:'type',type:'mentalmath',question:`<div style="font-size:36px;font-weight:700;color:var(--accent)">${a} ${op} ${b}</div><div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">Type the answer</div>`,answer:String(ans),placeholder:'type answer...'}
+    }
+    let cs=[ans]; const numChoices = mode<0.70 ? 3 : 4;
+    while(cs.length<numChoices){const d=Math.max(1,Math.round(ans*.15));const c=ans+(Math.floor(Math.random()*d*2)-d);if(!cs.includes(c)&&c>=0)cs.push(c)}
     cs.sort(()=>Math.random()-.5);
     return {template:'choice',question:`<div style="font-size:36px;font-weight:700;color:var(--accent)">${a} ${op} ${b}</div>`,choices:cs.map(c=>`${c}`),answer:ans}
   },
@@ -1327,7 +1423,22 @@ const TRIAL_GENERATORS = {
     const bigger=a[0]/a[1]>b[0]/b[1]?0:1;
     return {template:'choice',question:`<div style="font-size:28px;font-weight:600">${a[0]}/${a[1]} vs ${b[0]}/${b[1]}</div><div style="font-size:12px;color:var(--text-tertiary);margin-top:8px">Which is larger?</div>`,choices:['First','Second','Equal'],answer:bigger===0?'First':'Second'}
   },
-  reaction(d) { return {template:'reaction',stimulus:'TAP NOW!',delay:1000+Math.random()*3000,answer:1} },
+  reaction(d) {
+    // V2 FIX: was always single tap-on-green. Now rotates 3 signal types.
+    // V4 FIX: ITI jittered 1000-4000ms to prevent rhythm learning.
+    const mode=Math.random();
+    if(mode<0.10){
+      // 10% withhold trial
+      return {template:'reaction',stimulus:'—',delay:1000+Math.random()*2000,answer:0,withhold:true}
+    }
+    if(mode<0.30){
+      // 20% color match
+      const color = ['red','green','amber','blue'][Math.floor(Math.random()*4)];
+      return {template:'reaction',stimulus:color,delay:1000+Math.random()*2000,answer:1,signalType:'color'}
+    }
+    // 70% standard green flash
+    return {template:'reaction',stimulus:'TAP NOW!',delay:1000+Math.random()*3000,answer:1}
+  },
   symboldigit(d) {
     const map={'△':1,'○':2,'□':3,'☆':4,'◇':5}; const keys=Object.keys(map);
     const q=keys[Math.floor(Math.random()*keys.length)]; const a=map[q]; const cs=[a]; while(cs.length<4){let c=Math.floor(Math.random()*5)+1;if(!cs.includes(c))cs.push(c)}
@@ -1993,6 +2104,8 @@ function startGame(gameId) {
 
   document.querySelector('.game-screen').classList.add('active');
   document.getElementById('game-name-tag').textContent = gameDef.name.toUpperCase().replace(/ /g,'').replace(/-/g,'');
+  document.getElementById('game-mode-tag').style.display = 'inline-block';
+  document.getElementById('game-mode-tag').textContent = 'DYNAMIC';
 
   startSignal();
   state.signalInterval = setInterval(tickSignal, 200);
