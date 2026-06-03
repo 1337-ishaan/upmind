@@ -1,8 +1,0 @@
-*
-!.gitignore
-!README.md
-!index.html
-!onboarding.html
-!assets/
-assets/*
-!assets/brain.png
