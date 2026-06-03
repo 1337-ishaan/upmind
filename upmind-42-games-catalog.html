@@ -170,6 +170,7 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
   <span class="legend-item"><span class="g-construct l">Language</span></span>
   <span class="legend-item"><span class="g-construct e">Executive</span></span>
   <span class="legend-item"><span style="font-size:9px;color:var(--dim)">✦ <strong>Existing</strong> (already in app)</span></span>
+  <span class="legend-item"><span style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;padding:2px 8px;border-radius:20px;font-weight:600">DYNAMIC</span> <span style="font-size:9px;color:var(--dim)">structural novelty per trial (Phase 1+2)</span></span>
 </div>
 
 <!--
@@ -223,22 +224,24 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- A2: Flanker Focus -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">A2</span><span class="g-name">Flanker Focus <span class="tag-new" style="background:var(--green-light);color:var(--green);font-size:8px">✦ EXISTING</span></span><span class="g-construct a">ATT</span></div>
+<div class="g-header"><span class="g-num">A2</span><span class="g-name">Flanker Focus <span class="tag-new" style="background:var(--green-light);color:var(--green);font-size:8px">✦ EXISTING</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct a">ATT</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Ignore flankers</span><span style="color:var(--dim)">14/40</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Target at pos 2/5</span><span style="color:var(--dim)">14/40</span></div>
   <div class="mini-progress"><div class="mini-progress-fill" style="width:35%;background:var(--blue)"></div></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
-    <div class="mini-stim">
+    <div class="mini-stim" style="position:relative">
       <span style="font-size:18px;font-weight:200;color:var(--dim);opacity:0.4">→</span>
-      <span style="font-size:32px;font-weight:700;letter-spacing:-2px">→</span>
+      <span style="font-size:30px;font-weight:700;letter-spacing:-2px;color:var(--blue);position:relative">→<span style="position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:var(--blue);border-radius:50%;box-shadow:0 0 0 2px rgba(47,111,237,0.2)"></span></span>
+      <span style="font-size:18px;font-weight:200;color:var(--dim);opacity:0.4">←</span>
+      <span style="font-size:18px;font-weight:200;color:var(--dim);opacity:0.4">→</span>
       <span style="font-size:18px;font-weight:200;color:var(--dim);opacity:0.4">→</span>
     </div>
     <div class="mini-btn-row"><div class="mini-btn">←</div><div class="mini-btn active">→</div></div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Flanker Task (Eriksen)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Response</span><span class="g-meta-val">Tap direction · 2-choice</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Flanker (Eriksen) + ANT (Fan)</span></div>
+  <div class="g-meta"><span class="g-meta-label">Response</span><span class="g-meta-val">Target in any of 5 positions</span></div>
 </div>
 </div>
 
@@ -324,27 +327,30 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- A7: Visual Search -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">A7</span><span class="g-name">Visual Search <span class="tag-new">NEW</span></span><span class="g-construct a">ATT</span></div>
+<div class="g-header"><span class="g-num">A7</span><span class="g-name">Visual Search <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct a">ATT</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Find: <strong style="color:var(--blue)">K</strong></span><span style="color:var(--dim)">28s</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Find: <strong style="color:var(--blue)">K</strong> · peripheral</span><span style="color:var(--dim)">28s</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;max-width:150px">
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">R</div>
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">P</div>
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">F</div>
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">H</div>
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">N</div>
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">S</div>
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">M</div>
-      <div class="mini-cell highlight" style="font-size:11px;font-family:'Spline Sans Mono',monospace">K</div>
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">W</div>
-      <div class="mini-cell" style="font-size:11px;font-family:'Spline Sans Mono',monospace">D</div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;max-width:170px">
+      <div class="mini-cell dim" style="font-size:9px;font-family:'Spline Sans Mono',monospace">R</div>
+      <div class="mini-cell dim" style="font-size:9px;font-family:'Spline Sans Mono',monospace">P</div>
+      <div class="mini-cell" style="font-size:9px;font-family:'Spline Sans Mono',monospace">F</div>
+      <div class="mini-cell highlight" style="font-size:9px;font-family:'Spline Sans Mono',monospace;position:relative">K<span style="position:absolute;top:-2px;right:-2px;width:3px;height:3px;background:var(--blue);border-radius:50%"></span></div>
+      <div class="mini-cell" style="font-size:9px;font-family:'Spline Sans Mono',monospace">N</div>
+      <div class="mini-cell dim" style="font-size:9px;font-family:'Spline Sans Mono',monospace">S</div>
+      <div class="mini-cell" style="font-size:9px;font-family:'Spline Sans Mono',monospace">M</div>
+      <div class="mini-cell" style="font-size:9px;font-family:'Spline Sans Mono',monospace">W</div>
+      <div class="mini-cell dim" style="font-size:9px;font-family:'Spline Sans Mono',monospace">D</div>
+      <div class="mini-cell" style="font-size:9px;font-family:'Spline Sans Mono',monospace">L</div>
+      <div class="mini-cell" style="font-size:9px;font-family:'Spline Sans Mono',monospace">T</div>
+      <div class="mini-cell" style="font-size:9px;font-family:'Spline Sans Mono',monospace">B</div>
     </div>
+    <div style="font-size:8px;color:var(--dim);margin-top:4px">30% targets in peripheral ring</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Visual Search (Treisman)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Search RT × accuracy</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Visual Search (Treisman) + peripheral</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Search RT × accuracy × eccentricity</span></div>
 </div>
 </div>
 
@@ -398,37 +404,44 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- M3: Corsi Blocks -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">M3</span><span class="g-name">Corsi Blocks <span class="tag-new" style="background:var(--green-light);color:var(--green);font-size:8px">✦ EXISTING</span></span><span class="g-construct m">MEM</span></div>
+<div class="g-header"><span class="g-num">M3</span><span class="g-name">Corsi Blocks <span class="tag-new" style="background:var(--green-light);color:var(--green);font-size:8px">✦ EXISTING</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct m">MEM</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Spatial · Span 5</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Span 5 · 16-cell grid</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:120px">
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px;background:var(--blue);border-color:var(--blue)"></div>
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px;background:var(--blue);border-color:var(--blue)"></div>
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px;background:var(--blue);border-color:var(--blue)"></div>
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
-      <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;max-width:120px">
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
+      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px;background:var(--blue);border-color:var(--blue)"></div>
     </div>
-    <div style="font-size:9px;color:var(--dim)">Tap blocks in the order they lit up</div>
+    <div style="font-size:8px;color:var(--dim)">Grid scales 6→9→12→16 cells · 3 sessions ago was 3×3</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Corsi Block Tapping</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Spatial span length</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Corsi Block Tapping (variable grid)</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Span length × grid size weight</span></div>
 </div>
 </div>
 
 <!-- M4: Corsi Backward -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">M4</span><span class="g-name">Corsi Backward <span class="tag-new">NEW</span></span><span class="g-construct m">MEM</span></div>
+<div class="g-header"><span class="g-num">M4</span><span class="g-name">Corsi Backward <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct m">MEM</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Reverse spatial</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Rotated 90° · reverse</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:120px">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:120px;transform:rotate(0deg);transition:transform 0.4s">
       <div class="mini-cell" style="width:32px;height:32px;border-radius:6px;background:var(--blue);border-color:var(--blue)"></div>
       <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
       <div class="mini-cell" style="width:32px;height:32px;border-radius:6px;background:var(--blue);border-color:var(--blue)"></div>
@@ -439,12 +452,12 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
       <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
       <div class="mini-cell" style="width:32px;height:32px;border-radius:6px"></div>
     </div>
-    <div style="font-size:9px;color:var(--dim)">Reverse order</div>
+    <div style="font-size:8px;color:var(--dim)">Grid rotates 0° → 90° → 180° → 270° every 5 trials</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Corsi Backward</span></div>
-  <div class="g-meta"><span class="g-meta-label">Load</span><span class="g-meta-val">Spatial WM + reversal</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Corsi Backward + rotation</span></div>
+  <div class="g-meta"><span class="g-meta-label">Load</span><span class="g-meta-val">Spatial WM + mental rotation</span></div>
 </div>
 </div>
 
@@ -500,34 +513,44 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- M7: Spatial Memory Grid -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">M7</span><span class="g-name">Spatial Memory Grid <span class="tag-new">NEW</span></span><span class="g-construct m">MEM</span></div>
+<div class="g-header"><span class="g-num">M7</span><span class="g-name">Spatial Memory Grid <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct m">MEM</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">5 positions</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">5 positions · 6×6 grid</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;max-width:120px">
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px;background:var(--blue);border-color:var(--blue)"></div>
-      <div class="mini-cell dim" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell dim" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px;background:var(--blue);border-color:var(--blue)"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell dim" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell dim" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px"></div>
-      <div class="mini-cell" style="width:24px;height:24px;border-radius:4px;background:var(--blue);border-color:var(--blue)"></div>
-      <div class="mini-cell dim" style="width:24px;height:24px;border-radius:4px"></div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:2px;max-width:140px">
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px;background:var(--blue);border-color:var(--blue)"></div>
+      <div class="mini-cell" style="width:20px;height:20px;border-radius:3px"></div>
     </div>
-    <div style="font-size:9px;color:var(--dim)">Tap where the blue squares were</div>
+    <div style="font-size:8px;color:var(--dim)">Grid 4×4 / 5×5 / 6×6 random per session</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Spatial Location Memory</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Euclidean deviation × accuracy</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Spatial Location Memory (variable grid)</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Deviation × accuracy × grid²</span></div>
 </div>
 </div>
 
@@ -692,24 +715,33 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- P7: Trail Making A -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">P7</span><span class="g-name">Trail Making A <span class="tag-new">NEW</span></span><span class="g-construct p">PRO</span></div>
+<div class="g-header"><span class="g-num">P7</span><span class="g-name">Trail Making A <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct p">PRO</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Connect 1→2→3...</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Connect 1→2→...→25</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
-    <div class="mini-connect" style="gap:4px;max-width:140px">
+    <div class="mini-connect" style="gap:3px;max-width:170px">
       <div class="mini-connect-num">1</div>
       <div class="mini-connect-num" style="border-color:var(--blue);background:var(--blue-light);color:var(--blue);font-weight:600">2</div>
-      <div class="mini-connect-num">5</div>
+      <div class="mini-connect-num">12</div>
       <div class="mini-connect-num">3</div>
+      <div class="mini-connect-num">18</div>
       <div class="mini-connect-num">4</div>
+      <div class="mini-connect-num">9</div>
+      <div class="mini-connect-num">5</div>
+      <div class="mini-connect-num">25</div>
       <div class="mini-connect-num">6</div>
+      <div class="mini-connect-num">14</div>
+      <div class="mini-connect-num">7</div>
+      <div class="mini-connect-num">21</div>
+      <div class="mini-connect-num">8</div>
+      <div class="mini-connect-num">11</div>
     </div>
-    <div style="font-size:9px;color:var(--dim);margin-top:4px">Tap "2" next</div>
+    <div style="font-size:8px;color:var(--dim);margin-top:4px">Set 1–25 rotates; 30% trials still 1–9</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Trail Making A (Reitan)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Completion time</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Trail Making A (Reitan) + variable set</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Completion × set-size weight</span></div>
 </div>
 </div>
 
@@ -1061,18 +1093,27 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- E3: Trail Making B -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">E3</span><span class="g-name">Trail Making B <span class="tag-new">NEW</span></span><span class="g-construct e">EXE</span></div>
+<div class="g-header"><span class="g-num">E3</span><span class="g-name">Trail Making B <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct e">EXE</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="font-size:9px;color:var(--dim)">Alternate: 1→A→2→B→3→C...</div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Pure-num block (3 trials)</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
-    <div class="mini-connect" style="gap:4px;max-width:150px">
+    <div class="mini-connect" style="gap:4px;max-width:160px">
       <div class="mini-connect-num">1</div>
-      <div class="mini-connect-num" style="background:var(--blue-light);border-color:var(--blue);color:var(--blue);font-weight:600">A</div>
-      <div class="mini-connect-num">2</div>
-      <div class="mini-connect-num">B</div>
+      <div class="mini-connect-num" style="border-color:var(--blue);background:var(--blue-light);color:var(--blue);font-weight:600">2</div>
+      <div class="mini-connect-num">5</div>
       <div class="mini-connect-num">3</div>
-      <div class="mini-connect-num">C</div>
+      <div class="mini-connect-num">4</div>
+      <div class="mini-connect-num">7</div>
+      <div class="mini-connect-num">6</div>
     </div>
+    <div style="font-size:8px;color:var(--dim);margin-top:4px">Pure-num block · then back to 1-A-2-B mix</div>
+  </div>
+</div></div>
+<div class="g-footer">
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Trail Making B + rule-block injection</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Switch cost × block contrast</span></div>
+</div>
+</div>
     <div style="font-size:9px;color:var(--dim)">Tap "A" next</div>
   </div>
 </div></div>
@@ -1107,24 +1148,38 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- E5: Planning (Zoo Map) -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">E5</span><span class="g-name">Planning · Zoo Map <span class="tag-new">NEW</span></span><span class="g-construct e">EXE</span></div>
+<div class="g-header"><span class="g-num">E5</span><span class="g-name">Planning · Zoo Map <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct e">EXE</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Plan route through zoo</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">6×6 · 2 obstacles</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-    <div class="mini-map-grid" style="grid-template-columns:repeat(4,1fr);max-width:130px;gap:2px">
+    <div class="mini-map-grid" style="grid-template-columns:repeat(6,1fr);max-width:150px;gap:2px">
       <div class="mini-map-cell start">↑</div>
       <div class="mini-map-cell path">Lion</div>
-      <div class="mini-map-cell"></div>
+      <div class="mini-map-cell" style="background:#E4E1DB;color:#5B606B;opacity:0.7">▓</div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell path">Bear</div>
       <div class="mini-map-cell end">↓</div>
-      <div class="mini-map-cell"></div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell" style="background:#E4E1DB;color:#5B606B;opacity:0.7">▓</div>
       <div class="mini-map-cell path">Zebra</div>
-      <div class="mini-map-cell"></div>
-      <div class="mini-map-cell"></div>
-      <div class="mini-map-cell"></div>
-      <div class="mini-map-cell"></div>
-      <div class="mini-map-cell">←</div>
-      <div class="mini-map-cell"></div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell path">Tiger</div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell">—</div>
+      <div class="mini-map-cell">—</div>
     </div>
+    <div style="font-size:8px;color:var(--dim)">Grid 4×4 to 6×6 · obstacles appear mid-task</div>
+  </div>
+</div></div>
+<div class="g-footer">
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Zoo Map (BADS) + obstacle injection</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Replanning cost × grid size</span></div>
+</div>
+</div>
     <div style="font-size:8px;color:var(--dim)">Tap route to visit all stops</div>
   </div>
 </div></div>
@@ -1174,12 +1229,61 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 <h2>Game Generation Engine <span class="count" style="font-size:13px">(how each game avoids repetition)</span></h2>
 <div class="analysis-grid">
   <div class="analysis-card">
+    <h3>Structural Dynamism (Phase 1+2)</h3>
+    <p>5 predictability vectors that any game can leak. We rotate each, not just stimulus values:</p>
+    <ul>
+      <li><strong>V1 Target position</strong> — random within display (Flanker pos 1–5, Corsi 6/9/12/16 cells, Trail 1–25)</li>
+      <li><strong>V2 Response set</strong> — modality rotates (tap / swipe / hold / multi-tap / keypad)</li>
+      <li><strong>V3 Rule semantics</strong> — same stimulus, different response meaning (color / length / count)</li>
+      <li><strong>V4 Cadence</strong> — ITI jittered 800–2000ms, no rhythm learning</li>
+      <li><strong>V5 Feedback grammar</strong> — commission feedback only on errors, no green-check treadmill</li>
+    </ul>
+  </div>
+  <div class="analysis-card">
+    <h3>Anti-Exploitation Distribution Drift</h3>
+    <p>Detects when the user has learned a structure and shifts the distribution. Examples:</p>
+    <ul>
+      <li><strong>Position bias:</strong> if user RT on position-3 is &lt;50% of position-1 RT, bias next 10 trials toward position-1</li>
+      <li><strong>Response bias:</strong> if user is on a right-tap streak, inject 70% left-tap block</li>
+      <li><strong>Strategy detection:</strong> if Corsi taps follow a path (always L→R), break the path</li>
+      <li><strong>Rhythm detection:</strong> if ITI-resp RT has CV &lt; 0.15, add ±400ms jitter</li>
+    </ul>
+  </div>
+  <div class="analysis-card">
+    <h3>Catch Trials & Rule Injections</h3>
+    <p>Hidden rule changes that the user must detect and adapt to. No explicit "Round 2" label.</p>
+    <ul>
+      <li><strong>8% of trials</strong> in Context Switcher invert the rule (word=ink briefly becomes ink=word)</li>
+      <li><strong>Pure-num blocks</strong> injected in Trail Making B (3 trials of just 1-2-3 between alternating blocks)</li>
+      <li><strong>Obstacles</strong> appear mid-task in Zoo Map (re-planning demand)</li>
+      <li><strong>Constraint shifts</strong> in Verbal Fluency (animals → verbs → 4-letter words) without announcement</li>
+      <li><strong>Symbol rotation</strong> in Cancellation every 3 sessions</li>
+    </ul>
+  </div>
+  <div class="analysis-card">
+    <h3>A/B Test Gates (5% cohort, 2 weeks)</h3>
+    <table class="dimension-table">
+      <tr><th>Metric</th><th>Current</th><th>Target</th></tr>
+      <tr><td>Time-to-pattern-match (trials)</td><td>~8</td><td>&gt; 20</td></tr>
+      <tr><td>Within-session RT variance</td><td>~15% of total</td><td>&gt; 40%</td></tr>
+      <tr><td>User-reported surprise (Yes%)</td><td>—</td><td>&gt; 60%</td></tr>
+      <tr><td>Cross-variant ICC</td><td>—</td><td>&gt; 0.7</td></tr>
+      <tr><td>Session completion rate delta</td><td>baseline</td><td>&gt; -10%</td></tr>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="category">
+<h2>Procedural Generation & Scoring <span class="count" style="font-size:13px">(preserved from Phase 0)</span></h2>
+<div class="analysis-grid">
+  <div class="analysis-card">
     <h3>Procedural Trial Generation</h3>
     <p>Every game uses a <strong>generator function</strong>, not a fixed item pool. Examples:</p>
     <ul>
       <li><strong>Digit Span:</strong> Random digit sequences with constraints (no repeats >2, no ascending runs >3)</li>
       <li><strong>Mental Arithmetic:</strong> Parameterized equation constructor (a ± b = c, difficulty = digit length)</li>
-      <li><strong>Flanker:</strong> Random arrow direction + congruent/incongruent flanker assignment</li>
+      <li><strong>Flanker:</strong> Random arrow direction + randomized target position + congruent/incongruent flanker assignment</li>
       <li><strong>Word List:</strong> Sampled from 3,000+ word pool, frequency-banded, balanced by syllable count</li>
       <li><strong>Reading Passages:</strong> Rotating pool of 500+ curated passages, questions generated from templates</li>
     </ul>
@@ -1196,17 +1300,6 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
     </ul>
   </div>
   <div class="analysis-card">
-    <h3>Anti-Prediction Techniques</h3>
-    <ul>
-      <li><strong>Stimulus collision avoidance</strong> — no same stimulus within 10 trials</li>
-      <li><strong>Response pattern detection</strong> — if user alternates LRLRLR, insert catch trials</li>
-      <li><strong>Adaptive inter-stimulus interval</strong> — jittered timing prevents rhythm learning</li>
-      <li><strong>Item rotation across game instances</strong> — different subsets per play session</li>
-      <li><strong>Monthly content updates</strong> — vocabulary, passages, math topics rotate</li>
-      <li><strong>No "perfect" strategy</strong> — RT and accuracy trade-offs are inherent to each task</li>
-    </ul>
-  </div>
-  <div class="analysis-card">
     <h3>Repetition Lifecycle (per user)</h3>
     <table class="dimension-table">
       <tr><th>Metric</th><th>Value</th></tr>
@@ -1215,8 +1308,9 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
       <tr><td>Unique games per week</td><td>~18 (rotated pool)</td></tr>
       <tr><td>Days to play ALL games once</td><td>~14</td></tr>
       <tr><td>Same game recurrence</td><td>Every ~14 sessions (non-adaptive)</td></tr>
-      <tr><td>Same game at same difficulty</td><td>~Every 30+ sessions</td></tr>
+      <tr><td>Same game at same variant</td><td>~Every 30+ sessions</td></tr>
       <tr><td>Same stimulus seen again</td><td>~Never (procedural generation)</td></tr>
+      <tr><td>Same target-position seen again</td><td>~Never (non-stationary distribution)</td></tr>
     </table>
   </div>
 </div>
