@@ -287,15 +287,15 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
         <div class="auth-tab" onclick="switchAuthTab('register')">Create Account</div>
       </div>
       <div class="auth-form active" id="auth-login">
-        <input class="auth-input" id="login-email" type="email" placeholder="Email address" autocomplete="email" inputmode="email">
-        <input class="auth-input" id="login-password" type="password" placeholder="Password" autocomplete="current-password">
+        <input class="auth-input" id="login-email" type="email" placeholder="Email address" autocomplete="email" inputmode="email" onkeydown="if(event.key==='Enter')handleLogin()">
+        <input class="auth-input" id="login-password" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')handleLogin()">
         <div class="auth-error" id="login-error"></div>
         <button class="auth-submit" onclick="handleLogin()">Sign In</button>
       </div>
       <div class="auth-form" id="auth-register">
-        <input class="auth-input" id="reg-email" type="email" placeholder="Email address" autocomplete="email" inputmode="email">
-        <input class="auth-input" id="reg-password" type="password" placeholder="Password" autocomplete="new-password">
-        <input class="auth-input" id="reg-confirm" type="password" placeholder="Confirm password" autocomplete="new-password">
+        <input class="auth-input" id="reg-email" type="email" placeholder="Email address" autocomplete="email" inputmode="email" onkeydown="if(event.key==='Enter')handleRegister()">
+        <input class="auth-input" id="reg-password" type="password" placeholder="Password" autocomplete="new-password" onkeydown="if(event.key==='Enter')handleRegister()">
+        <input class="auth-input" id="reg-confirm" type="password" placeholder="Confirm password" autocomplete="new-password" onkeydown="if(event.key==='Enter')handleRegister()">
         <div class="auth-error" id="register-error"></div>
         <button class="auth-submit" onclick="handleRegister()">Create Account</button>
       </div>
