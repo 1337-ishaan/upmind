@@ -451,7 +451,7 @@ function tick(){if(!gState)return;const left=Math.max(0,40-Math.floor((Date.now(
 function endGame(){if(gState.done)return;gState.done=true;clearInterval(gInt);
   const acc=gState.correct/Math.max(1,gState.trials);const avgRt=gState.rts.length?gState.rts.reduce((a,b)=>a+b,0)/gState.rts.length:900;
   const speed=Math.max(0,Math.min(1,(1100-avgRt)/700));
-  store.focusIndex=Math.max(.45,Math.min(.92,acc*0.65+speed*0.35));
+  store.focusIndex=Math.max(.05,Math.min(.99,acc*(0.55+0.45*speed)));
   next(); // to baseline
   document.getElementById('baseNum').textContent=store.focusIndex.toFixed(2);
   document.getElementById('baseBody').innerHTML=`Accuracy ${(acc*100)|0}% · that's your real Attention reading, ${NM()} — not a brain-age.`;}

@@ -81,7 +81,9 @@ a{color:var(--blue);text-decoration:none}
 /* ═══════════ BOTTOM NAV ═══════════ */
 nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8px env(safe-area-inset-bottom,4px);background:var(--card);border-top:1px solid var(--line);flex-shrink:0;z-index:10}
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;padding:6px 0 4px;border-radius:var(--radius-sm);font-size:10px;font-weight:500;color:var(--dim);transition:all 0.15s ease;cursor:pointer;user-select:none;min-width:0}
-.nav-item .nav-icon{font-size:18px;line-height:1;transition:transform 0.15s ease}
+.nav-item .nav-icon{line-height:0;transition:transform 0.15s ease}
+.nav-item .nav-icon svg{width:24px;height:24px;display:block;stroke:currentColor;fill:none}
+.nav-item.active .nav-icon{transform:translateY(-1px)}
 .nav-item .nav-label{font-family:var(--mono);font-size:9px;letter-spacing:0.3px;opacity:0.7}
 .nav-item.active .nav-icon{color:var(--blue)}
 .nav-item.active .nav-label{color:var(--blue);opacity:1}
@@ -385,7 +387,7 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
   <!-- ═══ AUTH SCREEN ═══ -->
   <div class="auth-screen" id="auth-screen">
     <div class="auth-box">
-      <div class="auth-logo">🧠</div>
+      <div class="auth-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><circle cx="12" cy="12" r="9"/><path d="M8 13l2.2-3.4 2 4 2-5"/></svg></div>
       <div class="auth-title">Upmind</div>
       <div class="auth-subtitle">Train your mind. 8 minutes a day.<br>No streaks. No badges. Real data.</div>
       <div class="auth-tabs" id="auth-tabs">
@@ -463,7 +465,7 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
     <div class="view" id="view-insights">
       <div class="view-title">Insights</div>
       <div id="insights-empty" class="empty-state">
-        <div class="empty-state-icon">📊</div>
+        <div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><line x1="3" y1="21" x2="21" y2="21"/><rect x="5" y="11" width="3.4" height="7" rx="1"/><rect x="10.3" y="6.5" width="3.4" height="11.5" rx="1"/><rect x="15.6" y="14" width="3.4" height="4" rx="1"/></svg></div>
         <div class="empty-state-text">Complete a few sessions to see your trends</div>
       </div>
       <div id="insights-content" style="display:none"></div>
@@ -489,26 +491,26 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
       </div>
       <div class="section">
         <div class="card">
-          <div class="section-title">🏆 Leaderboard</div>
+          <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/><path d="M9 20h6M12 13v4"/></svg> Leaderboard</div>
           <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:8px">See how you rank across each skill domain against 20 simulated opponents (all data stays local).</p>
           <button class="btn btn-sm btn-secondary btn-full" onclick="showLeaderboard()">View Leaderboard</button>
         </div>
       </div>
       <div class="section">
         <div class="card">
-          <div class="section-title">🔒 Premium</div>
+          <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Premium</div>
           <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:8px">${state.data.premium ? '✅ All features unlocked. Thank you for your support.' : 'Unlock Executive Function games and support development.'}</p>
           ${state.data.premium ? '' : '<button class="btn btn-sm btn-accent btn-full" onclick="showPaywall()">Upgrade to Premium</button>'}
         </div>
       </div>
       <div class="section">
         <div class="card">
-          <div class="section-title">💾 Data</div>
+          <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg> Data</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-sm btn-secondary" onclick="exportData()">⬇ Export JSON</button>
-            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('import-file').click()">⬆ Import JSON</button>
+            <button class="btn btn-sm btn-secondary" onclick="exportData()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Export JSON</button>
+            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('import-file').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg> Import JSON</button>
             <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
-            <button class="btn btn-sm btn-danger" onclick="confirmReset()">🗑 Reset All Data</button>
+            <button class="btn btn-sm btn-danger" onclick="confirmReset()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg> Reset All Data</button>
           </div>
         </div>
       </div>
@@ -527,10 +529,10 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
 
   <!-- ═══ BOTTOM NAV ═══ -->
   <nav>
-    <div class="nav-item active" data-view="dashboard"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></div>
-    <div class="nav-item" data-view="games"><span class="nav-icon">🎯</span><span class="nav-label">Games</span></div>
-    <div class="nav-item" data-view="insights"><span class="nav-icon">🧠</span><span class="nav-label">Insights</span></div>
-    <div class="nav-item" data-view="profile"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></div>
+    <div class="nav-item active" data-view="dashboard"><span class="nav-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><rect x="5" y="11" width="3.4" height="7" rx="1"/><rect x="10.3" y="6.5" width="3.4" height="11.5" rx="1"/><rect x="15.6" y="14" width="3.4" height="4" rx="1"/></svg></span><span class="nav-label">Dashboard</span></div>
+    <div class="nav-item" data-view="games"><span class="nav-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg></span><span class="nav-label">Games</span></div>
+    <div class="nav-item" data-view="insights"><span class="nav-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 15 8 10 12 13 17 6 21 9.5"/><line x1="3" y1="20" x2="21" y2="20" opacity="0.35"/></svg></span><span class="nav-label">Insights</span></div>
+    <div class="nav-item" data-view="profile"><span class="nav-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5.5 20c0-3.6 3-6.2 6.5-6.2s6.5 2.6 6.5 6.2"/></svg></span><span class="nav-label">Profile</span></div>
   </nav>
 
   <!-- ═══ GAME SCREEN ═══ -->
@@ -541,7 +543,7 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
         <span id="game-trial-counter">0/20</span>
         <span id="game-score-display">0%</span>
       </div>
-      <button onclick="quitGame()" style="font-size:12px;color:var(--text-tertiary);padding:4px 8px">✕</button>
+      <button onclick="quitGame()" style="font-size:12px;color:var(--text-tertiary);padding:4px 8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div class="game-content" id="game-content"></div>
     <div style="flex-shrink:0;height:60px;padding:4px 16px" id="game-signal-container">
@@ -581,7 +583,7 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
   <div class="modal-overlay" id="paywall-modal">
     <div class="modal" style="max-width:420px">
       <div style="text-align:center;margin-bottom:16px">
-        <div style="font-size:28px;margin-bottom:8px">🧠</div>
+        <div style="font-size:28px;margin-bottom:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><circle cx="12" cy="12" r="9"/><path d="M8 13l2.2-3.4 2 4 2-5"/></svg></div>
         <h3 style="font-size:18px">Unlock Premium</h3>
         <p style="font-size:12px;color:var(--text-tertiary)">Executive Function tests & advanced features</p>
       </div>
@@ -600,13 +602,13 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
       <div id="payment-form">
         <div style="font-size:11px;color:var(--text-tertiary);margin-bottom:8px">Demo payment (no real charge)</div>
         <div style="padding:12px;border-radius:8px;border:1px solid var(--border);margin-bottom:8px;font-size:13px;display:flex;justify-content:space-between;align-items:center">
-          <span>💳 <span style="color:var(--text-tertiary)">•••• 4242</span></span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><rect x="3" y="6" width="18" height="12" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <span style="color:var(--text-tertiary)">•••• 4242</span></span>
           <span style="color:var(--text-tertiary);font-family:var(--font-mono);font-size:11px">12/28</span>
         </div>
         <button class="primary-btn btn-full" onclick="mockPurchase()" style="margin-top:4px">Subscribe Now (Demo)</button>
       </div>
       <div id="payment-success" style="display:none;text-align:center;padding:20px">
-        <div style="font-size:36px;margin-bottom:8px">🎉</div>
+        <div style="font-size:36px;margin-bottom:8px;color:var(--green)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5 5-5.5"/></svg></div>
         <div style="font-weight:600;margin-bottom:4px">You're Premium!</div>
         <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:16px">Executive Function is now unlocked.</div>
         <button class="btn btn-sm btn-secondary" onclick="closeModal('paywall-modal')">Done</button>
@@ -619,8 +621,8 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
   <div class="modal-overlay" id="leaderboard-modal">
     <div class="modal" style="max-width:440px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3 style="font-size:16px;margin:0">🏆 Leaderboard</h3>
-        <button class="btn btn-sm btn-secondary" onclick="closeModal('leaderboard-modal')">✕</button>
+        <h3 style="font-size:16px;margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/><path d="M9 20h6M12 13v4"/></svg> Leaderboard</h3>
+        <button class="btn btn-sm btn-secondary" onclick="closeModal('leaderboard-modal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
       <div style="display:flex;gap:4px;margin-bottom:12px;overflow-x:auto" id="lb-domain-tabs"></div>
       <div style="display:flex;gap:4px;margin-bottom:12px" id="lb-period-tabs"></div>
@@ -855,7 +857,7 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
     <!-- 23 NOTIFICATIONS -->
     <section class="scr"><div class="sp"></div>
       <div style="text-align:center">
-        <div style="font-size:40px">🔔</div>
+        <div style="font-size:40px;color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></div>
         <div class="title sm" style="margin-top:12px">Protect your streak</div>
         <p class="lead" id="notifBody">One nudge at your time — and a heads-up before any trial ends. Nothing else.</p>
       </div>
@@ -878,11 +880,11 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
       <div class="eyebrow">Your trial</div>
       <div class="title sm" id="payTitle">Everything unlocked for 14 days.</div>
       <div class="tl">
-        <div class="tlrow"><div class="ic">🔓</div><div><div class="tt">Today</div><div class="ts">Full access — all six skills + dashboard.</div></div></div>
-        <div class="tlrow"><div class="ic">🔔</div><div><div class="tt">Day 11</div><div class="ts">We remind you the trial's ending.</div></div></div>
+        <div class="tlrow"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 7-2.6"/></svg></div><div><div class="tt">Today</div><div class="ts">Full access — all six skills + dashboard.</div></div></div>
+        <div class="tlrow"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></div><div><div class="tt">Day 11</div><div class="ts">We remind you the trial's ending.</div></div></div>
         <div class="tlrow"><div class="ic">★</div><div><div class="tt">Day 14</div><div class="ts">$89/yr — or it reverts to the free daily drill.</div></div></div>
       </div>
-      <div class="toggle"><span>🔔 Remind me before it ends</span><div class="sw2"></div></div>
+      <div class="toggle"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg> Remind me before it ends</span><div class="sw2"></div></div>
       <div class="priceline">$89/yr — just <b style="color:var(--ink)">$7.42/mo</b></div>
       <div class="freeline">After 14 days the daily drill is free forever.</div>
       <div class="sp" style="min-height:8px"></div>
@@ -1070,6 +1072,14 @@ function finishFirstRun(){
 // ── CONSTANTS ──
 const TEMPLATES = { CHOICE:'choice', SEQUENCE:'sequence', REACTION:'reaction', GRID:'grid', RECALL:'recall', NUMBERLINE:'numberline', TYPE:'type', SORT:'sort' };
 
+
+// ── Instrument Calm icon set (injected) ──
+const _SVG=(i,s)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:${s||'1em'};height:${s||'1em'};vertical-align:middle;flex:none">${i}</svg>`;
+const _IP={target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/>',grid:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',hash:'<path d="M9 4L7 20M17 4l-2 16M4 9h16M3 15h16"/>',bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>',text:'<path d="M5 6h14M5 11h14M5 16h9"/>',logic:'<circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7.6 7.6L11 16M16.4 7.6L13 16M8 6h8"/>',flow:'<rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/>'};
+const AICON={Attention:_SVG(_IP.target),Memory:_SVG(_IP.grid),Numeracy:_SVG(_IP.hash),Speed:_SVG(_IP.bolt),Verbal:_SVG(_IP.text),'Problem-Solving':_SVG(_IP.logic),'Exec-Function':_SVG(_IP.flow),'Executive Function':_SVG(_IP.flow)};
+const ICON_LOCK=_SVG('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>');
+
+const GICON={"stroop":`<path d="M12 3 C8 9 6 11.5 6 15 a6 6 0 0 0 12 0 C18 11.5 16 9 12 3 Z"/><line x1="9" y1="15" x2="15" y2="15"/>`,"flanker":`<polyline points="6 8 3 11.5 6 15"/><polyline points="18 8 21 11.5 18 15"/><polyline points="13 8 16 11.5 13 15"/><circle cx="12" cy="19.5" r="1.2" fill="currentColor"/>`,"gongo":`<path d="M8 12 V7 a1.4 1.4 0 0 1 2.8 0 V11 V6 a1.4 1.4 0 0 1 2.8 0 V11 V7.5 a1.4 1.4 0 0 1 2.8 0 V14 a5 5 0 0 1 -5 5 H10 a4 4 0 0 1 -4 -4 l-1.5 -3 a1.3 1.3 0 0 1 2.2 -1.3 Z"/>`,"conswitch":`<path d="M7 6 H14 a4 4 0 0 1 0 8 H5"/><polyline points="8 11 5 14 8 17"/><path d="M17 18 H10 a4 4 0 0 1 0 -8" opacity="0"/><polyline points="16 3 19 6 16 9"/><path d="M19 6 H12"/>`,"selattn":`<rect x="4" y="4" width="16" height="16" rx="1.5"/><line x1="4" y1="9.3" x2="20" y2="9.3"/><line x1="4" y1="14.6" x2="20" y2="14.6"/><line x1="9.3" y1="4" x2="9.3" y2="20"/><line x1="14.6" y1="4" x2="14.6" y2="20"/><rect x="14.6" y="9.3" width="5.4" height="5.3"/>`,"divattn":`<circle cx="7.5" cy="7.5" r="3.5"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor"/><path d="M14 13 v6 l4 -2.5 a4 4 0 0 0 0 -1 Z"/><path d="M19.5 13.5 a4 4 0 0 1 0 5"/>`,"digitspan":`<circle cx="5" cy="12" r="1.2" fill="currentColor"/><circle cx="9.3" cy="12" r="1.2" fill="currentColor"/><circle cx="13.6" cy="12" r="1.2" fill="currentColor"/><circle cx="17.9" cy="12" r="1.2" fill="currentColor"/><polyline points="15 6 19 6 19 10"/>`,"corsi":`<rect x="4" y="4" width="5" height="5" rx="1"/><rect x="15" y="4" width="5" height="5" rx="1"/><rect x="4" y="15" width="5" height="5" rx="1"/><rect x="15" y="15" width="5" height="5" rx="1"/><polyline points="6.5 6.5 17.5 17.5 6.5 17.5"/>`,"nback":`<rect x="9" y="4" width="11" height="7" rx="1.5"/><polyline points="5 8 5 16 13 16"/><polyline points="8 13 5 16 8 19"/>`,"paired":`<circle cx="6.5" cy="6.5" r="2.8"/><rect x="15" y="15" width="5.5" height="5.5" rx="1"/><circle cx="17.5" cy="6.5" r="2.8"/><rect x="4" y="15" width="5.5" height="5.5" rx="1"/><line x1="8.5" y1="8.5" x2="15" y2="15.5"/><line x1="15.5" y1="8.5" x2="9" y2="15.5"/>`,"wordlist":`<line x1="9" y1="6" x2="19" y2="6"/><line x1="9" y1="12" x2="19" y2="12"/><line x1="9" y1="18" x2="19" y2="18"/><circle cx="5" cy="6" r="1.2" fill="currentColor"/><circle cx="5" cy="12" r="1.2" fill="currentColor"/><circle cx="5" cy="18" r="1.2" fill="currentColor"/>`,"picrecog":`<rect x="4" y="5" width="16" height="12" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.3"/><polyline points="6 16 11 11 14 14 17 11 18 12"/><polyline points="13 20 15 22 19 18"/>`,"spatialspan":`<rect x="4" y="4" width="16" height="16" rx="1.5"/><line x1="4" y1="9.3" x2="20" y2="9.3"/><line x1="4" y1="14.6" x2="20" y2="14.6"/><line x1="9.3" y1="4" x2="9.3" y2="20"/><line x1="14.6" y1="4" x2="14.6" y2="20"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/><circle cx="6.7" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="17.3" r="1.2" fill="currentColor"/>`,"mentalmath":`<path d="M5 5 L9 9 M9 5 L5 9"/><path d="M15 7 H19"/><path d="M15 17 H19 M17 15 V19"/><path d="M5 15 H9 M5 18 H9"/>`,"numline":`<line x1="3" y1="16" x2="21" y2="16"/><line x1="6" y1="13" x2="6" y2="19"/><line x1="18" y1="13" x2="18" y2="19"/><line x1="12" y1="6" x2="12" y2="16"/><circle cx="12" cy="6" r="1.2" fill="currentColor"/>`,"estimation":`<path d="M4 12 Q8 8 12 12 T20 12"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><path d="M16 4 L18 6 L16 8"/><path d="M8 16 L6 18 L8 20"/>`,"quantity":`<circle cx="6" cy="7" r="1.2" fill="currentColor"/><circle cx="6" cy="12" r="1.2" fill="currentColor"/><circle cx="6" cy="17" r="1.2" fill="currentColor"/><circle cx="18" cy="12" r="1.2" fill="currentColor"/><path d="M11 8 L14 12 L11 16"/>`,"numestimate":`<circle cx="7" cy="7" r="1.2" fill="currentColor"/><circle cx="12" cy="6" r="1.2" fill="currentColor"/><circle cx="17" cy="8" r="1.2" fill="currentColor"/><circle cx="8" cy="12" r="1.2" fill="currentColor"/><circle cx="15" cy="13" r="1.2" fill="currentColor"/><circle cx="11" cy="17" r="1.2" fill="currentColor"/><path d="M5 20 Q12 18 19 20"/>`,"arithmeticv":`<path d="M5 9 H10 M7.5 6.5 V11.5"/><path d="M14 9 H19"/><path d="M14 13 H19"/><path d="M4 17 L7 20 L12 14"/>`,"fraction":`<line x1="5" y1="12" x2="19" y2="12"/><circle cx="9" cy="7" r="1.2" fill="currentColor"/><circle cx="7" cy="17" r="1.2" fill="currentColor"/><circle cx="11" cy="17" r="1.2" fill="currentColor"/><circle cx="16" cy="7" r="1.2" fill="currentColor"/><circle cx="16" cy="17" r="1.2" fill="currentColor"/>`,"reaction":`<circle cx="12" cy="12" r="6"/><path d="M12 4 V2 M20 12 H22 M12 20 V22 M4 12 H2"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/>`,"symboldigit":`<path d="M5 6 L8 9 M8 6 L5 9"/><path d="M14 7 H19"/><path d="M5 16 H9"/><path d="M14 14 L17 17 M14 17 L17 14"/><path d="M11 6 L11 17"/>`,"pattern":`<rect x="4" y="5" width="6" height="6" rx="1"/><rect x="14" y="5" width="6" height="6" rx="1"/><rect x="4" y="15" width="6" height="4" rx="1"/><rect x="14" y="15" width="6" height="4" rx="1"/>`,"visualsearch":`<circle cx="11" cy="11" r="6"/><line x1="15.5" y1="15.5" x2="20" y2="20"/><circle cx="11" cy="11" r="1.2" fill="currentColor"/>`,"lettercomp":`<path d="M5 6 L5 18 M5 6 L9 6 M5 11 L8 11"/><path d="M15 6 L15 18 M15 6 L19 6 M15 11 L18 11"/><line x1="11" y1="9" x2="11" y2="15"/>`,"numcomp":`<path d="M6 7 L8 6 L8 18"/><path d="M15 7 L18 7 L15 12 L18 12 L15 18"/><line x1="11" y1="9" x2="11" y2="15"/>`,"simplert":`<path d="M13 3 L6 13 H12 L11 21 L18 11 H12 Z"/>`,"synonyms":`<line x1="5" y1="8" x2="19" y2="8"/><line x1="5" y1="16" x2="19" y2="16"/><polyline points="15,4 19,8 15,12"/><polyline points="9,12 5,16 9,20"/>`,"scramble":`<rect x="3" y="14" width="5" height="5" rx="1"/><rect x="16" y="5" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/><path d="M8 16 H13 V14"/>`,"analogies":`<circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><line x1="6" y1="8.5" x2="6" y2="15.5"/><line x1="8.5" y1="6" x2="15.5" y2="6"/>`,"verbalflu":`<path d="M4 12 C4 7 8 4 12 4 C17 4 20 7 20 11 C20 15 17 17 13 17 L9 20 V17 C6 17 4 15 4 12 Z"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="13" x2="13" y2="13"/>`,"sentence":`<line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="17" x2="20" y2="17"/><line x1="4" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="20" y2="12"/><rect x="10" y="9.5" width="4" height="5" rx="0.5"/>`,"antonyms":`<line x1="5" y1="9" x2="19" y2="9"/><polyline points="16,6 19,9 16,12"/><line x1="5" y1="15" x2="19" y2="15"/><polyline points="8,12 5,15 8,18"/>`,"definition":`<path d="M5 4 H17 A2 2 0 0 1 19 6 V20 H7 A2 2 0 0 1 5 18 Z"/><path d="M5 18 A2 2 0 0 1 7 16 H19"/><line x1="9" y1="9" x2="15" y2="9"/>`,"ruledetect":`<circle cx="11" cy="11" r="6"/><line x1="15.5" y1="15.5" x2="20" y2="20"/><line x1="9" y1="11" x2="13" y2="11"/><line x1="11" y1="9" x2="11" y2="13"/>`,"matrix":`<rect x="3" y="3" width="6" height="6" rx="1"/><rect x="13" y="3" width="6" height="6" rx="1"/><rect x="3" y="13" width="6" height="6" rx="1"/><line x1="14" y1="16" x2="20" y2="16"/><line x1="17" y1="13" x2="17" y2="19"/>`,"tower":`<line x1="4" y1="20" x2="20" y2="20"/><line x1="6" y1="20" x2="6" y2="8"/><line x1="12" y1="20" x2="12" y2="8"/><line x1="18" y1="20" x2="18" y2="8"/><circle cx="6" cy="14" r="2"/><circle cx="6" cy="9" r="2"/>`,"catflu":`<circle cx="12" cy="5" r="2"/><circle cx="6" cy="15" r="2"/><circle cx="18" cy="15" r="2"/><line x1="11" y1="6.5" x2="7" y2="13"/><line x1="13" y1="6.5" x2="17" y2="13"/>`,"spatialplan":`<rect x="3" y="3" width="18" height="18" rx="1"/><polyline points="6,6 6,12 12,12 12,18 18,18"/><circle cx="6" cy="6" r="1.2" fill="currentColor"/><circle cx="18" cy="18" r="1.2" fill="currentColor"/>`,"inhibition":`<line x1="5" y1="7" x2="19" y2="7"/><polyline points="16,4 19,7 16,10"/><line x1="19" y1="17" x2="5" y2="17"/><polyline points="8,14 5,17 8,20"/>`,"setshift":`<rect x="3" y="4" width="7" height="7" rx="1"/><circle cx="17.5" cy="16.5" r="3.5"/><path d="M16 4 A6 6 0 0 1 20 9"/><polyline points="17,3 20,4 19,7"/>`,"trailmaking":`<circle cx="5" cy="6" r="1.2" fill="currentColor"/><circle cx="19" cy="9" r="1.2" fill="currentColor"/><circle cx="7" cy="18" r="1.2" fill="currentColor"/><circle cx="18" cy="19" r="1.2" fill="currentColor"/><polyline points="5,6 19,9 7,18 18,19"/>`};
 const GAMES = [
   { id:'stroop', name:'Stroop Test', icon:'🎨', area:'Attention', desc:'Name the ink color, not the word', color:'#2F6FED', template:TEMPLATES.CHOICE, trials:20 },
   { id:'flanker', name:'Flanker Focus', icon:'➡️', area:'Attention', desc:'Center arrow direction with flankers', color:'#2F6FED', template:TEMPLATES.CHOICE, trials:20 },
@@ -1612,11 +1622,11 @@ function handleLogout() {
 function getContext() {
   const h = new Date().getHours();
   const d = new Date().getDay();
-  if (d === 0 || d === 6) return { time:'Weekend', mood:'Review & reflect', icon:'📅', style:'relaxed' };
-  if (h < 12) return { time:'Morning', mood:'High energy — quick focus', icon:'☀️', style:'quick' };
-  if (h < 17) return { time:'Afternoon', mood:'Sustained attention', icon:'🌤', style:'standard' };
-  if (h < 21) return { time:'Evening', mood:'Wind down — calmer pace', icon:'🌅', style:'calm' };
-  return { time:'Night', mood:'Deep focus — no distractions', icon:'🌙', style:'deep' };
+  if (d === 0 || d === 6) return { time:'Weekend', mood:'Review & reflect', icon:_SVG('<rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/>'), style:'relaxed' };
+  if (h < 12) return { time:'Morning', mood:'High energy — quick focus', icon:_SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"/>'), style:'quick' };
+  if (h < 17) return { time:'Afternoon', mood:'Sustained attention', icon:_SVG('<path d="M7 18h9a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9.6 1.4A3 3 0 0 0 7 18z"/>'), style:'standard' };
+  if (h < 21) return { time:'Evening', mood:'Wind down — calmer pace', icon:_SVG('<path d="M3 20h18"/><path d="M6 17a6 6 0 0 1 12 0"/><path d="M12 3v3M5 8l1.4 1.4M19 8l-1.4 1.4"/>'), style:'calm' };
+  return { time:'Night', mood:'Deep focus — no distractions', icon:_SVG('<path d="M20 14a8 8 0 1 1-9.5-9 7 7 0 0 0 9.5 9z"/>'), style:'deep' };
 }
 
 // ── NAVIGATION ──
@@ -1736,7 +1746,7 @@ function renderLeaderboard(domain) {
     </div>` +
     showEntries.map((e,i) => {
       const isUser = e.name === 'You';
-      const medal = i < 3 ? ['🥇','🥈','🥉'][i] : '';
+      const medal = i < 3 ? [`<span style="color:#C9A227"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><circle cx="12" cy="15" r="5"/><path d="M9 3l2.5 6M15 3l-2.5 6"/></svg></span>`,`<span style="color:#9AA0A6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><circle cx="12" cy="15" r="5"/><path d="M9 3l2.5 6M15 3l-2.5 6"/></svg></span>`,`<span style="color:#B07A3C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><circle cx="12" cy="15" r="5"/><path d="M9 3l2.5 6M15 3l-2.5 6"/></svg></span>`][i] : '';
       return `<div class="lb-row">
         <div class="lb-rank${i<3?' top3':''}">${medal||`#${i+1}`}</div>
         <div class="lb-name${isUser?' user':''}">${e.name}</div>
@@ -1925,7 +1935,7 @@ function renderGames() {
   document.getElementById('domain-tabs').innerHTML = domains.map(d => `
     <div class="domain-tab ${d.key === selectedDomain ? 'active' : ''} ${d.premium&&!premium?'premium-locked':''}"
          onclick="selectDomain('${d.key}')" style="${d.key===selectedDomain ? 'color:var(--accent);border-bottom:2px solid var(--accent)' : ''}">
-      ${d.icon} ${d.key.replace('-',' ')}${d.premium&&!premium?' 🔒':''}
+      ${AICON[d.key]||d.icon} ${d.key.replace('-',' ')}${d.premium&&!premium?' '+ICON_LOCK:''}
     </div>
   `).join('');
 
@@ -1938,7 +1948,7 @@ function renderGames() {
     const skillScore = state.data.skillScores[areaKey] || 50;
     const locked = g.premium && !premium;
     return `<div class="game-card ${locked?'locked':''}" onclick="${locked ? 'showPaywall()' : `startGame('${g.id}')`}">
-      <div class="game-card-icon" style="background:var(--sunk)">${locked ? '🔒' : g.icon}</div>
+      <div class="game-card-icon" style="background:var(--sunk)">${locked ? ICON_LOCK : (GICON[g.id]?_SVG(GICON[g.id]):(AICON[g.area]||g.icon))}</div>
       <div class="game-card-info">
         <div class="game-card-name">${g.name}${locked ? ' <span style="color:var(--text-tertiary);font-size:10px">PREMIUM</span>' : ''}</div>
         <div class="game-card-desc">${locked ? 'Unlock with premium' : g.desc}</div>
@@ -1953,7 +1963,7 @@ function renderGames() {
   if (isLockedDomain) {
     document.getElementById('game-list').innerHTML += `
       <div style="text-align:center;padding:40px 20px;color:var(--text-tertiary)">
-        <div style="font-size:48px;margin-bottom:12px">🔒</div>
+        <div style="font-size:48px;margin-bottom:12px;color:var(--dim)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;vertical-align:middle;flex:none"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
         <div style="font-size:16px;margin-bottom:8px">Premium Domain</div>
         <div style="font-size:13px;margin-bottom:20px">Executive Function tests measure high-level cognitive skills like planning, task-switching, and inhibition.</div>
         <button class="primary-btn" onclick="showPaywall()">Unlock Premium</button>
