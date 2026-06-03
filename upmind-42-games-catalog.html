@@ -249,7 +249,7 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 <div class="game-card">
 <div class="g-header"><span class="g-num">A3</span><span class="g-name">Go/No-Go <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct a">ATT</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: side-tap (20%)</span><span style="color:var(--dim)">22/60</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: side-tap (20%) · ITI 800-2000ms</span><span style="color:var(--dim)">22/60</span></div>
   <div class="mini-progress"><div class="mini-progress-fill" style="width:37%;background:var(--blue)"></div></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
     <div style="font-size:40px">🐕</div>
@@ -259,7 +259,7 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
       <div class="mini-btn active" style="width:60px;height:36px;border-radius:8px;font-size:10px">TAP</div>
       <div class="mini-btn" style="width:36px;height:36px;font-size:11px">▶</div>
     </div>
-    <div style="font-size:8px;color:var(--dim)">60% tap · 20% swipe-up · 20% side-tap</div>
+    <div style="font-size:8px;color:var(--dim)">60% tap · 20% swipe-up · 20% side-tap · ITI jittered</div>
   </div>
 </div></div>
 <div class="g-footer">
@@ -272,7 +272,7 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 <div class="game-card">
 <div class="g-header"><span class="g-num">A4</span><span class="g-name">Sustained Attention <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct a">ATT</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: PARITY (even/odd)</span><span style="color:var(--dim)">47/80</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: PARITY (even/odd) · ITI jittered</span><span style="color:var(--dim)">47/80</span></div>
   <div class="mini-progress"><div class="mini-progress-fill" style="width:59%;background:var(--blue)"></div></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
     <div style="font-family:'Spline Sans Mono',monospace;font-size:48px;font-weight:600;color:var(--ink)">6</div>
@@ -306,22 +306,22 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- A6: Multiple Object Tracking -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">A6</span><span class="g-name">Object Tracking <span class="tag-new">NEW</span></span><span class="g-construct a">ATT</span></div>
+<div class="g-header"><span class="g-num">A6</span><span class="g-name">Object Tracking <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct a">ATT</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Track 3 targets</span><span style="color:var(--dim)">in motion</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Lévy flight + reversals</span><span style="color:var(--dim)">in motion</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
     <div style="position:relative;width:100%;height:70px;border:1px solid var(--line);border-radius:8px;overflow:hidden">
-      <div class="mini-dot-track" style="left:20%;top:40%;animation-delay:0s"></div>
-      <div class="mini-dot-track" style="left:60%;top:20%;animation-delay:1s"></div>
-      <div class="mini-dot-track target" style="left:40%;top:60%;animation-delay:0.5s"></div>
-      <div class="mini-dot-track" style="left:80%;top:50%;animation-delay:1.5s"></div>
-      <div class="mini-dot-track" style="left:10%;top:70%;animation-delay:2s"></div>
+      <div class="mini-dot-track" style="left:20%;top:40%;animation-delay:0s;animation-duration:1.8s"></div>
+      <div class="mini-dot-track" style="left:60%;top:20%;animation-delay:0.6s;animation-duration:2.4s"></div>
+      <div class="mini-dot-track target" style="left:40%;top:60%;animation-delay:0.3s;animation-duration:2.1s"></div>
+      <div class="mini-dot-track" style="left:80%;top:50%;animation-delay:1s;animation-duration:1.6s"></div>
+      <div class="mini-dot-track" style="left:10%;top:70%;animation-delay:1.4s;animation-duration:2.7s"></div>
     </div>
-    <div style="font-size:9px;color:var(--dim)">Tap targets after motion stops</div>
+    <div style="font-size:9px;color:var(--dim)">Motion paths vary (Lévy + random reversals)</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">MOT (Pylyshyn)</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">MOT (Pylyshyn) + Lévy motion</span></div>
   <div class="g-meta"><span class="g-meta-label">Response</span><span class="g-meta-val">Tap targets on freeze</span></div>
 </div>
 </div>
@@ -592,20 +592,23 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- P2: Simple RT -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">P2</span><span class="g-name">Simple RT <span class="tag-new">NEW</span></span><span class="g-construct p">PRO</span></div>
+<div class="g-header"><span class="g-num">P2</span><span class="g-name">Simple RT <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct p">PRO</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Reaction time</span><span style="color:var(--dim)">12/20</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: tap-on-color (20%)</span><span style="color:var(--dim)">12/20</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-    <div style="font-size:9px;color:var(--dim)">Tap as soon as you see the signal</div>
-    <div class="pulse-ring" style="width:80px;height:80px;border:3px solid var(--green);background:var(--green-light)">
-      <span style="font-size:28px">✓</span>
+    <div style="font-size:9px;color:var(--dim)">Tap on <span style="display:inline-block;width:10px;height:10px;background:#F59E0B;border-radius:2px;vertical-align:middle"></span> <strong>amber</strong> only</div>
+    <div style="display:flex;gap:6px">
+      <div style="width:30px;height:30px;background:#DC2626;border-radius:4px;opacity:0.3"></div>
+      <div class="pulse-ring" style="width:30px;height:30px;border:2px solid var(--amber);background:rgba(245,158,11,0.2)"></div>
+      <div style="width:30px;height:30px;background:#0E9F6E;border-radius:4px;opacity:0.3"></div>
     </div>
     <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;font-weight:500">— ms</div>
+    <div style="font-size:8px;color:var(--dim)">Green 70% · color-match 20% · withhold 10%</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Simple RT (CANTAB)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Median RT (20 trials)</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Simple RT (CANTAB) + 3 signal types</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Median RT × signal type</span></div>
 </div>
 </div>
 
@@ -732,29 +735,27 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 </div>
 
 <!-- P7: Trail Making A -->
-<div class="game-card">
-<div class="g-header"><span class="g-num">P7</span><span class="g-name">Trail Making A <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct p">PRO</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
   <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Connect 1→2→...→25</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
     <div class="mini-connect" style="gap:3px;max-width:170px">
-      <div class="mini-connect-num">1</div>
-      <div class="mini-connect-num" style="border-color:var(--blue);background:var(--blue-light);color:var(--blue);font-weight:600">2</div>
+      <div class="mini-connect-num" style="background:var(--blue-light);color:var(--blue);font-weight:600;border-color:var(--blue)">1</div>
+      <div class="mini-connect-num" style="opacity:0.4">2</div>
       <div class="mini-connect-num">12</div>
-      <div class="mini-connect-num">3</div>
+      <div class="mini-connect-num" style="opacity:0.4">3</div>
       <div class="mini-connect-num">18</div>
-      <div class="mini-connect-num">4</div>
+      <div class="mini-connect-num" style="opacity:0.4">4</div>
       <div class="mini-connect-num">9</div>
-      <div class="mini-connect-num">5</div>
+      <div class="mini-connect-num" style="opacity:0.4">5</div>
       <div class="mini-connect-num">25</div>
-      <div class="mini-connect-num">6</div>
+      <div class="mini-connect-num" style="opacity:0.4">6</div>
       <div class="mini-connect-num">14</div>
-      <div class="mini-connect-num">7</div>
+      <div class="mini-connect-num" style="opacity:0.4">7</div>
       <div class="mini-connect-num">21</div>
-      <div class="mini-connect-num">8</div>
+      <div class="mini-connect-num" style="opacity:0.4">8</div>
       <div class="mini-connect-num">11</div>
     </div>
-    <div style="font-size:8px;color:var(--dim);margin-top:4px">Set 1–25 rotates; 30% trials still 1–9</div>
+    <div style="font-size:8px;color:var(--dim);margin-top:4px">Numbers hidden until tapped · reveal-on-tap mode</div>
   </div>
 </div></div>
 <div class="g-footer">
@@ -999,18 +1000,22 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- L4: Reading Comprehension -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">L4</span><span class="g-name">Reading Comp <span class="tag-new">NEW</span></span><span class="g-construct l">LNG</span></div>
+<div class="g-header"><span class="g-num">L4</span><span class="g-name">Reading Comp <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct l">LNG</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Passage → 5 questions</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">2 short passages (rotates)</span></div>
   <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:4px;overflow:hidden">
-    <div class="mini-text-block" style="font-size:8px;line-height:1.3;max-height:40px;overflow:hidden">The prefrontal cortex is involved in executive functions including planning, decision-making, and social behavior. Damage to this region can cause profound changes in personality...</div>
-    <div style="font-size:9px;font-weight:500">What does the PFC regulate?</div>
-    <div class="mini-btn-row" style="gap:3px"><div class="mini-btn" style="width:auto;padding:0 6px;height:22px;border-radius:4px;font-size:8px">Memory</div><div class="mini-btn active" style="width:auto;padding:0 6px;height:22px;border-radius:4px;font-size:8px">Planning</div><div class="mini-btn" style="width:auto;padding:0 6px;height:22px;border-radius:4px;font-size:8px">Vision</div></div>
+    <div style="display:flex;gap:4px">
+      <div class="mini-text-block" style="font-size:7px;line-height:1.3;max-height:50px;overflow:hidden;flex:1">The PFC handles planning...</div>
+      <div class="mini-text-block" style="font-size:7px;line-height:1.3;max-height:50px;overflow:hidden;flex:1;border-color:var(--blue)">Hippocampus binds memory...</div>
+    </div>
+    <div style="font-size:9px;font-weight:500">Which region binds memory?</div>
+    <div class="mini-btn-row" style="gap:3px"><div class="mini-btn" style="width:auto;padding:0 6px;height:22px;border-radius:4px;font-size:8px">PFC</div><div class="mini-btn active" style="width:auto;padding:0 6px;height:22px;border-radius:4px;font-size:8px">Hippocampus</div><div class="mini-btn" style="width:auto;padding:0 6px;height:22px;border-radius:4px;font-size:8px">Cerebellum</div></div>
+    <div style="font-size:8px;color:var(--dim)">1 passage 50% · 2 short 30% · ambiguous 20%</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Reading Comp (GORT)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Comprehension accuracy</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Reading Comp (GORT) + 3 passage types</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Comprehension × passage complexity</span></div>
 </div>
 </div>
 
@@ -1109,21 +1114,21 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- E2: Tower of London -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">E2</span><span class="g-name">Tower of London <span class="tag-new">NEW</span></span><span class="g-construct e">EXE</span></div>
+<div class="g-header"><span class="g-num">E2</span><span class="g-name">Tower of London <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct e">EXE</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Plan moves</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">4-peg / 4-ball</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
-    <div style="display:flex;justify-content:center;gap:12px">
-      <div><div class="mini-tower"><div class="mini-peg" style="height:48px"><div class="mini-ball blue" style="bottom:20px"></div><div class="mini-ball green" style="bottom:0px"></div></div><div class="mini-peg" style="height:30px"><div class="mini-ball amber" style="bottom:0"></div></div><div class="mini-peg" style="height:12px"></div></div><div style="font-size:8px;color:var(--dim);text-align:center;margin-top:4px">You</div></div>
+    <div style="display:flex;justify-content:center;gap:6px">
+      <div><div class="mini-tower"><div class="mini-peg" style="height:48px"><div class="mini-ball blue" style="bottom:30px"></div><div class="mini-ball green" style="bottom:15px"></div><div class="mini-ball amber" style="bottom:0px"></div></div><div class="mini-peg" style="height:36px"></div><div class="mini-peg" style="height:24px"></div><div class="mini-peg" style="height:12px"></div></div><div style="font-size:8px;color:var(--dim);text-align:center;margin-top:4px">You</div></div>
       <span style="color:var(--dim);font-size:12px">→</span>
-      <div><div class="mini-tower"><div class="mini-peg" style="height:48px"><div class="mini-ball blue" style="bottom:0"></div></div><div class="mini-peg" style="height:30px"><div class="mini-ball amber" style="bottom:0"></div></div><div class="mini-peg" style="height:12px"><div class="mini-ball green" style="bottom:0"></div></div></div><div style="font-size:8px;color:var(--dim);text-align:center;margin-top:4px">Target</div></div>
+      <div><div class="mini-tower"><div class="mini-peg" style="height:48px"><div class="mini-ball green" style="bottom:0"></div></div><div class="mini-peg" style="height:36px"><div class="mini-ball amber" style="bottom:0"></div></div><div class="mini-peg" style="height:24px"><div class="mini-ball blue" style="bottom:0"></div></div><div class="mini-peg" style="height:12px"></div></div><div style="font-size:8px;color:var(--dim);text-align:center;margin-top:4px">Target</div></div>
     </div>
-    <div style="font-size:8px;color:var(--dim)">Minimum 4 moves</div>
+    <div style="font-size:8px;color:var(--dim)">3-peg / 4-peg / 4-peg-parity rotating</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">TOL (Shallice)</span></div>
-  <div class="g-meta"><span class="g-meta-val">Min. moves × execution</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">TOL (Shallice) + variable config</span></div>
+  <div class="g-meta"><span class="g-meta-val">Min. moves × config complexity</span></div>
 </div>
 </div>
 
@@ -1227,14 +1232,21 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- E6: Inhibition (Day-Night) -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">E6</span><span class="g-name">Inhibition <span class="tag-new">NEW</span></span><span class="g-construct e">EXE</span></div>
+<div class="g-header"><span class="g-num">E6</span><span class="g-name">Inhibition <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct e">EXE</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Say the opposite</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: THINK-SAME</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
     <div style="font-size:36px">☀️</div>
-    <div style="font-size:9px;color:var(--dim)">Day → tap "Night"</div>
-    <div class="mini-btn-row"><div class="mini-btn">Day</div><div class="mini-btn active">Night</div></div>
+    <div style="font-size:9px;color:var(--dim)">Tap the <strong>SAME</strong> (think-mode)</div>
+    <div class="mini-btn-row"><div class="mini-btn active">Day</div><div class="mini-btn">Night</div></div>
+    <div style="font-size:8px;color:var(--dim)">say-day / say-night / think-opposite / think-same</div>
   </div>
+</div></div>
+<div class="g-footer">
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Day-Night Stroop + 4 conditions</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Accuracy × condition cost</span></div>
+</div>
+</div>
 </div></div>
 <div class="g-footer">
   <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Day-Night Stroop</span></div>
