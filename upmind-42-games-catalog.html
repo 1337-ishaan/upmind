@@ -206,19 +206,19 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- A1: Context Switcher -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">A1</span><span class="g-name">Context Switcher <span class="tag-new" style="background:var(--green-light);color:var(--green);font-size:8px">✦ EXISTING</span></span><span class="g-construct a">ATT</span></div>
+<div class="g-header"><span class="g-num">A1</span><span class="g-name">Context Switcher <span class="tag-new" style="background:var(--green-light);color:var(--green);font-size:8px">✦ EXISTING</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct a">ATT</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Switching rule every 5 trials</span><span style="color:var(--dim)">8/30</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">3rd rule: tap LENGTH</span><span style="color:var(--dim)">8/30</span></div>
   <div class="mini-progress"><div class="mini-progress-fill" style="width:27%;background:var(--blue)"></div></div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;justify-content:center">
-    <div style="font-size:9px;color:var(--dim)">Word → <strong>Ink</strong></div>
-    <div style="font-size:36px;font-weight:700;color:#2563EB;letter-spacing:3px">RED</div>
-    <div class="mini-btn-row"><div class="mini-btn">Red</div><div class="mini-btn active">Blue</div><div class="mini-btn">Green</div></div>
+    <div style="font-size:9px;color:var(--dim)">Word → <strong>Length</strong></div>
+    <div style="font-size:32px;font-weight:700;color:#2563EB;letter-spacing:2px">YELLOW</div>
+    <div class="mini-btn-row" style="gap:3px"><div class="mini-btn" style="width:auto;padding:0 8px;height:30px;border-radius:6px;font-size:9px">3</div><div class="mini-btn active" style="width:auto;padding:0 8px;height:30px;border-radius:6px;font-size:9px">6</div><div class="mini-btn" style="width:auto;padding:0 8px;height:30px;border-radius:6px;font-size:9px">8</div><div class="mini-btn" style="width:auto;padding:0 8px;height:30px;border-radius:6px;font-size:9px">4</div></div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Stroop + Rule Switch</span></div>
-  <div class="g-meta"><span class="g-meta-label">Response</span><span class="g-meta-val">Tap color · 3-choice</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Stroop + Rule Switch (3 rules)</span></div>
+  <div class="g-meta"><span class="g-meta-label">Response</span><span class="g-meta-val">Color / Ink / Length rotating</span></div>
 </div>
 </div>
 
@@ -247,36 +247,42 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- A3: Go/No-Go -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">A3</span><span class="g-name">Go/No-Go <span class="tag-new">NEW</span></span><span class="g-construct a">ATT</span></div>
+<div class="g-header"><span class="g-num">A3</span><span class="g-name">Go/No-Go <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct a">ATT</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">React to animals</span><span style="color:var(--dim)">22/60</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: side-tap (20%)</span><span style="color:var(--dim)">22/60</span></div>
   <div class="mini-progress"><div class="mini-progress-fill" style="width:37%;background:var(--blue)"></div></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
     <div style="font-size:40px">🐕</div>
     <div style="font-size:9px;color:var(--dim)">Press for animals. Don't press for objects.</div>
-    <div class="mini-btn active" style="width:80px;height:36px;border-radius:8px;font-size:11px">✓ Tap!</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="mini-btn" style="width:36px;height:36px;font-size:11px;background:var(--blue-light);border-color:var(--blue);color:var(--blue)">◀</div>
+      <div class="mini-btn active" style="width:60px;height:36px;border-radius:8px;font-size:10px">TAP</div>
+      <div class="mini-btn" style="width:36px;height:36px;font-size:11px">▶</div>
+    </div>
+    <div style="font-size:8px;color:var(--dim)">60% tap · 20% swipe-up · 20% side-tap</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Go/No-Go (Newman)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Response</span><span class="g-meta-val">Tap on target · 1-choice</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Go/No-Go (Newman) + modality</span></div>
+  <div class="g-meta"><span class="g-meta-label">Response</span><span class="g-meta-val">Tap / Swipe / Side-tap rotating</span></div>
 </div>
 </div>
 
 <!-- A4: Sustained Attention (SART) -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">A4</span><span class="g-name">Sustained Attention <span class="tag-new">NEW</span></span><span class="g-construct a">ATT</span></div>
+<div class="g-header"><span class="g-num">A4</span><span class="g-name">Sustained Attention <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct a">ATT</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Respond · Inhibit 3</span><span style="color:var(--dim)">47/80</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: PARITY (even/odd)</span><span style="color:var(--dim)">47/80</span></div>
   <div class="mini-progress"><div class="mini-progress-fill" style="width:59%;background:var(--blue)"></div></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
     <div style="font-family:'Spline Sans Mono',monospace;font-size:48px;font-weight:600;color:var(--ink)">6</div>
-    <div style="font-size:9px;color:var(--dim)">Respond to all numbers. <strong>Do not</strong> respond to 3.</div>
+    <div style="font-size:9px;color:var(--dim)">Tap if <strong>even</strong>. Skip if odd. (Rule rotates per trial)</div>
+    <div class="mini-btn-row" style="gap:3px"><div class="mini-btn active" style="width:60px;height:30px;border-radius:6px;font-size:10px">Even</div><div class="mini-btn" style="width:60px;height:30px;border-radius:6px;font-size:10px">Odd</div></div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">SART (Robertson)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Commission errors + RT</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">SART (Robertson) + rule rotation</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Commission × rule-switch cost</span></div>
 </div>
 </div>
 
@@ -610,106 +616,123 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- P3: Choice RT -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">P3</span><span class="g-name">Choice RT <span class="tag-new">NEW</span></span><span class="g-construct p">PRO</span></div>
+<div class="g-header"><span class="g-num">P3</span><span class="g-name">Choice RT <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct p">PRO</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Discrimination</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: color (30%)</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-    <div style="font-size:9px;color:var(--dim)">Press ← for circle, → for square</div>
-    <div style="font-size:40px">○</div>
-    <div class="mini-btn-row"><div class="mini-btn active">←</div><div class="mini-btn">→</div></div>
+    <div style="font-size:9px;color:var(--dim)">Press <span style="display:inline-block;width:8px;height:8px;background:#2563EB;border-radius:50%;vertical-align:middle"></span> for blue · <span style="display:inline-block;width:8px;height:8px;background:#DC2626;border-radius:50%;vertical-align:middle"></span> for red</div>
+    <div style="display:flex;gap:6px">
+      <div style="width:24px;height:24px;border-radius:50%;background:#2563EB"></div>
+      <div style="width:24px;height:24px;border-radius:50%;background:#DC2626;opacity:0.3"></div>
+    </div>
+    <div class="mini-btn-row"><div class="mini-btn active" style="background:var(--blue-light);border-color:var(--blue);color:var(--blue)">●</div><div class="mini-btn" style="background:rgba(220,38,38,0.1);border-color:var(--red);color:var(--red)">●</div></div>
+    <div style="font-size:8px;color:var(--dim)">Modes: shape 30% · arrow 30% · color 30% · sides 10%</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Choice RT (CANTAB)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Median RT · accuracy</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Choice RT (CANTAB) + 4 modalities</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Median RT × modality-shift cost</span></div>
 </div>
 </div>
 
 <!-- P4: Pattern Comparison -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">P4</span><span class="g-name">Pattern Comparison <span class="tag-new">NEW</span></span><span class="g-construct p">PRO</span></div>
+<div class="g-header"><span class="g-num">P4</span><span class="g-name">Pattern Comparison <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct p">PRO</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Same or different?</span><span style="color:var(--dim)">0:34</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">3-grid odd-one-out (20%)</span><span style="color:var(--dim)">0:34</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-    <div style="display:flex;gap:16px;align-items:center">
+    <div style="display:flex;gap:8px;align-items:center">
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px">
-        <div class="mini-cell" style="width:16px;height:16px;background:var(--ink);border-color:var(--ink)"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px;background:var(--ink);border-color:var(--ink)"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px;background:var(--ink);border-color:var(--ink)"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px;background:var(--ink);border-color:var(--ink)"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
       </div>
-      <span style="color:var(--dim)">vs</span>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;border:1.5px solid var(--blue);padding:1px;border-radius:3px">
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px">
-        <div class="mini-cell" style="width:16px;height:16px;background:var(--ink);border-color:var(--ink)"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px;background:var(--ink);border-color:var(--ink)"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px"></div>
-        <div class="mini-cell" style="width:16px;height:16px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
+        <div class="mini-cell" style="width:14px;height:14px"></div>
+        <div class="mini-cell" style="width:14px;height:14px;background:var(--ink);border-color:var(--ink)"></div>
       </div>
     </div>
-    <div class="mini-btn-row"><div class="mini-btn active">Same</div><div class="mini-btn">Different</div></div>
+    <div class="mini-btn-row" style="gap:3px"><div class="mini-btn" style="width:30px;height:24px;font-size:8px">A</div><div class="mini-btn active" style="width:30px;height:24px;font-size:8px;background:var(--blue-light);border-color:var(--blue);color:var(--blue)">B</div><div class="mini-btn" style="width:30px;height:24px;font-size:8px">C</div></div>
+    <div style="font-size:8px;color:var(--dim)">80% same/diff · 20% odd-one-out</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Pattern Comparison (Salthouse)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Correct / min</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Pattern Comparison (Salthouse) + 3AFC</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Correct / min × mode-shift cost</span></div>
 </div>
 </div>
 
 <!-- P5: Cancellation -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">P5</span><span class="g-name">Cancellation <span class="tag-new">NEW</span></span><span class="g-construct p">PRO</span></div>
+<div class="g-header"><span class="g-num">P5</span><span class="g-name">Cancellation <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct p">PRO</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Cross out all ★</span><span style="color:var(--dim)">0:18</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Target: ▲ (rotates/session)</span><span style="color:var(--dim)">0:18</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">
       <div class="mini-cell" style="font-size:9px">◉</div>
-      <div class="mini-cell highlight" style="font-size:9px">★</div>
-      <div class="mini-cell" style="font-size:9px">◉</div>
-      <div class="mini-cell" style="font-size:9px">▲</div>
       <div class="mini-cell" style="font-size:9px">★</div>
       <div class="mini-cell" style="font-size:9px">◉</div>
-      <div class="mini-cell" style="font-size:9px">▲</div>
-      <div class="mini-cell highlight" style="font-size:9px">★</div>
-      <div class="mini-cell" style="font-size:9px">▲</div>
+      <div class="mini-cell highlight" style="font-size:9px">▲</div>
+      <div class="mini-cell highlight" style="font-size:9px">▲</div>
       <div class="mini-cell" style="font-size:9px">◉</div>
-      <div class="mini-cell highlight" style="font-size:9px">★</div>
+      <div class="mini-cell" style="font-size:9px">★</div>
       <div class="mini-cell" style="font-size:9px">◉</div>
+      <div class="mini-cell" style="font-size:9px">★</div>
+      <div class="mini-cell" style="font-size:9px">◉</div>
+      <div class="mini-cell highlight" style="font-size:9px">▲</div>
+      <div class="mini-cell" style="font-size:9px">★</div>
     </div>
+    <div style="font-size:8px;color:var(--dim);margin-top:4px">Target rotates ▲ ◉ ★ per session; 15% need TWO criteria</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Cancellation (D-KEFS)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Correct - errors / time</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Cancellation (D-KEFS) + symbol rotation</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Correct - errors / time × criteria</span></div>
 </div>
 </div>
 
 <!-- P6: Letter Comparison -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">P6</span><span class="g-name">Letter Comparison <span class="tag-new">NEW</span></span><span class="g-construct p">PRO</span></div>
+<div class="g-header"><span class="g-num">P6</span><span class="g-name">Letter Comparison <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct p">PRO</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Identical strings?</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: count-differences (40%)</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
-    <div style="display:flex;gap:16px;align-items:center;font-family:'Spline Sans Mono',monospace;font-size:12px">
+    <div style="display:flex;gap:12px;align-items:center;font-family:'Spline Sans Mono',monospace;font-size:12px">
       <span>3 8 2 9 1</span>
       <span style="color:var(--dim);font-size:9px">vs</span>
-      <span>3 8 2 9 1</span>
+      <span>3 8 <strong style="color:var(--red);background:rgba(220,38,38,0.1);padding:0 2px;border-radius:2px">7</strong> 9 1</span>
     </div>
-    <div class="mini-btn-row"><div class="mini-btn active">Same</div><div class="mini-btn">Diff</div></div>
+    <div class="mini-btn-row" style="gap:3px"><div class="mini-btn" style="width:24px;height:24px;font-size:9px">0</div><div class="mini-btn active" style="width:24px;height:24px;font-size:9px;background:var(--blue-light);border-color:var(--blue);color:var(--blue)">1</div><div class="mini-btn" style="width:24px;height:24px;font-size:9px">2</div><div class="mini-btn" style="width:24px;height:24px;font-size:9px">3+</div></div>
+    <div style="font-size:8px;color:var(--dim)">Same/diff 30% · count 40% · which-differs 30%</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Letter Comparison (Salthouse)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Correct / 60s</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Letter Comparison (Salthouse) + 3 modes</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Correct / 60s × mode cost</span></div>
 </div>
 </div>
 
@@ -754,21 +777,25 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- N1: Mental Arithmetic -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">N1</span><span class="g-name">Mental Arithmetic <span class="tag-new" style="background:var(--green-light);color:var(--green);font-size:8px">✦ EXISTING</span></span><span class="g-construct n">NUM</span></div>
+<div class="g-header"><span class="g-num">N1</span><span class="g-name">Mental Arithmetic <span class="tag-new" style="background:var(--green-light);color:var(--green);font-size:8px">✦ EXISTING</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct n">NUM</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mental math</span><span style="color:var(--dim)">11/20</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: keypad entry (10%)</span><span style="color:var(--dim)">11/20</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
     <div class="mini-number">47 + 28 = ?</div>
-    <div class="mini-btn-row">
-      <div class="mini-btn" style="width:auto;padding:0 10px;height:28px;border-radius:6px">65</div>
-      <div class="mini-btn active" style="width:auto;padding:0 10px;height:28px;border-radius:6px">75</div>
-      <div class="mini-btn" style="width:auto;padding:0 10px;height:28px;border-radius:6px">85</div>
+    <div class="mini-keypad" style="max-width:130px">
+      <div class="mini-key" style="height:24px">7</div>
+      <div class="mini-key" style="height:24px">5</div>
+      <div class="mini-key" style="height:24px">3</div>
+      <div class="mini-key active" style="height:24px;background:var(--blue-light);border-color:var(--blue);color:var(--blue)">7</div>
+      <div class="mini-key" style="height:24px">5</div>
+      <div class="mini-key" style="height:24px;background:var(--blue-light);border-color:var(--blue);color:var(--blue)">↵</div>
     </div>
+    <div style="font-size:8px;color:var(--dim)">3-choice 60% · 4-choice 30% · keypad 10%</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">WAIS Arithmetic</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">RT × difficulty weight</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">WAIS Arithmetic + response rotation</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">RT × difficulty × entry-mode cost</span></div>
 </div>
 </div>
 
@@ -810,9 +837,9 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- N4: Number Series -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">N4</span><span class="g-name">Number Series <span class="tag-new">NEW</span></span><span class="g-construct n">NUM</span></div>
+<div class="g-header"><span class="g-num">N4</span><span class="g-name">Number Series <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct n">NUM</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Inductive reasoning</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: 2-forward (30%)</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
     <div class="mini-stim" style="gap:4px">
       <span class="mini-cell" style="width:28px;height:28px;font-size:11px">2</span>
@@ -820,13 +847,15 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
       <span class="mini-cell" style="width:28px;height:28px;font-size:11px">18</span>
       <span class="mini-cell" style="width:28px;height:28px;font-size:11px">54</span>
       <span class="mini-cell dim" style="width:28px;height:28px;font-size:11px">?</span>
+      <span class="mini-cell" style="width:28px;height:28px;font-size:11px;color:var(--blue)">?</span>
     </div>
     <div class="mini-keypad" style="max-width:100px"><div class="mini-key" style="height:24px">1</div><div class="mini-key" style="height:24px">2</div><div class="mini-key" style="height:24px">3</div><div class="mini-key" style="height:24px">4</div><div class="mini-key" style="height:24px">5</div><div class="mini-key" style="height:24px">6</div><div class="mini-key" style="height:24px">7</div><div class="mini-key" style="height:24px">8</div><div class="mini-key" style="height:24px">9</div></div>
+    <div style="font-size:8px;color:var(--dim)">Next-1 60% · next-2 30% · find-rule 10%</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Number Series (RPM)</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Correct + speed</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Number Series (RPM) + multi-depth</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Correct × depth × rule-type cost</span></div>
 </div>
 </div>
 
@@ -873,16 +902,24 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- N7: Percentage -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">N7</span><span class="g-name">Percentage Math <span class="tag-new">NEW</span></span><span class="g-construct n">NUM</span></div>
+<div class="g-header"><span class="g-num">N7</span><span class="g-name">Percentage Math <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct n">NUM</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Real-world math</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: keypad (30%)</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
     <div style="font-size:13px;font-weight:500">15% of 80 = ?</div>
     <div class="mini-keypad" style="max-width:130px">
-      <div class="mini-key" style="height:24px">12</div>
-      <div class="mini-key active" style="height:24px;background:var(--blue-light);border-color:var(--blue);color:var(--blue)">10</div>
-      <div class="mini-key" style="height:24px">15</div>
+      <div class="mini-key" style="height:24px">1</div>
+      <div class="mini-key" style="height:24px">2</div>
+      <div class="mini-key" style="height:24px">↵</div>
     </div>
+    <div style="font-size:8px;color:var(--dim)">3-choice 70% · keypad 30%</div>
+  </div>
+</div></div>
+<div class="g-footer">
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Arithmetic Reasoning + entry rotation</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Accuracy × RT × entry-mode cost</span></div>
+</div>
+</div>
   </div>
 </div></div>
 <div class="g-footer">
@@ -900,24 +937,24 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- L1: Verbal Fluency -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">L1</span><span class="g-name">Verbal Fluency <span class="tag-new">NEW</span></span><span class="g-construct l">LNG</span></div>
+<div class="g-header"><span class="g-num">L1</span><span class="g-name">Verbal Fluency <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct l">LNG</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Words starting with "F"</span><span style="color:var(--dim)">0:32</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Constraint: 4-letter words</span><span style="color:var(--dim)">0:32</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
     <div style="font-size:32px;font-weight:700;color:var(--blue)">F</div>
-    <div style="font-size:9px;color:var(--dim)">Type as many words as you can</div>
+    <div style="font-size:9px;color:var(--dim)">4-letter words starting with F</div>
     <div style="display:flex;gap:4px;flex-wrap:wrap;font-size:8px;color:var(--dim);justify-content:center">
-      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">fish</span>
-      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">fork</span>
-      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">fast</span>
+      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">fact</span>
+      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">face</span>
+      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">fine</span>
       <span style="background:var(--blue-light);border:1px solid var(--blue);padding:2px 6px;border-radius:4px;color:var(--blue)">...</span>
     </div>
     <div style="border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:10px;width:100%">type here</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">FAS / COWAT</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Unique words / 60s</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">FAS / COWAT + constraint rotation</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Unique words / 60s × constraint</span></div>
 </div>
 </div>
 
@@ -981,47 +1018,47 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- L5: Category Fluency -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">L5</span><span class="g-name">Category Fluency <span class="tag-new">NEW</span></span><span class="g-construct l">LNG</span></div>
+<div class="g-header"><span class="g-num">L5</span><span class="g-name">Category Fluency <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct l">LNG</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Animals</span><span style="color:var(--dim)">0:28</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Constraint: VERBS only</span><span style="color:var(--dim)">0:28</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
     <div style="font-size:32px">🐾</div>
-    <div style="font-size:9px;color:var(--dim)">Name as many animals as you can</div>
+    <div style="font-size:9px;color:var(--dim)">Animal verbs (run, leap, pounce...)</div>
     <div style="display:flex;gap:4px;flex-wrap:wrap;font-size:8px;color:var(--dim);justify-content:center">
-      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">dog</span>
-      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">cat</span>
-      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">elephant</span>
+      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">run</span>
+      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">leap</span>
+      <span style="background:white;border:1px solid var(--line);padding:2px 6px;border-radius:4px">pounce</span>
       <span style="background:var(--blue-light);border:1px solid var(--blue);padding:2px 6px;border-radius:4px;color:var(--blue)">...</span>
     </div>
     <div style="border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:10px;width:100%">type here</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Category Fluency</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Unique words / 60s</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Category Fluency + constraint rotation</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Unique words × constraint type</span></div>
 </div>
 </div>
 
 <!-- L6: Word Scramble -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">L6</span><span class="g-name">Word Scramble <span class="tag-new">NEW</span></span><span class="g-construct l">LNG</span></div>
+<div class="g-header"><span class="g-num">L6</span><span class="g-name">Word Scramble <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct l">LNG</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Unscramble</span><span style="color:var(--dim)">4/12</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: drag-letters (30%)</span><span style="color:var(--dim)">4/12</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
+    <div style="font-size:9px;color:var(--dim)">Drag to reorder: <strong style="color:var(--blue)">A P P L E</strong></div>
     <div class="mini-stim" style="gap:3px">
-      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600">P</div>
-      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600">E</div>
-      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600">L</div>
-      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600">P</div>
-      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600">A</div>
+      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600;cursor:grab">P</div>
+      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600;cursor:grab">E</div>
+      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600;cursor:grab">L</div>
+      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600;cursor:grab">P</div>
+      <div class="mini-sym" style="width:28px;height:32px;font-size:12px;font-weight:600;cursor:grab;border:1.5px solid var(--blue);color:var(--blue)">A</div>
     </div>
-    <div style="font-size:9px;color:var(--dim)">Tap letters to reorder</div>
-    <div style="font-size:12px;font-weight:500;color:var(--green);letter-spacing:3px">APPLE</div>
+    <div style="font-size:8px;color:var(--dim)">Tap-reorder 50% · drag 30% · yes/no 20%</div>
   </div>
 </div></div>
 <div class="g-footer">
-  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Anagram Solution</span></div>
-  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">RT × accuracy</span></div>
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Anagram Solution + 3 modalities</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">RT × accuracy × modality cost</span></div>
 </div>
 </div>
 
@@ -1208,13 +1245,20 @@ h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--di
 
 <!-- E7: Logical Reasoning -->
 <div class="game-card">
-<div class="g-header"><span class="g-num">E7</span><span class="g-name">Logical Reasoning <span class="tag-new">NEW</span></span><span class="g-construct e">EXE</span></div>
+<div class="g-header"><span class="g-num">E7</span><span class="g-name">Logical Reasoning <span class="tag-new">NEW</span><span class="tag-new" style="background:rgba(245,158,11,0.1);color:#B45309;font-size:8px;margin-left:4px">DYNAMIC</span></span><span class="g-construct e">EXE</span></div>
 <div class="g-wireframe"><div class="g-wireframe-inner" style="justify-content:space-between">
-  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Syllogisms</span></div>
+  <div style="display:flex;justify-content:space-between;font-size:9px"><span style="color:var(--dim)">Mode: 3-choice (40%)</span></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
-    <div class="mini-text-block" style="font-size:8px;line-height:1.4;max-width:220px">All mammals are warm-blooded. Whales are mammals. Therefore, whales ___? </div>
-    <div class="mini-btn-row"><div class="mini-btn active" style="width:auto;padding:0 8px;height:26px;border-radius:6px;font-size:9px">are warm-blooded</div><div class="mini-btn" style="width:auto;padding:0 8px;height:26px;border-radius:6px;font-size:9px">are cold-blooded</div></div>
+    <div class="mini-text-block" style="font-size:8px;line-height:1.4;max-width:220px">All mammals are warm-blooded. Whales are mammals. Therefore, whales ___?</div>
+    <div class="mini-btn-row" style="gap:3px;flex-wrap:wrap;justify-content:center"><div class="mini-btn active" style="width:auto;padding:0 6px;height:24px;border-radius:6px;font-size:8px">warm-blooded</div><div class="mini-btn" style="width:auto;padding:0 6px;height:24px;border-radius:6px;font-size:8px">cold-blooded</div><div class="mini-btn" style="width:auto;padding:0 6px;height:24px;border-radius:6px;font-size:8px">undecided</div></div>
+    <div style="font-size:8px;color:var(--dim)">2-choice 30% · 3-choice 40% · T/F/Undecidable 30%</div>
   </div>
+</div></div>
+<div class="g-footer">
+  <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Syllogistic Reasoning + 3 modes</span></div>
+  <div class="g-meta"><span class="g-meta-label">Scoring</span><span class="g-meta-val">Accuracy × RT × mode complexity</span></div>
+</div>
+</div>
 </div></div>
 <div class="g-footer">
   <div class="g-meta"><span class="g-meta-label">Neuro Test</span><span class="g-meta-val">Syllogistic Reasoning</span></div>
