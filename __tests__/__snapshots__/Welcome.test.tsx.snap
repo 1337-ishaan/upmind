@@ -1,0 +1,427 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WelcomeScreen matches the snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "flex": 1,
+        "paddingHorizontal": 24,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    pointerEvents="none"
+    style={
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "borderRadius": 200,
+            "height": 320,
+            "position": "absolute",
+            "transform": [
+              {
+                "scale": 1.2,
+              },
+            ],
+            "width": 320,
+          },
+          {
+            "backgroundColor": "#0F766E",
+            "left": -60,
+            "opacity": 0.35,
+            "top": -80,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        [
+          {
+            "borderRadius": 200,
+            "height": 320,
+            "position": "absolute",
+            "transform": [
+              {
+                "scale": 1.2,
+              },
+            ],
+            "width": 320,
+          },
+          {
+            "backgroundColor": "#14B8A6",
+            "opacity": 0.18,
+            "right": -80,
+            "top": 120,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        [
+          {
+            "borderRadius": 200,
+            "height": 320,
+            "position": "absolute",
+            "transform": [
+              {
+                "scale": 1.2,
+              },
+            ],
+            "width": 320,
+          },
+          {
+            "backgroundColor": "#1E3A8A",
+            "bottom": -120,
+            "left": 40,
+            "opacity": 0.22,
+          },
+        ]
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "marginTop": 24,
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "opacity": 0,
+            "transform": [
+              {
+                "scale": 0.92,
+              },
+              {
+                "translateY": 8,
+              },
+            ],
+          },
+        }
+      }
+      style={
+        {
+          "alignItems": "center",
+          "backgroundColor": "#111827",
+          "borderColor": "rgba(255,255,255,0.08)",
+          "borderRadius": 22,
+          "borderWidth": 1,
+          "height": 72,
+          "justifyContent": "center",
+          "marginBottom": 16,
+          "opacity": 0,
+          "transform": [
+            {
+              "scale": 0.92,
+            },
+            {
+              "translateY": 8,
+            },
+          ],
+          "width": 72,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "backgroundColor": "#14B8A6",
+            "borderRadius": 8,
+            "height": 28,
+            "shadowColor": "#14B8A6",
+            "shadowOffset": {
+              "height": 0,
+              "width": 0,
+            },
+            "shadowOpacity": 0.6,
+            "shadowRadius": 18,
+            "width": 28,
+          }
+        }
+      />
+    </View>
+    <Text
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": 14,
+              },
+            ],
+          },
+        }
+      }
+      style={
+        {
+          "color": "#14B8A6",
+          "fontSize": 11,
+          "fontWeight": "600",
+          "letterSpacing": 3,
+          "lineHeight": 14,
+          "opacity": 0,
+          "transform": [
+            {
+              "translateY": 14,
+            },
+          ],
+        }
+      }
+    >
+      UPMIND
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Text
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": 14,
+              },
+            ],
+          },
+        }
+      }
+      style={
+        {
+          "color": "#F8FAFC",
+          "fontSize": 36,
+          "fontWeight": "700",
+          "letterSpacing": -0.6,
+          "lineHeight": 42,
+          "opacity": 0,
+          "transform": [
+            {
+              "translateY": 14,
+            },
+          ],
+        }
+      }
+    >
+      Congratulations.
+      
+
+      You've taken the first step
+      
+
+      <Text
+        style={
+          {
+            "color": "#5EEAD4",
+          }
+        }
+      >
+        toward a sharper mind.
+      </Text>
+    </Text>
+    <Text
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": 10,
+              },
+            ],
+          },
+        }
+      }
+      style={
+        {
+          "color": "#94A3B8",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 24,
+          "marginTop": 16,
+          "opacity": 0,
+          "transform": [
+            {
+              "translateY": 10,
+            },
+          ],
+        }
+      }
+    >
+      A 10-minute daily practice that rewires how you focus, remember, and decide — built for high-performing professionals.
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "gap": 12,
+        "paddingBottom": 8,
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "opacity": 0,
+            "transform": [
+              {
+                "translateY": 16,
+              },
+            ],
+          },
+        }
+      }
+      style={
+        {
+          "opacity": 0,
+          "transform": [
+            {
+              "translateY": 16,
+            },
+          ],
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Begin"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "alignItems": "center",
+              "borderRadius": 999,
+              "justifyContent": "center",
+              "minHeight": 56,
+              "paddingHorizontal": 24,
+            },
+            {
+              "backgroundColor": "#14B8A6",
+            },
+            false,
+            false,
+            false,
+            false,
+            undefined,
+            undefined,
+          ]
+        }
+        testID="welcome.continue"
+      >
+        <Text
+          style={
+            [
+              {
+                "fontSize": 16,
+                "fontWeight": "600",
+                "lineHeight": 24,
+              },
+              {
+                "color": "#0A0F1C",
+              },
+              false,
+              false,
+            ]
+          }
+        >
+          Begin
+        </Text>
+      </View>
+    </View>
+    <Text
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {
+            "opacity": 0,
+          },
+        }
+      }
+      style={
+        {
+          "color": "#64748B",
+          "fontSize": 13,
+          "fontWeight": "500",
+          "lineHeight": 18,
+          "opacity": 0,
+          "textAlign": "center",
+        }
+      }
+    >
+      Already have an account?
+       
+      <Text
+        accessibilityRole="link"
+        onPress={[Function]}
+        style={
+          {
+            "color": "#14B8A6",
+            "fontWeight": "600",
+          }
+        }
+      >
+        Sign in
+      </Text>
+    </Text>
+  </View>
+</View>
+`;

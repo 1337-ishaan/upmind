@@ -1,0 +1,19 @@
+{
+  "name": "Upmind",
+  "short_name": "Upmind",
+  "description": "Train your mind. 8 minutes a day.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#060A14",
+  "theme_color": "#060A14",
+  "categories": ["health", "education", "productivity"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

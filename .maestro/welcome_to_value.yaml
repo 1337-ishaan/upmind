@@ -1,0 +1,25 @@
+appId: com.upmind.app
+name: Welcome -> Value Slides -> Survey
+description: |
+  Walks the user from the welcome screen through the value slides
+  to the survey placeholder. Used as the smoke flow for the
+  premium onboarding sequence.
+
+---
+- launchApp
+- assertVisible:
+    id: "welcome.continue"
+- tapOn:
+    id: "welcome.continue"
+- assertVisible: "Upmind"
+- assertVisible: "Cut through noise. Decide faster."
+- tapOn:
+    id: "value.continue"
+- assertVisible: "Remember what actually matters."
+- swipe:
+    direction: LEFT
+    duration: 250
+- assertVisible: "Used by founders, surgeons, and pilots."
+- tapOn:
+    id: "value.continue"
+- assertVisible: "Survey"
