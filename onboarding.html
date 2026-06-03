@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upmind — Onboarding Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FBFAF8;--sunk:#F2F0EC;--card:#FFF;--ink:#16181D;--dim:#5B606B;--line:#E4E1DB;--blue:#2F6FED;--green:#0E9F6E;--amber:#C77D2E;
+  --ease:cubic-bezier(.22,.61,.36,1);--serif:'Fraunces',Georgia,serif;--sans:'Hanken Grotesk',system-ui,sans-serif;--mono:'Spline Sans Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#DED9D0;font-family:var(--sans);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;-webkit-font-smoothing:antialiased}
+.device{width:392px;height:846px;background:var(--paper);border-radius:48px;border:10px solid #111;box-shadow:0 40px 100px rgba(0,0,0,.35);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#111;border-radius:18px;z-index:30}
+.statusbar{height:44px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 4px;font-family:var(--mono);font-size:12px;color:var(--ink)}
+.prog{height:3px;background:var(--line);flex-shrink:0;margin:0 22px;border-radius:3px;overflow:hidden}
+.prog>i{display:block;height:100%;width:0;background:var(--blue);transition:width .4s var(--ease)}
+.stage{flex:1;position:relative;overflow:hidden}
+.scr{position:absolute;inset:0;display:none;flex-direction:column;padding:22px 24px 26px;overflow-y:auto}
+.scr.on{display:flex;animation:fade .4s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.title{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.08;letter-spacing:-.02em;margin-top:14px}
+.title.sm{font-size:25px}
+.lead{font-size:16px;line-height:1.5;color:var(--dim);margin-top:12px}
+.sp{flex:1;min-height:14px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);color:#fff;font-weight:600;font-size:16px;padding:16px;border-radius:13px;border:none;cursor:pointer;font-family:var(--sans);width:100%;transition:.15s}
+.cta:hover{filter:brightness(1.07)}.cta:disabled{opacity:.4;cursor:default}
+.ghost{background:none;border:none;color:var(--dim);font-family:var(--mono);font-size:13px;padding:12px;cursor:pointer;width:100%;margin-top:4px}
+.micro{font-family:var(--mono);font-size:11px;color:var(--dim);text-align:center;margin-top:10px}
+.opt{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;cursor:pointer;margin-top:10px;transition:.15s;text-align:left;width:100%;font-family:var(--sans);font-size:15.5px;color:var(--ink)}
+.opt:hover{border-color:#c9c4ba}
+.opt .ml{font-family:var(--mono);font-size:11px;color:var(--dim);margin-left:auto}
+.opt .ck{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.opt.sel{border-color:var(--blue);background:#F2F6FF}
+.opt.sel .ck{background:var(--blue);border-color:var(--blue)}
+.opt.sel .ml{color:var(--blue)}
+.opt .ck svg{opacity:0}.opt.sel .ck svg{opacity:1}
+.field{width:100%;border:none;border-bottom:2px solid var(--line);background:none;font-family:var(--serif);font-size:28px;padding:8px 2px;color:var(--ink);outline:none;margin-top:20px}
+.field:focus{border-color:var(--blue)}
+.rcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(22,24,29,.06)}
+.big{font-family:var(--mono);font-weight:500;font-size:52px;line-height:1;letter-spacing:-.02em}
+.cite{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:12px}
+.cite a{color:var(--green)}
+.skillrow{display:flex;align-items:center;gap:12px;margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--ink)}
+.skillrow .bar{flex:1;height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.skillrow .bar>i{display:block;height:100%;width:0;background:var(--blue);transition:width 1.1s var(--ease)}
+.skillrow .pc{width:34px;text-align:right;color:var(--dim)}
+.skillrow .chk{color:var(--green);opacity:0;transition:.3s}
+/* game */
+.gwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.gtimer{font-family:var(--mono);font-size:13px;color:var(--dim)}
+.gcue{font-family:var(--serif);font-weight:600;font-size:64px;letter-spacing:.02em}
+.grule{font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--sunk);padding:8px 14px;border-radius:8px}
+.gbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.gbtn{padding:18px;border-radius:13px;border:1px solid var(--line);background:#fff;font-family:var(--mono);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.gbtn .sw{width:16px;height:16px;border-radius:4px}
+.gflash{position:absolute;inset:0;background:var(--green);opacity:0;pointer-events:none;transition:opacity .12s}
+/* streak */
+.ember{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(14,159,110,.3),transparent 70%);display:flex;align-items:center;justify-content:center;margin:0 auto;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.weekdots{display:flex;gap:10px;justify-content:center;margin-top:22px}
+.weekdots span{width:12px;height:12px;border-radius:50%;background:var(--line);font-size:0}
+.weekdots span.on{background:var(--green)}
+/* review modal */
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:20px 20px 0 0;padding:24px;box-shadow:0 -20px 50px rgba(0,0,0,.2);transform:translateY(100%);transition:.4s var(--ease);z-index:20}
+.sheet.up{transform:none}
+.stars{display:flex;gap:8px;justify-content:center;font-size:30px;color:var(--amber);margin:16px 0}
+.scrim{position:absolute;inset:0;background:rgba(22,24,29,.4);opacity:0;pointer-events:none;transition:.3s;z-index:15}
+.scrim.on{opacity:1}
+/* projection */
+.proj{width:100%;height:150px;margin-top:16px}
+/* signature */
+.sigpad{width:100%;height:140px;background:var(--card);border:1px dashed var(--line);border-radius:13px;margin-top:16px;touch-action:none;cursor:crosshair}
+.stamp{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--green);text-align:center;margin-top:10px;opacity:0;transition:.3s}
+.stamp.on{opacity:1}
+.pact{display:flex;gap:10px;align-items:flex-start;margin-top:10px;font-size:14px;color:var(--ink)}
+.pact .d{color:var(--green);font-family:var(--mono)}
+/* timeline */
+.tl{margin-top:8px}
+.tlrow{display:flex;gap:14px;align-items:flex-start;padding:10px 0}
+.tlrow .ic{width:34px;height:34px;border-radius:50%;background:var(--sunk);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.tlrow .tt{font-weight:600;font-size:15px}.tlrow .ts{font-size:13px;color:var(--dim)}
+.toggle{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:14px;font-size:14px}
+.sw2{width:44px;height:26px;border-radius:20px;background:var(--green);position:relative;cursor:pointer}
+.sw2::after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+.priceline{text-align:center;font-family:var(--mono);font-size:13px;color:var(--dim);margin-top:14px}
+.freeline{text-align:center;font-size:13px;color:var(--green);font-family:var(--mono);margin-top:8px}
+.laurel{text-align:center;font-family:var(--serif);font-size:46px;font-weight:600;margin-top:10px}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px;margin-top:12px}
+.tcard .s{color:var(--amber)}.tcard .q{font-family:var(--serif);font-style:italic;font-size:15px;margin:6px 0;line-height:1.4}.tcard .n{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.restart{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;color:#8a8478;cursor:pointer;background:#fff;border:1px solid #cfc9bf;padding:6px 12px;border-radius:20px}
+.green{color:var(--green)}.blue{color:var(--blue)}.mono{font-family:var(--mono)}
+.dimt{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="notch"></div>
+  <div class="statusbar"><span>9:41</span><span>UPMIND</span></div>
+  <div class="prog"><i id="prog"></i></div>
+  <div class="stage" id="stage">
+    <div class="gflash" id="flash"></div>
+    <div class="scrim" id="scrim"></div>
+
+    <!-- 1 WELCOME -->
+    <section class="scr on"><div class="sp"></div>
+      <div style="text-align:center"><div class="eyebrow">UPMIND</div>
+      <div class="title" style="font-size:40px;margin-top:18px">Hey.</div>
+      <p class="lead">A daily 8-minute drill for your attention — <b style="color:var(--ink)">measured, not gamified.</b></p></div>
+      <div class="sp"></div><button class="cta" onclick="next()">Begin</button>
+    </section>
+
+    <!-- 2 PROBLEM -->
+    <section class="scr"><div class="sp"></div>
+      <div class="eyebrow">The problem</div>
+      <div class="title">Your attention gets cut up all day.</div>
+      <p class="lead">Every interruption carries a real recovery cost. It's not a willpower problem — it's an untrained, unmeasured one.</p>
+      <div class="sp"></div><button class="cta" onclick="next()">Go on →</button>
+    </section>
+
+    <!-- 3 SOLUTION -->
+    <section class="scr"><div class="sp"></div>
+      <div class="eyebrow">The solution</div>
+      <div class="title">Upmind measures it — then trains it.</div>
+      <p class="lead">Six real skills. Six honest numbers. <b style="color:var(--ink)">Never a made-up brain-age or IQ.</b></p>
+      <div class="sp"></div><button class="cta" onclick="next()">Let's start</button>
+    </section>
+
+    <!-- 4 NAME -->
+    <section class="scr">
+      <div class="eyebrow">First things first</div>
+      <div class="title">What should we call you?</div>
+      <input class="field" id="nameInput" placeholder="Type your name" oninput="document.getElementById('nameCta').disabled=!this.value.trim()">
+      <p class="micro" style="text-align:left;margin-top:10px">We keep this on your device.</p>
+      <div class="sp"></div>
+      <button class="cta" id="nameCta" disabled onclick="store.name=document.getElementById('nameInput').value.trim();next()">Continue</button>
+    </section>
+
+    <!-- 5 Q interruptions -->
+    <section class="scr" data-id="q1">
+      <div class="eyebrow">About your day</div>
+      <div class="title sm" id="q1title">In one focused hour, how often does something pull you away?</div>
+      <div class="sp" style="max-height:18px"></div>
+      <button class="opt" onclick="pick('interruptions',1,this)"><span>Rarely</span><span class="ml">1/hr</span></button>
+      <button class="opt" onclick="pick('interruptions',3,this)"><span>A few times</span><span class="ml">2–4/hr</span></button>
+      <button class="opt" onclick="pick('interruptions',6,this)"><span>Constantly</span><span class="ml">5–8/hr</span></button>
+      <button class="opt" onclick="pick('interruptions',10,this)"><span>I can't focus for an hour</span><span class="ml">9+/hr</span></button>
+    </section>
+
+    <!-- 6 Q recovery -->
+    <section class="scr">
+      <div class="eyebrow">About your day</div>
+      <div class="title sm">After you get pulled away — how easily do you drop back in?</div>
+      <div class="sp" style="max-height:18px"></div>
+      <button class="opt" onclick="pick('recovery','easy',this)">Snap right back</button>
+      <button class="opt" onclick="pick('recovery','ok',this)">Takes a minute</button>
+      <button class="opt" onclick="pick('recovery','hard',this)">I lose my train of thought</button>
+      <button class="opt" onclick="pick('recovery','lost',this)">Honestly? I spiral into my phone</button>
+    </section>
+
+    <!-- 7 BOMBSHELL -->
+    <section class="scr" data-id="bomb"><div class="sp"></div>
+      <div class="rcard">
+        <div class="eyebrow">Your refocus cost</div>
+        <div class="big" style="margin-top:14px"><span id="bombName"></span></div>
+        <p class="lead" style="margin-top:6px" id="bombBody"></p>
+        <div class="cite">Mark, Gudith &amp; Klocke — <a>CHI 2008</a>. An estimate from your answer, not a verdict.</div>
+      </div>
+      <div class="sp"></div><button class="cta" onclick="next()">That's... a lot</button>
+    </section>
+
+    <!-- 8 BRIDGE -->
+    <section class="scr"><div class="sp"></div>
+      <div class="title" id="bridge">It doesn't have to be this way.</div>
+      <p class="lead">Attention works like a muscle. Got 8 minutes a day? Let's build your plan.</p>
+      <div class="sp"></div><button class="cta" onclick="next()">Build my plan</button>
+    </section>
+
+    <!-- 9 Q goals multi -->
+    <section class="scr" data-id="goals">
+      <div class="eyebrow">Your focus, sharpened</div>
+      <div class="title sm">What do you want to get sharper at? <span class="dimt" style="font-size:14px">Select all.</span></div>
+      <div style="overflow-y:auto;flex:1;margin-top:6px">
+        <button class="opt" onclick="multi('Attention',this)"><span class="ck"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" fill="none"/></svg></span>Holding focus under interruption</button>
+        <button class="opt" onclick="multi('Memory',this)"><span class="ck"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" fill="none"/></svg></span>Remembering more</button>
+        <button class="opt" onclick="multi('Speed',this)"><span class="ck"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" fill="none"/></svg></span>Thinking faster</button>
+        <button class="opt" onclick="multi('Logic',this)"><span class="ck"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" fill="none"/></svg></span>Solving problems</button>
+        <button class="opt" onclick="multi('Numeracy',this)"><span class="ck"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" fill="none"/></svg></span>Mental math</button>
+        <button class="opt" onclick="multi('Language',this)"><span class="ck"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" fill="none"/></svg></span>Finding the right words</button>
+      </div>
+      <button class="cta" id="goalsCta" disabled onclick="next()">Continue</button>
+    </section>
+
+    <!-- 10 Q cost -->
+    <section class="scr">
+      <div class="eyebrow">The real cost</div>
+      <div class="title sm">Where does losing focus cost you most?</div>
+      <div class="sp" style="max-height:18px"></div>
+      <button class="opt" onclick="pick('cost','details',this)">I miss details</button>
+      <button class="opt" onclick="pick('cost','stress',this)">I get stressed</button>
+      <button class="opt" onclick="pick('cost','slow',this)">Things take twice as long</button>
+      <button class="opt" onclick="pick('cost','avoid',this)">I avoid the hard tasks</button>
+    </section>
+
+    <!-- 11 REFLECTION -->
+    <section class="scr" data-id="reflect"><div class="sp"></div>
+      <div class="eyebrow">Here's you</div>
+      <div class="title sm" id="reflectBody"></div>
+      <div class="sp"></div><button class="cta" onclick="next()">That's me</button>
+    </section>
+
+    <!-- 12 ARCHETYPE -->
+    <section class="scr" data-id="arch"><div class="sp"></div>
+      <div style="text-align:center">
+        <div class="eyebrow">Your profile</div>
+        <div class="title" id="archTitle" style="margin-top:16px"></div>
+        <p class="lead" id="archBody"></p>
+      </div>
+      <div class="sp"></div><button class="cta" onclick="next()">Makes sense</button>
+    </section>
+
+    <!-- 13 Q time -->
+    <section class="scr">
+      <div class="eyebrow">Your habit</div>
+      <div class="title sm" id="q5title">When will your 8 minutes live?</div>
+      <div class="sp" style="max-height:18px"></div>
+      <button class="opt" onclick="pick('time','Morning',this)"><span>Morning</span><span class="ml">08:00</span></button>
+      <button class="opt" onclick="pick('time','Midday',this)"><span>Midday</span><span class="ml">13:00</span></button>
+      <button class="opt" onclick="pick('time','Evening',this)"><span>Evening</span><span class="ml">20:00</span></button>
+      <p class="micro" style="text-align:left">One gentle nudge. Never guilt.</p>
+    </section>
+
+    <!-- 14 HANDOFF -->
+    <section class="scr"><div class="sp"></div>
+      <div style="text-align:center"><div class="eyebrow">Your first rep</div>
+      <div class="title" id="handoff" style="margin-top:16px">Enough about the problem.</div>
+      <p class="lead">One short drill — about 40 seconds. This sets your real baseline.</p></div>
+      <div class="sp"></div><button class="cta" onclick="next()">Start the drill</button>
+    </section>
+
+    <!-- 15 RULES -->
+    <section class="scr"><div class="sp"></div>
+      <div class="rcard" style="text-align:center">
+        <div class="eyebrow">Context Switcher · Attention</div>
+        <div class="title sm" style="margin-top:10px">Tap the <b class="blue">colour</b> of the ink.</div>
+        <p class="lead">Ignore what the word says. Halfway through, the rule flips.</p>
+      </div>
+      <div class="sp"></div><button class="cta" onclick="startGame()">I'm ready</button>
+    </section>
+
+    <!-- 16 GAME -->
+    <section class="scr" data-id="game">
+      <div class="gtimer" id="gtimer">0:40</div>
+      <div class="gwrap">
+        <div class="grule" id="grule">Tap the COLOUR of the ink</div>
+        <div class="gcue" id="gcue">BLUE</div>
+        <div class="gbtns" id="gbtns"></div>
+      </div>
+    </section>
+
+    <!-- 17 BASELINE -->
+    <section class="scr" data-id="base"><div class="sp"></div>
+      <div class="rcard" style="text-align:center">
+        <div class="eyebrow">Your Attention baseline</div>
+        <div class="big blue" id="baseNum" style="margin-top:10px">0.00</div>
+        <p class="lead" id="baseBody">A real reading — not a brain-age.</p>
+      </div>
+      <div class="sp"></div><button class="cta" onclick="next()">Lock it in</button>
+    </section>
+
+    <!-- 18 STREAK -->
+    <section class="scr"><div class="sp"></div>
+      <div style="text-align:center">
+        <div class="ember"><div style="font-family:var(--serif);font-size:54px;font-weight:600;color:var(--green)">1</div></div>
+        <div class="title" style="margin-top:18px">Day 1. Done.</div>
+        <p class="lead" id="streakBody">Reach Day 14 and your focus score typically jumps the most.</p>
+        <div class="weekdots"><span class="on">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+      </div>
+      <div class="sp"></div>
+      <button class="cta" onclick="openReview()">I'm in</button>
+      <button class="ghost" onclick="next()">Maybe later</button>
+    </section>
+
+    <!-- 19 LOADER -->
+    <section class="scr" data-id="load"><div class="sp"></div>
+      <div class="eyebrow">Calibrating</div>
+      <div class="title sm" id="loadTitle">Building your plan…</div>
+      <div id="loadRows" style="margin-top:6px"></div>
+      <p class="micro" style="text-align:left;margin-top:18px">Set from your answers — not an average.</p>
+      <div class="sp"></div>
+    </section>
+
+    <!-- 20 PLAN -->
+    <section class="scr" data-id="plan">
+      <div class="eyebrow">Your 30-day plan</div>
+      <div class="title sm" id="planTitle" style="margin-bottom:6px">Your plan</div>
+      <svg class="proj" id="proj" viewBox="0 0 320 150"></svg>
+      <div id="planBars"></div>
+      <div class="cite" style="margin-top:10px">Projection from typical 14-day adherence.</div>
+      <div class="sp"></div><button class="cta" onclick="next()">Continue</button>
+    </section>
+
+    <!-- 21 COMMITMENT -->
+    <section class="scr">
+      <div class="eyebrow">Make it yours</div>
+      <div class="title sm">My 14-day pact</div>
+      <div class="pact"><span class="d">→</span> I'll do my 8-minute drill each day.</div>
+      <div class="pact"><span class="d">→</span> I want real numbers, not hype.</div>
+      <canvas class="sigpad" id="sig"></canvas>
+      <div class="stamp" id="stamp">✓ LOGGED</div>
+      <div class="sp"></div><button class="cta" id="sigCta" disabled onclick="next()">Confirm</button>
+    </section>
+
+    <!-- 22 SNAPSHOT -->
+    <section class="scr" data-id="snap">
+      <div class="eyebrow">Your focus snapshot</div>
+      <div class="title sm" style="margin-bottom:8px">Day 0</div>
+      <div class="rcard" id="snapCard"></div>
+      <div class="sp"></div><button class="cta" onclick="next()">Looks right</button>
+    </section>
+
+    <!-- 23 NOTIFICATIONS -->
+    <section class="scr"><div class="sp"></div>
+      <div style="text-align:center">
+        <div style="font-size:40px">🔔</div>
+        <div class="title sm" style="margin-top:12px">Protect your streak</div>
+        <p class="lead" id="notifBody">One nudge at your time — and a heads-up before any trial ends. Nothing else.</p>
+      </div>
+      <div class="sp"></div><button class="cta" onclick="next()">Allow notifications</button>
+      <button class="ghost" onclick="next()">Not now</button>
+    </section>
+
+    <!-- 24 SOCIAL PROOF -->
+    <section class="scr"><div class="sp"></div>
+      <div style="text-align:center"><div class="eyebrow">Measured, not marketed</div>
+      <div class="laurel">⊰ 4.8 ⊱</div>
+      <p class="micro">★ App Store · early access</p></div>
+      <div class="tcard"><div class="s">★★★★★</div><div class="q">"My reaction time dropped 12% in two weeks — and I can see it."</div><div class="n">— Dev S., 41 days</div></div>
+      <div class="tcard"><div class="s">★★★★★</div><div class="q">"Finally a brain app that doesn't lie to me."</div><div class="n">— Priya R., 28 days</div></div>
+      <div class="sp"></div><button class="cta" onclick="next()">See the plan</button>
+    </section>
+
+    <!-- 25 PAYWALL -->
+    <section class="scr" data-id="pay">
+      <div class="eyebrow">Your trial</div>
+      <div class="title sm" id="payTitle">Everything unlocked for 14 days.</div>
+      <div class="tl">
+        <div class="tlrow"><div class="ic">🔓</div><div><div class="tt">Today</div><div class="ts">Full access — all six skills + dashboard.</div></div></div>
+        <div class="tlrow"><div class="ic">🔔</div><div><div class="tt">Day 11</div><div class="ts">We remind you the trial's ending.</div></div></div>
+        <div class="tlrow"><div class="ic">★</div><div><div class="tt">Day 14</div><div class="ts">$89/yr — or it reverts to the free daily drill.</div></div></div>
+      </div>
+      <div class="toggle"><span>🔔 Remind me before it ends</span><div class="sw2"></div></div>
+      <div class="priceline">$89/yr — just <b style="color:var(--ink)">$7.42/mo</b></div>
+      <div class="freeline">After 14 days the daily drill is free forever.</div>
+      <div class="sp" style="min-height:8px"></div>
+      <button class="cta" onclick="next()">Start my 14-day trial</button>
+      <button class="ghost" onclick="next()">Not now — keep the free drill</button>
+    </section>
+
+    <!-- 26 DONE -->
+    <section class="scr"><div class="sp"></div>
+      <div style="text-align:center">
+        <div class="ember"><div style="font-size:40px">✓</div></div>
+        <div class="title" id="doneTitle" style="margin-top:16px">You're in.</div>
+        <p class="lead">That's the full onboarding — ~26 screens, the $40k/mo structure, made honest.</p>
+      </div>
+      <div class="sp"></div><button class="cta" onclick="restart()">Replay from the top</button>
+    </section>
+
+  </div>
+</div>
+<div class="restart" onclick="restart()">↻ restart prototype</div>
+
+<script>
+const store={name:'',interruptions:3,recovery:'ok',goals:[],cost:'details',time:'Morning',archetype:'',focusIndex:0,commitment:''};
+const scrs=[...document.querySelectorAll('.scr')];
+let idx=0;
+function show(i){scrs.forEach((s,k)=>s.classList.toggle('on',k===i));idx=i;
+  document.getElementById('prog').style.width=((i)/(scrs.length-1)*100)+'%';
+  const id=scrs[i].dataset.id; if(id&&hooks[id])hooks[id]();
+  scrs[i].scrollTop=0;}
+function next(){ if(idx<scrs.length-1) show(idx+1); }
+function pick(key,val,el){store[key]=val; [...el.parentElement.querySelectorAll('.opt')].forEach(o=>o.classList.remove('sel')); el.classList.add('sel'); setTimeout(next,230);}
+function multi(val,el){const i=store.goals.indexOf(val); if(i>-1){store.goals.splice(i,1);el.classList.remove('sel')}else{store.goals.push(val);el.classList.add('sel')} document.getElementById('goalsCta').disabled=store.goals.length===0;}
+const NM=()=>store.name||'there';
+const GOALMAP={Attention:'hold focus under interruption',Memory:'remember more',Speed:'think faster',Logic:'solve problems',Numeracy:'sharpen mental math',Language:'find the right words'};
+
+const hooks={
+  q1:()=>{document.getElementById('q1title').textContent=`${NM()}, in one focused hour, how often does something pull you away?`;},
+  bomb:()=>{const n=store.interruptions; const mins=Math.round(n*23/ (n>=9?3:1)); // honest-ish estimate, compress for high
+    const perWeek=Math.round(n*23*5*8/60/10)*10; // rough focused-min lost/week bucketed
+    document.getElementById('bombName').textContent=`~${n}/hour`;
+    document.getElementById('bombBody').innerHTML=`At about ${n} interruptions an hour, ${NM()}, each one carries real recovery time. Across a work week that can add up to <b style="color:var(--ink)">several focused hours lost.</b>`;},
+  goals:()=>{},
+  reflect:()=>{const g=store.goals.length?store.goals.map(x=>GOALMAP[x]).slice(0,3).join(', '):'hold focus, remember more, and think faster';
+    document.getElementById('reflectBody').innerHTML=`So you want to <b class="green">${g}</b> — and you want it <b style="color:var(--ink)">measured</b>, no BS. We'll only show you green when the gain is real.`;},
+  arch:()=>{let t='The Measured Mind',b='Your answers point to someone who wants signal over hype. Upmind weights your drill to your weak spots.';
+    if(store.goals.includes('Speed')&&(store.recovery==='hard'||store.recovery==='lost')){t='The Fast-but-Distractible';b='You think quickly, but interruptions cost you. Your drill weights Attention &amp; Focus higher.';}
+    else if(store.goals.includes('Memory')){t='The Builder';b='You want to hold more. Your drill leads with Memory and Attention.';}
+    store.archetype=t;
+    document.getElementById('archTitle').innerHTML=`You're <span class="blue">${t}</span>.`;
+    document.getElementById('archBody').innerHTML=b;},
+  load:()=>{const sk=['Memory','Attention','Speed','Logic','Numeracy','Language'];const box=document.getElementById('loadRows');box.innerHTML='';
+    sk.forEach((s,k)=>{const r=document.createElement('div');r.className='skillrow';r.innerHTML=`<span style="width:74px">${s}</span><span class="bar"><i></i></span><span class="chk">✓</span>`;box.appendChild(r);
+      setTimeout(()=>{r.querySelector('i').style.width=(60+Math.random()*40)+'%';},150+k*350);
+      setTimeout(()=>{r.querySelector('.chk').style.opacity=1;},150+k*350+900);});
+    document.getElementById('loadTitle').textContent=`Calibrating your profile, ${NM()}…`;
+    setTimeout(()=>{if(scrs[idx].dataset.id==='load')next();},150+sk.length*350+1400);},
+  plan:()=>{document.getElementById('planTitle').innerHTML=`${NM()}'s 30-day plan`;
+    // projection curve
+    const svg=document.getElementById('proj');svg.innerHTML='';
+    const pts=[[10,120],[110,95],[210,60],[300,28]];let d='M'+pts[0][0]+' '+pts[0][1];
+    for(let i=1;i<pts.length;i++){const[x0,y0]=pts[i-1],[x1,y1]=pts[i],cx=(x0+x1)/2;d+=` Q${cx} ${y0} ${cx} ${(y0+y1)/2} T${x1} ${y1}`;}
+    svg.innerHTML=`<line x1="0" y1="120" x2="320" y2="120" stroke="#E4E1DB"/><path d="${d}" stroke="#0E9F6E" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="10" cy="120" r="4" fill="#5B606B"/><circle cx="300" cy="28" r="5" fill="#0E9F6E"/><text x="6" y="140" font-family="monospace" font-size="10" fill="#5B606B">Now</text><text x="250" y="20" font-family="monospace" font-size="10" fill="#0E9F6E">Day 30</text>`;
+    const sk=[['Attention',store.focusIndex||0.61],['Memory',0.55],['Speed',0.64],['Logic',0.5],['Numeracy',0.58],['Language',0.52]];
+    const box=document.getElementById('planBars');box.innerHTML='';
+    sk.forEach(([s,v])=>{const r=document.createElement('div');r.className='skillrow';r.innerHTML=`<span style="width:74px">${s}</span><span class="bar"><i style="background:${store.goals.includes(s)?'#0E9F6E':'#2F6FED'}"></i></span><span class="pc">${Math.round(v*100)}</span>`;box.appendChild(r);setTimeout(()=>r.querySelector('i').style.width=(v*100)+'%',100);});},
+  snap:()=>{document.getElementById('snapCard').innerHTML=
+    `<div class="skillrow" style="margin-top:0"><span style="width:120px">Focus baseline</span><span class="bar"><i style="width:${(store.focusIndex||0.61)*100}%;background:#0E9F6E"></i></span><span class="pc">${(store.focusIndex||0.61).toFixed(2)}</span></div>
+     <div style="margin-top:14px;font-size:14px;color:var(--ink)">Lead skill &nbsp;<b class="mono blue">${store.goals[0]||'Attention'}</b></div>
+     <div style="margin-top:8px;font-size:14px;color:var(--ink)">Training time &nbsp;<b class="mono">${store.time}</b></div>
+     <div style="margin-top:8px;font-size:14px;color:var(--ink)">Profile &nbsp;<b class="mono">${store.archetype||'The Measured Mind'}</b></div>`;},
+  pay:()=>{document.getElementById('payTitle').innerHTML=`${NM()}, everything unlocked for 14 days.`;},
+};
+// reflect name on a few static screens at show-time
+const extra={bridge:'It doesn\'t have to be this way.',handoff:'Enough about the problem.'};
+['streakBody','notifBody'].forEach(()=>{});
+
+// ===== GAME =====
+const COLORS=[['BLUE','#2F6FED'],['GREEN','#0E9F6E'],['SLATE','#5B606B'],['AMBER','#C77D2E']];
+let gState=null;
+function startGame(){next(); // to game screen
+  gState={trials:0,correct:0,rts:[],rule:'color',start:Date.now(),done:false};
+  renderBtns(); tick(); nextTrial();
+  gInt=setInterval(tick,200);}
+let gInt,trialStart;
+function renderBtns(){const b=document.getElementById('gbtns');b.innerHTML='';COLORS.forEach(c=>{const el=document.createElement('button');el.className='gbtn';el.innerHTML=`<span class="sw" style="background:${c[1]}"></span>${c[0]}`;el.onclick=()=>answer(c);b.appendChild(el);});}
+function nextTrial(){const word=COLORS[Math.floor(Math.random()*4)];let ink=COLORS[Math.floor(Math.random()*4)];
+  gState.word=word;gState.ink=ink;
+  const cue=document.getElementById('gcue');cue.textContent=word[0];cue.style.color=ink[1];
+  if(gState.trials===4){gState.rule='word';document.getElementById('grule').textContent='NOW tap the WORD';}
+  trialStart=Date.now();}
+function answer(c){const target=gState.rule==='color'?gState.ink:gState.word;
+  const ok=c[0]===target[0]; const rt=Date.now()-trialStart;
+  gState.trials++; if(ok){gState.correct++;gState.rts.push(rt);flash();}
+  if(gState.trials>=8){endGame();}else nextTrial();}
+function flash(){const f=document.getElementById('flash');f.style.opacity=.25;setTimeout(()=>f.style.opacity=0,120);}
+function tick(){if(!gState)return;const left=Math.max(0,40-Math.floor((Date.now()-gState.start)/1000));document.getElementById('gtimer').textContent='0:'+String(left).padStart(2,'0');if(left<=0&&!gState.done)endGame();}
+function endGame(){if(gState.done)return;gState.done=true;clearInterval(gInt);
+  const acc=gState.correct/Math.max(1,gState.trials);const avgRt=gState.rts.length?gState.rts.reduce((a,b)=>a+b,0)/gState.rts.length:900;
+  const speed=Math.max(0,Math.min(1,(1100-avgRt)/700));
+  store.focusIndex=Math.max(.45,Math.min(.92,acc*0.65+speed*0.35));
+  next(); // to baseline
+  document.getElementById('baseNum').textContent=store.focusIndex.toFixed(2);
+  document.getElementById('baseBody').innerHTML=`Accuracy ${(acc*100)|0}% · that's your real Attention reading, ${NM()} — not a brain-age.`;}
+
+// hook baseline/streak name
+const _show=show;show=function(i){_show(i);
+  const id=scrs[i].dataset.id;
+  if(scrs[i].querySelector('#streakBody')){}
+};
+
+// ===== REVIEW MODAL =====
+function openReview(){document.getElementById('scrim').classList.add('on');
+  let sh=document.getElementById('reviewSheet');
+  if(!sh){sh=document.createElement('div');sh.className='sheet';sh.id='reviewSheet';
+    sh.innerHTML=`<div style="text-align:center"><div class="eyebrow">One ask · at your peak</div><div class="stars">★★★★★</div><div style="font-size:15px;color:var(--ink)">Enjoying Upmind so far?</div><p class="micro">We never show fake review counts.</p><button class="cta" style="margin-top:14px" onclick="closeReview()">Rate Upmind</button><button class="ghost" onclick="closeReview()">Maybe later</button></div>`;
+    document.getElementById('stage').appendChild(sh);}
+  setTimeout(()=>sh.classList.add('up'),20);}
+function closeReview(){document.getElementById('reviewSheet').classList.remove('up');document.getElementById('scrim').classList.remove('on');setTimeout(next,300);}
+
+// ===== SIGNATURE =====
+function initSig(){const c=document.getElementById('sig');if(!c||c._init)return;c._init=true;
+  const r=c.getBoundingClientRect();c.width=r.width;c.height=r.height;const x=c.getContext('2d');x.strokeStyle='#16181D';x.lineWidth=2.5;x.lineCap='round';
+  let drawing=false,drew=false;
+  const pos=e=>{const b=c.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return[t.clientX-b.left,t.clientY-b.top];};
+  const start=e=>{drawing=true;const[a,b]=pos(e);x.beginPath();x.moveTo(a,b);e.preventDefault();};
+  const move=e=>{if(!drawing)return;const[a,b]=pos(e);x.lineTo(a,b);x.stroke();if(!drew){drew=true;document.getElementById('stamp').classList.add('on');document.getElementById('sigCta').disabled=false;}e.preventDefault();};
+  const end=()=>drawing=false;
+  c.addEventListener('mousedown',start);c.addEventListener('mousemove',move);window.addEventListener('mouseup',end);
+  c.addEventListener('touchstart',start);c.addEventListener('touchmove',move);c.addEventListener('touchend',end);}
+
+// observe screen changes to init signature + name reflections
+const realShow=show;
+function patchedShow(i){realShow(i);
+  if(scrs[i].querySelector('#sig'))setTimeout(initSig,50);
+  if(scrs[i].querySelector('#doneTitle'))document.getElementById('doneTitle').textContent=`You're in, ${NM()}.`;
+}
+show=patchedShow;
+
+function restart(){Object.assign(store,{name:'',interruptions:3,recovery:'ok',goals:[],cost:'details',time:'Morning',archetype:'',focusIndex:0,commitment:''});
+  document.querySelectorAll('.opt.sel').forEach(o=>o.classList.remove('sel'));
+  document.getElementById('nameInput').value='';document.getElementById('nameCta').disabled=true;document.getElementById('goalsCta').disabled=true;
+  const sig=document.getElementById('sig');if(sig&&sig._init){sig.getContext('2d').clearRect(0,0,sig.width,sig.height);sig._init=false;document.getElementById('stamp').classList.remove('on');document.getElementById('sigCta').disabled=true;}
+  show(0);}
+show(0);
+</script>
+</body>
+</html>
