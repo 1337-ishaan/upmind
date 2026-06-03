@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "reddit": {
+      "type": "local",
+      "command": ["uvx", "--from", "git+https://github.com/adhikasp/mcp-reddit.git", "mcp-reddit"],
+      "enabled": true
+    }
+  }
+}

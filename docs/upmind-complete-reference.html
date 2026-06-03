@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upmind — Complete App Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root {
+  --paper: #FBFAF8; --ink: #16181D; --dim: #5B606B; --line: #E4E1DB;
+  --blue: #2F6FED; --blue-light: rgba(47,111,237,0.08); --blue-glow: rgba(47,111,237,0.15);
+  --green: #0E9F6E; --green-light: rgba(14,159,110,0.08);
+  --red: #DC2626; --amber: #F59E0B; --purple: #7C3AED;
+  --radius: 16px; --radius-sm: 10px; --radius-xs: 6px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.03);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.05), 0 4px 20px rgba(0,0,0,0.04);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04);
+}
+body{background:#F0EDE8;font-family:'Hanken Grotesk',sans-serif;color:var(--ink);padding:40px 24px}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 20%,rgba(47,111,237,0.03) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(14,159,110,0.03) 0%,transparent 50%);pointer-events:none}
+
+/* Navigation */
+.toc{position:sticky;top:0;z-index:100;background:rgba(240,237,232,0.92);backdrop-filter:blur(12px);padding:12px 0 8px;margin-bottom:24px;border-bottom:1px solid var(--line)}
+.toc-inner{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.toc-inner::-webkit-scrollbar{display:none}
+.toc-link{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--line);background:var(--paper);white-space:nowrap;color:var(--dim);text-decoration:none;font-weight:500;transition:all 0.15s;cursor:pointer}
+.toc-link:hover{background:var(--blue-light);border-color:var(--blue);color:var(--blue)}
+.toc-link.active{background:var(--ink);color:white;border-color:var(--ink)}
+
+h1{font-family:'Fraunces',serif;font-size:40px;font-weight:700;background:linear-gradient(135deg,var(--ink) 40%,var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2px}
+.subtitle{font-size:14px;color:var(--dim);margin-bottom:32px;max-width:700px;line-height:1.5}
+.section{margin-bottom:48px}
+.section-header{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+h2{font-family:'Fraunces',serif;font-size:28px;font-weight:600;flex-shrink:0}
+h2 .count{font-family:'Spline Sans Mono',monospace;font-size:14px;color:var(--dim);font-weight:400}
+.section-desc{font-size:13px;color:var(--dim);line-height:1.5}
+h3{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-top:8px;margin-bottom:8px}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:0.02em}
+.tag-built{background:var(--green-light);color:var(--green)}
+.tag-planned{background:var(--blue-light);color:var(--blue)}
+.tag-premium{background:rgba(220,38,38,0.1);color:var(--red)}
+.tag-core{background:rgba(245,158,11,0.1);color:#B45309}
+
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+.card{background:var(--paper);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-md);border:1px solid var(--line);transition:all 0.15s}
+.card:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.card-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.card-title{font-size:13px;font-weight:600}
+.card-desc{font-size:11px;color:var(--dim);line-height:1.5}
+.card-meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+
+/* Flow diagram */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:12px;background:var(--paper);border-radius:var(--radius);border:1px solid var(--line);margin-bottom:12px}
+.flow-step{font-size:11px;padding:6px 12px;border-radius:8px;background:white;border:1px solid var(--line);font-weight:500;text-align:center;min-width:80px}
+.flow-step.built{background:var(--green-light);border-color:var(--green);color:var(--green)}
+.flow-step.stub{background:var(--blue-light);border-color:var(--blue);color:var(--blue)}
+.flow-step.planned{background:rgba(245,158,11,0.08);border-color:var(--amber);color:#B45309}
+.flow-step.premium{background:rgba(220,38,38,0.06);border-color:rgba(220,38,38,0.2);color:var(--red)}
+.flow-arrow{color:var(--dim);font-size:14px;padding:0 2px;flex-shrink:0}
+
+/* Game list */
+.game-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.game-table th{text-align:left;padding:8px 10px;background:var(--line);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:0.04em;color:var(--dim)}
+.game-table td{padding:7px 10px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:top}
+.game-table tr:last-child td{border:none}
+.game-table tr:hover td{background:rgba(47,111,237,0.02)}
+.game-status{font-size:9px;padding:2px 8px;border-radius:12px;font-weight:600;white-space:nowrap}
+.game-status.built{background:var(--green-light);color:var(--green)}
+.game-status.new{background:var(--blue-light);color:var(--blue)}
+
+/* Feature matrix */
+.matrix{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
+.matrix th{text-align:left;padding:6px 8px;background:var(--line);font-weight:600;font-size:9px;text-transform:uppercase;letter-spacing:0.04em;color:var(--dim)}
+.matrix td{padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top;font-size:11px}
+.matrix tr:last-child td{border:none}
+.matrix .check{color:var(--green);font-weight:700}
+.matrix .cross{color:var(--dim)}.matrix .soon{color:var(--blue)}
+
+/* Info box */
+.info{background:rgba(47,111,237,0.04);border:1px solid rgba(47,111,237,0.12);border-radius:10px;padding:14px;margin:8px 0;font-size:12px;line-height:1.5}
+.info strong{color:var(--blue)}
+
+/* Architecture */
+.arch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.arch-card{background:var(--paper);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);border:1px solid var(--line)}
+.arch-card h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.arch-card p,.arch-card li{font-size:11px;color:var(--dim);line-height:1.6}
+.arch-card ul{list-style:none;padding:0}
+.arch-card ul li{padding:3px 0;padding-left:14px;position:relative}
+.arch-card ul li::before{content:'→';position:absolute;left:0;color:var(--blue)}
+
+/* Screen flow detail */
+.screen-flow{margin-top:4px}
+.screen-flow .sf-row{display:flex;gap:8px;align-items:flex-start;padding:6px 0}
+.sf-label{font-family:'Spline Sans Mono',monospace;font-size:10px;color:var(--dim);min-width:90px;flex-shrink:0;padding-top:2px}
+.sf-content{font-size:11px;color:var(--ink);line-height:1.5}
+.sf-content strong{font-weight:600}
+
+/* Tabs for large sections */
+.tab-bar{display:flex;gap:4px;margin-bottom:12px;overflow-x:auto}
+.tab-btn{font-size:11px;padding:6px 14px;border-radius:8px;border:1px solid var(--line);background:var(--paper);cursor:pointer;white-space:nowrap;font-weight:500;color:var(--dim);transition:all 0.15s}
+.tab-btn:hover{border-color:var(--blue);color:var(--blue)}
+.tab-btn.on{background:var(--ink);color:white;border-color:var(--ink)}
+.tab-content{display:none}
+.tab-content.on{display:block}
+
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+</style>
+</head>
+<body>
+
+<div class="toc">
+<div class="toc-inner">
+  <a class="toc-link" onclick="scrollToSection('overview')">Overview</a>
+  <a class="toc-link" onclick="scrollToSection('architecture')">Architecture</a>
+  <a class="toc-link" onclick="scrollToSection('features')">Features</a>
+  <a class="toc-link" onclick="scrollToSection('onboarding-flow')">Onboarding Flow</a>
+  <a class="toc-link" onclick="scrollToSection('main-app-flow')">Main App Flow</a>
+  <a class="toc-link" onclick="scrollToSection('games')">42 Games</a>
+  <a class="toc-link" onclick="scrollToSection('screens')">All Screens</a>
+  <a class="toc-link" onclick="scrollToSection('testing')">Testing</a>
+</div>
+</div>
+
+<h1>Upmind — Complete App Reference</h1>
+<div class="subtitle">Comprehensive document covering all app features, 42 cognitive training exercises across 7 domains, complete user flows for every screen, and full architecture. Built with Expo SDK 51 + React Native 0.74 + Reanimated 3 + Expo Router.</div>
+
+<!-- ============ OVERVIEW ============ -->
+<div class="section" id="overview">
+<div class="section-header"><h2>Overview</h2><span class="section-desc">Premium executive-function cognitive training for high-performers</span></div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-header"><span class="card-title">Product</span></div>
+    <div class="card-desc">Upmind is a premium cognitive training app for founders, surgeons, pilots, and other high-performers. 10-minute daily workouts using validated neuropsychological tests — not gamification.</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Tech Stack</span></div>
+    <div class="card-desc">Expo SDK 51 · React Native 0.74 · Reanimated 3 · TypeScript · Expo Router · Zustand · Maestro (E2E)</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Theme</span></div>
+    <div class="card-desc">Deep navy (#0A0F1C) background, teal (#14B8A6) accent, calm Headspace-inspired motion (cubic-bezier 0.22/1/0.36/1), adaptive dark mode only.</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Status</span></div>
+    <div class="card-desc">Onboarding (Welcome + ValueSlides) built. Rest is stubbed (PlaceholderScreen). 42-game catalog designed but not implemented as RN components.</div>
+  </div>
+</div>
+</div>
+
+<!-- ============ ARCHITECTURE ============ -->
+<div class="section" id="architecture">
+<div class="section-header"><h2>Architecture</h2><span class="section-desc">Codebase structure, routing, state management</span></div>
+
+<div class="arch-grid">
+  <div class="arch-card">
+    <h4>Directory Structure</h4>
+    <ul>
+      <li><code>src/screens/</code> — Screen components (WelcomeScreen, ValueSlidesScreen, PlaceholderScreen)</li>
+      <li><code>src/components/</code> — Reusable UI (Aurora, Button, ProgressDots, Screen)</li>
+      <li><code>src/theme/</code> — Design tokens (colors, type, motion, radii, layout)</li>
+      <li><code>src/state/</code> — Zustand stores (onboarding store with step, survey, briefingScore)</li>
+      <li><code>app/</code> — Expo Router routes (NOT YET CREATED — navigation targets defined in code)</li>
+      <li><code>__tests__/</code> — Snapshot & unit tests</li>
+      <li><code>.maestro/</code> — Maestro E2E flow tests</li>
+      <li><code>docs/</code> — Prototypes, specs, wireframes</li>
+    </ul>
+  </div>
+  <div class="arch-card">
+    <h4>Expo Router Routes (Planned)</h4>
+    <ul>
+      <li><code>/onboarding/welcome</code> — WelcomeScreen (built)</li>
+      <li><code>/onboarding/value</code> — ValueSlidesScreen (built)</li>
+      <li><code>/onboarding/survey</code> — Survey (stub)</li>
+      <li><code>/onboarding/briefing</code> — Briefing (stub)</li>
+      <li><code>/onboarding/paywall</code> — Paywall (stub)</li>
+      <li><code>/auth/sign-in</code> — Sign-in (stub)</li>
+      <li><code>/auth/sign-up</code> — Sign-up (stub)</li>
+      <li><code>/(tabs)/</code> — Main tab navigator (planned)</li>
+    </ul>
+  </div>
+  <div class="arch-card">
+    <h4>Zustand State</h4>
+    <ul>
+      <li><strong>onboarding store:</strong> <code>step</code>, <code>survey</code> (7 fields), <code>briefingScore</code></li>
+      <li>Survey fields: reason, struggle, priority, priming, commitment, age, occupation</li>
+      <li><code>setStep()</code>, <code>setSurvey()</code>, <code>setBriefingScore()</code>, <code>reset()</code></li>
+      <li>Future stores: games, workouts, progress, auth, lifestyle, subscriptions</li>
+    </ul>
+  </div>
+  <div class="arch-card">
+    <h4>Key Dependencies</h4>
+    <ul>
+      <li>react-native-reanimated (animations)</li>
+      <li>expo-router (navigation)</li>
+      <li>expo-haptics (haptic feedback on buttons)</li>
+      <li>zustand (state management)</li>
+      <li>expo-linear-gradient (future visuals)</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ============ FEATURES ============ -->
+<div class="section" id="features">
+<div class="section-header"><h2>Features</h2><span class="section-desc">All app features: built, stubbed, and planned</span></div>
+
+<div class="tab-bar" id="featureTabs">
+  <div class="tab-btn on" onclick="showTab('featureTabs', 'tab-feature-built', this)">Built</div>
+  <div class="tab-btn" onclick="showTab('featureTabs', 'tab-feature-stub', this)">Stubbed</div>
+  <div class="tab-btn" onclick="showTab('featureTabs', 'tab-feature-planned', this)">Planned (Post-MVP)</div>
+</div>
+
+<div class="tab-content on" id="tab-feature-built">
+<table class="game-table">
+<tr><th style="width:180px">Feature</th><th>Description</th><th style="width:60px">Status</th></tr>
+<tr><td><strong>Welcome Screen</strong></td><td>Animated entrance with staggered fade-in of logo, headline, subtitle, CTA, and legal text. Uses Reanimated shared values with calm easing. "Begin" button routes to value slides.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Value Slides (3)</strong></td><td>Horizontal FlatList with paging: (1) Focus/Clarity, (2) Memory, (3) Social Proof (18,400+ members, 4.9★). Progress dots, "Continue" / "Take the survey" button. Routes to survey stub.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Aurora Decorative View</strong></td><td>Static decorative blobs in background. Planned replacement with animated aurora using Reanimated.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Button Component</strong></td><td>Pressable with scale animation (0.98) and haptic feedback via expo-haptics.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>ProgressDots Component</strong></td><td>Animated dot indicators used in value slides.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Screen Component</strong></td><td>SafeAreaView wrapper with consistent padding.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Design Tokens</strong></td><td>Theme system: colors (navy/teal), type scale, motion (calm bezier), radii, spacing function.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Onboarding Zustand Store</strong></td><td>State for step index, 7-field survey, briefing score. With shim layer for future Zustand upgrade.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Welcome Snapshot Test</strong></td><td>Jest snapshot test for WelcomeScreen rendering.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Onboarding Store Tests</strong></td><td>Unit tests for setStep, setSurvey, setBriefingScore, reset.</td><td><span class="game-status built">Built</span></td></tr>
+<tr><td><strong>Maestro E2E Flow</strong></td><td>Tests welcome → value slides → survey stub navigation.</td><td><span class="game-status built">Built</span></td></tr>
+</table>
+</div>
+
+<div class="tab-content" id="tab-feature-stub">
+<table class="game-table">
+<tr><th style="width:180px">Feature</th><th>Description</th><th style="width:60px">Status</th></tr>
+<tr><td><strong>Survey Screen</strong></td><td>7-8 questions about user: reason, struggle, priority, priming, commitment, age, occupation. PlaceholderScreen stub — routes from value slides.</td><td><span class="game-status new">Stub</span></td></tr>
+<tr><td><strong>Briefing Screen</strong></td><td>Post-survey briefing with cognitive score preview. PlaceholderScreen stub.</td><td><span class="game-status new">Stub</span></td></tr>
+<tr><td><strong>Paywall Screen</strong></td><td>Subscription pricing page. PlaceholderScreen stub.</td><td><span class="game-status new">Stub</span></td></tr>
+<tr><td><strong>Auth Screens</strong></td><td>Sign-in / Sign-up screens. PlaceholderScreen stubs.</td><td><span class="game-status new">Stub</span></td></tr>
+</table>
+</div>
+
+<div class="tab-content" id="tab-feature-planned">
+<table class="game-table">
+<tr><th style="width:180px">Feature</th><th>Description</th><th style="width:60px">Priority</th></tr>
+<tr><td><strong>Home / Dashboard</strong></td><td>Focus Index score, daily streak, accuracy %, today's workout card, weekly progress chart, tab navigation (Today / Library / Insights / Profile).</td><td>P0</td></tr>
+<tr><td><strong>Game Engine</strong></td><td>Procedural trial generation for all 42 games. Adaptive difficulty staircases (Bayesian, staircase, weighted). Anti-prediction stimulus generation.</td><td>P0</td></tr>
+<tr><td><strong>Daily Workout</strong></td><td>3 games per session (~5-10 min), randomized + skill-weighted rotation from 42-game pool. Pre-session overview screen.</td><td>P0</td></tr>
+<tr><td><strong>Post-Game Results</strong></td><td>Score display (accuracy × speed composite), domain skill bars, trend vs previous, "Continue" to next game or session summary.</td><td>P0</td></tr>
+<tr><td><strong>Library / History</strong></td><td>Game result history, filterable by domain. Detail view per game with trend chart, best/current/baseline metrics.</td><td>P0</td></tr>
+<tr><td><strong>Insights / Trends</strong></td><td>Focus Index trend chart (30d), domain skill bars (6 constructs), lifestyle correlations preview card.</td><td>P0</td></tr>
+<tr><td><strong>Correlations (Premium)</strong></td><td>Lifestyle factor correlations: sleep, caffeine, exercise, mood, alcohol, stress. Pearson r values with significance. Requires daily lifestyle logging.</td><td>P1</td></tr>
+<tr><td><strong>Lifestyle Log</strong></td><td>Daily 10-sec check-in: sleep, caffeine, exercise, mood. Sliders/toggles per factor. Feeds correlation engine.</td><td>P1</td></tr>
+<tr><td><strong>Challenges (Premium)</strong></td><td>14-day structured protocols: Attention Sprint, Memory Builder, Logic Foundations. Daily progress tracking.</td><td>P1</td></tr>
+<tr><td><strong>Profile / Settings</strong></td><td>User profile, account settings, notification prefs, data export (CSV/JSON/PDF), subscription management, re-baseline option.</td><td>P1</td></tr>
+<tr><td><strong>Return Check</strong></td><td>2-min mini-baseline after 3+ days absence. Detects cognitive shifts without full baseline retake.</td><td>P1</td></tr>
+<tr><td><strong>Onboarding Carousel</strong></td><td>5-step intro before baseline: intro → philosophy → lifestyle preview → privacy pledge → setup with email. Then 3-game baseline.</td><td>P2</td></tr>
+<tr><td><strong>Baseline Phase</strong></td><td>3 initial calibration games (Flanker, Digit Span, Mental Arithmetic) establishing reference scores across 3 domains.</td><td>P2</td></tr>
+<tr><td><strong>Notifications</strong></td><td>Daily workout reminders, new insight alerts, streak/return nudges. Configurable from profile.</td><td>P2</td></tr>
+<tr><td><strong>Data Export</strong></td><td>Export all cognitive scores and lifestyle data as CSV, JSON, or PDF. Full data ownership commitment.</td><td>P2</td></tr>
+<tr><td><strong>Administration</strong></td><td>Admin dashboard for content management, user management, game configuration, analytics.</td><td>P3</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ============ ONBOARDING FLOW ============ -->
+<div class="section" id="onboarding-flow">
+<div class="section-header"><h2>Onboarding Flow</h2><span class="section-desc">Complete new user journey — step by step</span></div>
+
+<div class="flow">
+  <div class="flow-step built">Welcome</div><span class="flow-arrow">→</span>
+  <div class="flow-step built">Value Slides (×3)</div><span class="flow-arrow">→</span>
+  <div class="flow-step stub">Survey (7 Qs)</div><span class="flow-arrow">→</span>
+  <div class="flow-step stub">Briefing</div><span class="flow-arrow">→</span>
+  <div class="flow-step stub">Paywall</div><span class="flow-arrow">→</span>
+  <div class="flow-step stub">Auth</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Onboarding Carousel (×5)</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Baseline (3 games)</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Home</div>
+</div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-header"><span class="card-title">1. Welcome <span class="tag tag-built">BUILT</span></span></div>
+    <div class="screen-flow">
+      <div class="sf-row"><span class="sf-label">Screen:</span><span class="sf-content"><code>WelcomeScreen.tsx</code></span></div>
+      <div class="sf-row"><span class="sf-label">Route:</span><span class="sf-content"><code>/onboarding/welcome</code></span></div>
+      <div class="sf-row"><span class="sf-label">Content:</span><span class="sf-content">Animated logo mark, "UPMIND" eyebrow, headline "Congratulations. You've taken the first step toward a sharper mind." Subtitle about 10-min daily practice. "Begin" CTA. "Already have an account? Sign in" link.</span></div>
+      <div class="sf-row"><span class="sf-label">Nav:</span><span class="sf-content">"Begin" → setStep(1) → router.push('/onboarding/value'). "Sign in" → router.push('/auth/sign-in').</span></div>
+      <div class="sf-row"><span class="sf-label">Animation:</span><span class="sf-content">Staggered sequence: logo (0ms), headline (120ms), subtitle (220ms), CTA (420ms), legal (560ms). Fade + translateY. Duration: 520ms. Ease: 0.22/1/0.36/1.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">2. Value Slides <span class="tag tag-built">BUILT</span></span></div>
+    <div class="screen-flow">
+      <div class="sf-row"><span class="sf-label">Screen:</span><span class="sf-content"><code>ValueSlidesScreen.tsx</code></span></div>
+      <div class="sf-row"><span class="sf-label">Route:</span><span class="sf-content"><code>/onboarding/value</code></span></div>
+      <div class="sf-row"><span class="sf-label">Slides:</span><span class="sf-content"><strong>Slide 1 — Focus/Clarity:</strong> "Cut through noise. Decide faster." Concentric rings visual. <strong>Slide 2 — Memory:</strong> "Remember what actually matters." Network nodes visual. <strong>Slide 3 — Social Proof:</strong> "Used by founders, surgeons, and pilots." 4.9★, 18,400+ members, testimonial.</span></div>
+      <div class="sf-row"><span class="sf-label">Nav:</span><span class="sf-content">FlatList horizontal paging. "Continue" (slides 1-2) / "Take the survey" (slide 3). Final → setStep(2) → router.push('/onboarding/survey').</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">3. Survey <span class="tag tag-planned">STUB</span></span></div>
+    <div class="screen-flow">
+      <div class="sf-row"><span class="sf-label">Screen:</span><span class="sf-content"><code>PlaceholderScreen</code> → will be <code>SurveyScreen</code></span></div>
+      <div class="sf-row"><span class="sf-label">Store:</span><span class="sf-content">7 fields in Zustand: reason, struggle, priority, priming, commitment, age, occupation</span></div>
+      <div class="sf-row"><span class="sf-label">Fields:</span><span class="sf-content">reason (why here), struggle (biggest cognitive challenge), priority (what to improve), priming (experience with cognitive training), commitment (days/week), age, occupation.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">4. Briefing <span class="tag tag-planned">STUB</span></span></div>
+    <div class="screen-flow">
+      <div class="sf-row"><span class="sf-label">Screen:</span><span class="sf-content"><code>PlaceholderScreen</code> → will be <code>BriefingScreen</code></span></div>
+      <div class="sf-row"><span class="sf-label">Store:</span><span class="sf-content"><code>briefingScore</code> (number | null) in onboarding store</span></div>
+      <div class="sf-row"><span class="sf-label">Content:</span><span class="sf-content">Summarizes survey responses, previews what to expect, shows initial cognitive estimate. "Start your journey" CTA leads to paywall.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">5. Paywall <span class="tag tag-planned">STUB</span></span></div>
+    <div class="screen-flow">
+      <div class="sf-row"><span class="sf-label">Screen:</span><span class="sf-content"><code>PlaceholderScreen</code> → will be <code>PaywallScreen</code></span></div>
+      <div class="sf-row"><span class="sf-label">Plans:</span><span class="sf-content">Monthly and annual subscription tiers. Premium features: correlations, challenges, lifestyle logging, unlimited games.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">6. Auth <span class="tag tag-planned">STUB</span></span></div>
+    <div class="screen-flow">
+      <div class="sf-row"><span class="sf-label">Screens:</span><span class="sf-content"><code>PlaceholderScreen</code> → SignIn + SignUp screens</span></div>
+      <div class="sf-row"><span class="sf-label">Routes:</span><span class="sf-content"><code>/auth/sign-in</code>, <code>/auth/sign-up</code></span></div>
+      <div class="sf-row"><span class="sf-label">Flow:</span><span class="sf-content">Email/password auth. Social sign-in options. "Already have an account?" / "Don't have an account?" links between sign-in and sign-up.</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="info"><strong>Future:</strong> Post-auth onboarding will include a 5-step philosophy carousel (intro → anti-gamification → lifestyle preview → privacy pledge → setup w/ email), then a 3-game baseline phase (Flanker, Digit Span, Mental Arithmetic) establishing reference scores before reaching the home dashboard.</div>
+</div>
+
+<!-- ============ MAIN APP FLOW ============ -->
+<div class="section" id="main-app-flow">
+<div class="section-header"><h2>Main App Flow</h2><span class="section-desc">Post-onboarding experience — tabs, daily workout, progression</span></div>
+
+<div class="flow">
+  <div class="flow-step planned">Home</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Pre-Session</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Game ×3</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Post-Game</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Home (updated)</div>
+</div>
+
+<div class="flow" style="margin-top:6px">
+  <div class="flow-step planned">Library Tab</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Game Detail</div>
+  <span style="margin:0 12px;color:var(--dim);font-size:11px">|</span>
+  <div class="flow-step planned">Insights Tab</div><span class="flow-arrow">→</span>
+  <div class="flow-step planned">Trends</div><span class="flow-arrow">→</span>
+  <div class="flow-step premium">Correlations</div>
+  <span style="margin:0 12px;color:var(--dim);font-size:11px">|</span>
+  <div class="flow-step planned">Profile Tab</div>
+</div>
+
+<table class="game-table">
+<tr><th style="width:160px">Screen</th><th>Description</th><th>Elements</th><th style="width:50px">Tab</th></tr>
+<tr><td><strong>Home / Dashboard</strong></td><td>Main landing after onboarding. Shows Focus Index, today's workout, weekly progress, and quick-access cards.</td><td>Focus Index hero metric, 3 stat tiles (index/streak/accuracy), today's workout card with "Go" button, week dots (M-S), quick nav chips (Summary/Games/Trends), Library/Insights cards, tab bar.</td><td>Today</td></tr>
+<tr><td><strong>Pre-Session Overview</strong></td><td>Shows the 3 games selected for today's workout with previous scores.</td><td>3 game cards with icon, name, domain, prev score. "Begin Workout" CTA.</td><td>—</td></tr>
+<tr><td><strong>Active Game</strong></td><td>One of 42 games with trial-by-trial interaction. Timer, progress bar, stimulus, response buttons.</td><td>Game title, trial counter, progress bar, timer, stimulus display, response area (2-4 buttons), live stats (RT + accuracy).</td><td>—</td></tr>
+<tr><td><strong>Post-Game Result</strong></td><td>Score summary after each game. Composite score, domain breakdown, trend vs baseline.</td><td>Game name, score, accuracy/RT/trend metrics, 6 domain skill bars, formula note. "Continue" to next game.</td><td>—</td></tr>
+<tr><td><strong>Post-Session Summary</strong></td><td>After all 3 games complete. Shows today's Focus Index vs baseline, per-game breakdown.</td><td>Today's Focus Index hero, game scores (×3), "Go to Dashboard" CTA.</td><td>—</td></tr>
+<tr><td><strong>Library / History</strong></td><td>Game result history, filterable by domain (All / Attention / Memory / Speed / Logic / Numeracy / Language).</td><td>Filter chips, list of recent games with score + trend arrow per row. Tap → detail view.</td><td>Library</td></tr>
+<tr><td><strong>Library Detail</strong></td><td>Per-game history with trend chart, current/best/baseline metrics, recent results list.</td><td>Back arrow, game name, domain, trained count, stat row (current/best/baseline), SVG trend line chart, recent results.</td><td>Library</td></tr>
+<tr><td><strong>Insights / Trends</strong></td><td>Focus Index trend chart (30d), 6 domain skill bars, correlation preview card (Premium).</td><td>Focus Index chart with area fill, domain skill bars with percentages, lifestyle correlations card.</td><td>Insights</td></tr>
+<tr><td><strong>Correlations (Premium)</strong></td><td>Lifestyle factor correlations with Pearson r values and significance indicators.</td><td>6 correlation bars (sleep, caffeine, exercise, mood, alcohol, stress), significance note, "Log today's lifestyle" CTA, "How correlations work" link.</td><td>Insights</td></tr>
+<tr><td><strong>Lifestyle Log</strong></td><td>Daily check-in form with sliders/toggles for each factor. 10 seconds per entry.</td><td>Sleep (hours slider), Caffeine (cups), Exercise (yes/no toggle), Mood (scale). "Log & see correlations" CTA.</td><td>Insights</td></tr>
+<tr><td><strong>Challenges (Premium)</strong></td><td>14-day structured protocols: Attention Sprint, Memory Builder, Logic Foundations.</td><td>Challenge cards with progress dots (7-day view), day counter, "Start/Continue" CTA. Premium badge.</td><td>Insights</td></tr>
+<tr><td><strong>Profile / Settings</strong></td><td>User account management, preferences, data tools.</td><td>Name/email, notification toggles, data export (CSV/JSON/PDF), subscription info, re-baseline option, sign out.</td><td>Profile</td></tr>
+</table>
+</div>
+
+<!-- ============ 42 GAMES ============ -->
+<div class="section" id="games">
+<div class="section-header"><h2>42 Cognitive Training Exercises</h2><span class="section-desc">7 domains × 6 games each. Each maps to a validated neuropsychological test.</span></div>
+
+<div class="tab-bar" id="gameTabs">
+  <div class="tab-btn on" onclick="showTab('gameTabs', 'tab-att', this)">Attention (7)</div>
+  <div class="tab-btn" onclick="showTab('gameTabs', 'tab-mem', this)">Memory (7)</div>
+  <div class="tab-btn" onclick="showTab('gameTabs', 'tab-pro', this)">Processing (7)</div>
+  <div class="tab-btn" onclick="showTab('gameTabs', 'tab-num', this)">Numeracy (7)</div>
+  <div class="tab-btn" onclick="showTab('gameTabs', 'tab-lng', this)">Language (7)</div>
+  <div class="tab-btn" onclick="showTab('gameTabs', 'tab-exe', this)">Executive (7)</div>
+</div>
+
+<!-- ATTENTION -->
+<div class="tab-content on" id="tab-att">
+<table class="game-table">
+<tr><th style="width:20px">#</th><th style="width:140px">Game</th><th>Neuro Test</th><th>Interaction</th><th>Scoring</th><th style="width:55px">Status</th></tr>
+<tr><td>A1</td><td><strong>Context Switcher</strong></td><td>Stroop + Rule Switch</td><td>Tap ink color (Stroop). Rule flips midway (color → word). 3-choice response.</td><td>Switch cost RT, accuracy</td><td><span class="game-status built">Built*</span></td></tr>
+<tr><td>A2</td><td><strong>Flanker Focus</strong></td><td>Flanker Task (Eriksen)</td><td>Tap center arrow direction. Congruent/incongruent flankers. 2-choice.</td><td>Congruency effect RT</td><td><span class="game-status built">Built*</span></td></tr>
+<tr><td>A3</td><td><strong>Go/No-Go</strong></td><td>Go/No-Go (Newman)</td><td>Tap for animals. Don't tap for objects. 1-choice.</td><td>Commission errors, RT</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>A4</td><td><strong>Sustained Attention</strong></td><td>SART (Robertson)</td><td>Respond to numbers. Inhibit on "3". 1-choice.</td><td>Commission errors, RT</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>A5</td><td><strong>Divided Attention</strong></td><td>Dual-Task Paradigm</td><td>Visual (flanker) + Audio (tone discrimination) simultaneously.</td><td>Dual-task decrement</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>A6</td><td><strong>Object Tracking</strong></td><td>MOT (Pylyshyn)</td><td>Track moving targets among distractors. Tap targets on freeze.</td><td>Tracking accuracy</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>A7</td><td><strong>Visual Search</strong></td><td>Visual Search (Treisman)</td><td>Find target letter among distractors. Tap location.</td><td>Search RT × accuracy</td><td><span class="game-status new">New</span></td></tr>
+</table>
+<div class="info" style="margin-top:8px"><strong>* "Built"</strong> indicates these games are detailed in the 42-game catalog with full wireframes and design, but are not yet implemented as React Native components. No games have been built as functional screens yet.</div>
+</div>
+
+<!-- MEMORY -->
+<div class="tab-content" id="tab-mem">
+<table class="game-table">
+<tr><th style="width:20px">#</th><th style="width:140px">Game</th><th>Neuro Test</th><th>Interaction</th><th>Scoring</th><th style="width:55px">Status</th></tr>
+<tr><td>M1</td><td><strong>Digit Span</strong></td><td>Digit Span (WAIS)</td><td>Repeat digit sequences forward. Keypad input. Span 3→9.</td><td>Max span length</td><td><span class="game-status built">Built*</span></td></tr>
+<tr><td>M2</td><td><strong>Digit Span Backward</strong></td><td>Digit Span Backward (WAIS)</td><td>Repeat sequences in reverse order. Higher WM load.</td><td>Max span length</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>M3</td><td><strong>Corsi Blocks</strong></td><td>Corsi Block Tapping</td><td>Tap blocks in the order they lit up. 3×3 grid.</td><td>Spatial span length</td><td><span class="game-status built">Built*</span></td></tr>
+<tr><td>M4</td><td><strong>Corsi Backward</strong></td><td>Corsi Backward</td><td>Reverse-order spatial recall. 3×3 grid.</td><td>Spatial WM + reversal</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>M5</td><td><strong>Paired-Associate</strong></td><td>Paired-Associate (CVLT)</td><td>Study word pairs. Recall match from distractors.</td><td>Recall accuracy</td><td><span class="game-status built">Built*</span></td></tr>
+<tr><td>M6</td><td><strong>Word List Recall</strong></td><td>RAVLT / CVLT</td><td>Study 12 words. Free recall + recognition after interference.</td><td>Free recall + recognition</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>M7</td><td><strong>Spatial Memory Grid</strong></td><td>Spatial Location Memory</td><td>Study positions on 4×4 grid. Tap where blue squares were.</td><td>Euclidean deviation</td><td><span class="game-status new">New</span></td></tr>
+</table>
+</div>
+
+<!-- PROCESSING -->
+<div class="tab-content" id="tab-pro">
+<table class="game-table">
+<tr><th style="width:20px">#</th><th style="width:140px">Game</th><th>Neuro Test</th><th>Interaction</th><th>Scoring</th><th style="width:55px">Status</th></tr>
+<tr><td>P1</td><td><strong>Symbol-Digit</strong></td><td>SDMT (Smith)</td><td>Match symbols to digits using key. 9-choice. Timed 90s.</td><td>Correct / 90s</td><td><span class="game-status built">Built*</span></td></tr>
+<tr><td>P2</td><td><strong>Simple RT</strong></td><td>Simple RT (CANTAB)</td><td>Tap as soon as signal appears. 20 trials.</td><td>Median RT</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>P3</td><td><strong>Choice RT</strong></td><td>Choice RT (CANTAB)</td><td>← for circle, → for square. Discrimination.</td><td>Median RT, accuracy</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>P4</td><td><strong>Pattern Comparison</strong></td><td>Pattern Comparison (Salthouse)</td><td>Are two 3×3 grids same or different? 2-choice.</td><td>Correct / min</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>P5</td><td><strong>Cancellation</strong></td><td>Cancellation (D-KEFS)</td><td>Cross out all target symbols among distractors. Timed.</td><td>Correct - errors / time</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>P6</td><td><strong>Letter Comparison</strong></td><td>Letter Comparison (Salthouse)</td><td>Are two digit strings identical? 2-choice.</td><td>Correct / 60s</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>P7</td><td><strong>Trail Making A</strong></td><td>Trail Making A (Reitan)</td><td>Connect numbers 1→2→3... in order. Tap sequence.</td><td>Completion time</td><td><span class="game-status new">New</span></td></tr>
+</table>
+</div>
+
+<!-- NUMERACY -->
+<div class="tab-content" id="tab-num">
+<table class="game-table">
+<tr><th style="width:20px">#</th><th style="width:140px">Game</th><th>Neuro Test</th><th>Interaction</th><th>Scoring</th><th style="width:55px">Status</th></tr>
+<tr><td>N1</td><td><strong>Mental Arithmetic</strong></td><td>WAIS Arithmetic</td><td>Solve mental math equations. 4-choice. Operand +/−/×.</td><td>RT × difficulty weight</td><td><span class="game-status built">Built*</span></td></tr>
+<tr><td>N2</td><td><strong>Number Line</strong></td><td>Number Line (Siegler)</td><td>Drag marker to correct position on number line (0-100).</td><td>Absolute error</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>N3</td><td><strong>Estimation</strong></td><td>Approximate Number Sense</td><td>Is the approximate answer correct? Yes/No.</td><td>Accuracy + RT</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>N4</td><td><strong>Number Series</strong></td><td>Number Series (RPM)</td><td>Find next number in pattern. Keypad input. 2,6,18,54,?→162.</td><td>Correct + speed</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>N5</td><td><strong>Approx Arithmetic</strong></td><td>Approximate Number Sense</td><td>Closest estimate for large multiplication. 4-choice.</td><td>Log-distance error</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>N6</td><td><strong>Fraction Comparison</strong></td><td>Fraction Comparison</td><td>Which fraction is larger? 2-choice. 7/8 vs 5/6.</td><td>Accuracy × RT</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>N7</td><td><strong>Percentage Math</strong></td><td>Arithmetic Reasoning</td><td>Real-world percentage problems. 3-choice.</td><td>Accuracy + RT</td><td><span class="game-status new">New</span></td></tr>
+</table>
+</div>
+
+<!-- LANGUAGE -->
+<div class="tab-content" id="tab-lng">
+<table class="game-table">
+<tr><th style="width:20px">#</th><th style="width:140px">Game</th><th>Neuro Test</th><th>Interaction</th><th>Scoring</th><th style="width:55px">Status</th></tr>
+<tr><td>L1</td><td><strong>Verbal Fluency</strong></td><td>FAS / COWAT</td><td>Type as many words starting with given letter. 60s timed.</td><td>Unique words / 60s</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>L2</td><td><strong>Synonyms</strong></td><td>Vocabulary (WAIS)</td><td>Choose correct synonym for given word. 4-choice.</td><td>Accuracy × difficulty</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>L3</td><td><strong>Analogies</strong></td><td>Verbal Analogies (WAIS)</td><td>Complete analogy: Fin:Fish :: Wing:?. 3-choice.</td><td>Accuracy × RT</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>L4</td><td><strong>Reading Comp</strong></td><td>Reading Comp (GORT)</td><td>Read passage, answer 4-5 questions. Multiple choice.</td><td>Comprehension accuracy</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>L5</td><td><strong>Category Fluency</strong></td><td>Category Fluency</td><td>Type as many animals (or other category). 60s timed.</td><td>Unique words / 60s</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>L6</td><td><strong>Word Scramble</strong></td><td>Anagram Solution</td><td>Tap letters to reorder into correct word. P-E-L-P-A → APPLE.</td><td>RT × accuracy</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>L7</td><td><strong>Sentence Completion</strong></td><td>Sentence Completion</td><td>Choose best word to complete sentence. 4-choice.</td><td>Accuracy × RT</td><td><span class="game-status new">New</span></td></tr>
+</table>
+</div>
+
+<!-- EXECUTIVE -->
+<div class="tab-content" id="tab-exe">
+<table class="game-table">
+<tr><th style="width:20px">#</th><th style="width:140px">Game</th><th>Neuro Test</th><th>Interaction</th><th>Scoring</th><th style="width:55px">Status</th></tr>
+<tr><td>E1</td><td><strong>Rule Detection</strong></td><td>WCST (Berg)</td><td>Sort cards by shape/color/number. Rule shifts after 6 correct.</td><td>Perseveration errors</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>E2</td><td><strong>Tower of London</strong></td><td>TOL (Shallice)</td><td>Drag balls between pegs to match target. Minimum 4 moves.</td><td>Min moves × execution</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>E3</td><td><strong>Trail Making B</strong></td><td>Trail Making B (Reitan)</td><td>Alternate: 1→A→2→B→3→C... Tap sequence.</td><td>Time B − Time A</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>E4</td><td><strong>Cognitive Flexibility</strong></td><td>DCCS (Zelazo)</td><td>Sort by color or shape. Rule switches every 5-7 trials.</td><td>Switch cost × perseveration</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>E5</td><td><strong>Planning · Zoo Map</strong></td><td>Zoo Map (BADS)</td><td>Plan route through zoo to visit all stops. Tap path.</td><td>Planning accuracy × time</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>E6</td><td><strong>Inhibition</strong></td><td>Day-Night Stroop</td><td>Say opposite: Day→tap Night. Emoji based.</td><td>Accuracy + RT</td><td><span class="game-status new">New</span></td></tr>
+<tr><td>E7</td><td><strong>Logical Reasoning</strong></td><td>Syllogistic Reasoning</td><td>Evaluate syllogisms. All mammals warm-blooded + Whales = ?</td><td>Accuracy × RT</td><td><span class="game-status new">New</span></td></tr>
+</table>
+<div style="margin-top:8px;font-size:11px;color:var(--dim);background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.1);border-radius:8px;padding:8px 12px"><strong>Executive Function</strong> is the Premium tier construct. These 7 games require advanced measurement infrastructure (WCST, TOL, BADS).</div>
+</div>
+</div>
+
+<!-- ============ ALL SCREENS ============ -->
+<div class="section" id="screens">
+<div class="section-header"><h2>All Screens</h2><span class="section-desc">Complete inventory of every screen in the app</span></div>
+
+<table class="game-table">
+<tr><th style="width:20px">#</th><th style="width:140px">Screen</th><th>Route</th><th>Type</th><th>Component</th><th style="width:55px">Status</th></tr>
+<tr><td>1</td><td><strong>Welcome</strong></td><td><code>/onboarding/welcome</code></td><td>Onboarding</td><td><code>WelcomeScreen.tsx</code></td><td><span class="game-status built">Built</span></td></tr>
+<tr><td>2</td><td><strong>Value Slides (×3)</strong></td><td><code>/onboarding/value</code></td><td>Onboarding</td><td><code>ValueSlidesScreen.tsx</code></td><td><span class="game-status built">Built</span></td></tr>
+<tr><td>3</td><td><strong>Survey</strong></td><td><code>/onboarding/survey</code></td><td>Onboarding</td><td><code>PlaceholderScreen</code></td><td><span class="game-status new">Stub</span></td></tr>
+<tr><td>4</td><td><strong>Briefing</strong></td><td><code>/onboarding/briefing</code></td><td>Onboarding</td><td><code>PlaceholderScreen</code></td><td><span class="game-status new">Stub</span></td></tr>
+<tr><td>5</td><td><strong>Paywall</strong></td><td><code>/onboarding/paywall</code></td><td>Onboarding</td><td><code>PlaceholderScreen</code></td><td><span class="game-status new">Stub</span></td></tr>
+<tr><td>6</td><td><strong>Sign In</strong></td><td><code>/auth/sign-in</code></td><td>Auth</td><td><code>PlaceholderScreen</code></td><td><span class="game-status new">Stub</span></td></tr>
+<tr><td>7</td><td><strong>Sign Up</strong></td><td><code>/auth/sign-up</code></td><td>Auth</td><td><code>PlaceholderScreen</code></td><td><span class="game-status new">Stub</span></td></tr>
+<tr><td>8</td><td><strong>Splash / App Store Landing</strong></td><td>—</td><td>Onboarding</td><td><code>SplashScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>9</td><td><strong>Onboarding Intro</strong></td><td><code>/onboarding/intro</code></td><td>Onboarding</td><td><code>OnboardingIntroScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>10</td><td><strong>Onboarding Philosophy</strong></td><td><code>/onboarding/philosophy</code></td><td>Onboarding</td><td><code>OnboardingPhilosophyScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>11</td><td><strong>Onboarding Lifestyle Preview</strong></td><td><code>/onboarding/lifestyle</code></td><td>Onboarding</td><td><code>OnboardingLifestyleScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>12</td><td><strong>Onboarding Privacy Pledge</strong></td><td><code>/onboarding/privacy</code></td><td>Onboarding</td><td><code>OnboardingPrivacyScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>13</td><td><strong>Onboarding Setup (Email)</strong></td><td><code>/onboarding/setup</code></td><td>Onboarding</td><td><code>OnboardingSetupScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>14</td><td><strong>Baseline Phase 1</strong></td><td><code>/baseline</code></td><td>Baseline</td><td><code>BaselineScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>15</td><td><strong>Active Game (Reusable)</strong></td><td><code>/game/:id</code></td><td>Core</td><td><code>GameScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>16</td><td><strong>Post-Baseline Summary</strong></td><td><code>/baseline/summary</code></td><td>Baseline</td><td><code>BaselineSummaryScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>17</td><td><strong>Home / Dashboard</strong></td><td><code>/(tabs)/</code></td><td>Core</td><td><code>DashboardScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>18</td><td><strong>Dashboard — Workout Done</strong></td><td><code>/(tabs)/</code></td><td>Core</td><td><code>DashboardScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>19</td><td><strong>Dashboard — Missed + Return</strong></td><td><code>/(tabs)/</code></td><td>Core</td><td><code>DashboardScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>20</td><td><strong>Pre-Session Overview</strong></td><td><code>/workout</code></td><td>Core</td><td><code>PreSessionScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>21</td><td><strong>Post-Game Result</strong></td><td><code>/game/:id/result</code></td><td>Core</td><td><code>GameResultScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>22</td><td><strong>Post-Session Summary</strong></td><td><code>/workout/summary</code></td><td>Core</td><td><code>SessionSummaryScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>23</td><td><strong>Library / History</strong></td><td><code>/(tabs)/library</code></td><td>Core</td><td><code>LibraryScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>24</td><td><strong>Library Detail</strong></td><td><code>/(tabs)/library/:id</code></td><td>Core</td><td><code>LibraryDetailScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>25</td><td><strong>Insights / Trends</strong></td><td><code>/(tabs)/insights</code></td><td>Core</td><td><code>InsightsScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>26</td><td><strong>Correlations (Premium)</strong></td><td><code>/(tabs)/insights/correlations</code></td><td>Premium</td><td><code>CorrelationsScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>27</td><td><strong>Lifestyle Log</strong></td><td><code>/(tabs)/insights/lifestyle</code></td><td>Premium</td><td><code>LifestyleLogScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>28</td><td><strong>Challenges (Premium)</strong></td><td><code>/(tabs)/insights/challenges</code></td><td>Premium</td><td><code>ChallengesScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>29</td><td><strong>Challenge Detail</strong></td><td><code>/(tabs)/insights/challenges/:id</code></td><td>Premium</td><td><code>ChallengeDetailScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>30</td><td><strong>Profile / Settings</strong></td><td><code>/(tabs)/profile</code></td><td>Core</td><td><code>ProfileScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+<tr><td>31</td><td><strong>Return Check</strong></td><td><code>/return-check</code></td><td>Core</td><td><code>ReturnCheckScreen</code></td><td><span class="game-status new">Planned</span></td></tr>
+</table>
+</div>
+
+<!-- ============ TESTING ============ -->
+<div class="section" id="testing">
+<div class="section-header"><h2>Testing</h2><span class="section-desc">Current test coverage and planned test strategy</span></div>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-header"><span class="card-title">Jest Unit Tests <span class="tag tag-built">Built</span></span></div>
+    <div class="card-desc">
+      <strong>Welcome.test.tsx:</strong> Snapshot test verifying WelcomeScreen renders correctly with all animated elements.<br>
+      <strong>onboarding.test.ts:</strong> Unit tests for Zustand store: setStep, setSurvey, setBriefingScore, reset, initial state.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Maestro E2E <span class="tag tag-built">Built</span></span></div>
+    <div class="card-desc">
+      <strong>welcome_to_value.yaml:</strong> Tests complete flow: welcome screen renders → tap "Begin" → value slides screen appears → tap "Take the survey" → survey placeholder appears. Validates testIDs and navigation.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Planned Tests</span></div>
+    <div class="card-desc">
+      <strong>Unit:</strong> Game engine trial generation, adaptive difficulty, scoring formulas, anti-prediction algorithms.<br>
+      <strong>Integration:</strong> Full onboarding flow, workout session flow, game interaction → scoring pipeline.<br>
+      <strong>E2E:</strong> Complete daily workout (3 games), library browsing, insights/correlations navigation.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============ DESIGN ASSETS ============ -->
+<hr>
+
+<div style="font-size:11px;color:var(--dim);text-align:center;padding:20px 0">
+  <strong style="font-family:'Fraunces',serif;font-size:20px;color:var(--ink)">upmind</strong><br>
+  Complete App Reference · Last updated June 2026<br>
+  <span style="font-size:10px">See <code>docs/prototypes/motion-flow.html</code> for clickable onboarding prototype · <code>upmind-42-games-catalog.html</code> for game design details · <code>upmind-app-wireframes.html</code> / <code>upmind-wireframes.html</code> for visual wireframes</span>
+</div>
+
+<script>
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function showTab(tabBarId, tabId, btn) {
+  const parent = document.getElementById(tabBarId) || btn.closest('.section').querySelector('.tab-bar');
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+  const tabContent = document.getElementById(tabId);
+  if (!tabContent) return;
+  tabContent.closest('.section').querySelectorAll('.tab-content').forEach(t => t.classList.remove('on'));
+  tabContent.classList.add('on');
+  if (btn) btn.classList.add('on');
+}
+</script>
+</body>
+</html>
