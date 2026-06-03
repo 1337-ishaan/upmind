@@ -49,7 +49,7 @@ a{color:var(--accent);text-decoration:none}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 /* ═══════════ APP SHELL ═══════════ */
-#app{height:100vh;display:flex;flex-direction:column;max-width:820px;margin:0 auto;position:relative;overflow:hidden}
+#app{height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
 /* ═══════════ BOTTOM NAV ═══════════ */
 nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8px env(safe-area-inset-bottom,4px);background:rgba(10,15,28,0.85);border-top:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-shrink:0;z-index:10}
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;padding:6px 0 4px;border-radius:var(--radius-sm);font-size:10px;font-weight:500;color:var(--text-tertiary);transition:all 0.15s ease;cursor:pointer;user-select:none;min-width:0}
@@ -116,7 +116,7 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
 .btn-full{width:100%}
 .btn-game{width:100%;padding:18px;border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--accent),#0F766E);color:white;font-size:15px;font-weight:700;text-align:center}
 /* ═══════════ GAME ═══════════ */
-.game-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg-primary);z-index:100;display:none;flex-direction:column}
+.game-screen{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--bg-primary);z-index:100;display:none;flex-direction:column}
 .game-screen.active{display:flex;animation:fadeIn 0.2s ease}
 .game-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;flex-shrink:0}
 .game-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;position:relative}
@@ -186,14 +186,9 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
 .profile-stat{padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-align:center}
 .profile-stat-num{font-size:24px;font-weight:700;letter-spacing:-1px}
 /* ═══════════ MODAL ═══════════ */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.active{display:flex}
-.modal{background:#0A0F1C;border:1px solid var(--border);border-radius:var(--radius-xl);padding:24px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto}
-.modal h3{font-size:14px;font-weight:600;margin-bottom:12px}
-.modal p{font-size:12px;color:var(--text-secondary);margin-bottom:12px;line-height:1.6}
+.modal-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 
-/* ═══════════ ONBOARDING ═══════════ */
-.onboarding-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.onboarding-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
 .onboarding-overlay.active{display:flex}
 .onboarding-container{max-width:380px;width:100%;text-align:center}
 .onboarding-slides{position:relative;overflow:hidden;border-radius:var(--radius-xl);background:var(--bg-card);border:1px solid var(--border);padding:40px 24px 24px;margin-bottom:16px}
@@ -237,8 +232,24 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
 /* ═══════════ RESPONSIVE ═══════════ */
 @media(max-width:600px){#views{padding:12px 14px 8px}.dash-top{grid-template-columns:1fr}}
 
+/* ═══════════ iPHONE 17 PRO MAX MOCKUP ═══════════ */
+.phone-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#1a1a2e 0%,#0f0f1a 50%,#060A14 100%);padding:20px}
+.phone{position:relative;width:393px;height:852px;border-radius:55px;background:linear-gradient(145deg,#3a3a44,#1c1c1e);padding:16px;box-shadow:0 0 0 1px rgba(255,255,255,0.08),0 30px 80px rgba(0,0,0,0.6),0 0 60px rgba(20,184,166,0.06);flex-shrink:0}
+.phone::before{content:'';position:absolute;top:2px;left:2px;right:2px;bottom:2px;border-radius:53px;background:var(--bg-primary);z-index:0}
+.phone-screen{position:relative;z-index:1;width:100%;height:100%;border-radius:41px;overflow:hidden;background:var(--bg-primary)}
+.phone-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:50;width:126px;height:34px;border-radius:17px;background:#000;display:flex;align-items:center;justify-content:center;gap:6px}
+.phone-notch .camera{width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#1a1a3e 30%,#0a0a1e 70%);border:1px solid rgba(255,255,255,0.05)}
+.phone-notch .sensor{width:20px;height:5px;border-radius:3px;background:rgba(30,30,60,0.6)}
+.phone-bezel-buttons{position:absolute;z-index:0}
+.phone-bezel-buttons .vol-up,.phone-bezel-buttons .vol-down{position:absolute;left:-2px;width:3px;height:34px;background:linear-gradient(to right,#4a4a52,#2a2a2e);border-radius:2px 0 0 2px}
+.phone-bezel-buttons .vol-up{top:185px}
+.phone-bezel-buttons .vol-down{top:226px}
+.phone-bezel-buttons .power{position:absolute;right:-2px;top:200px;width:3px;height:48px;background:linear-gradient(to left,#4a4a52,#2a2a2e);border-radius:0 2px 2px 0}
+.phone-home-bar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);z-index:50;width:134px;height:5px;border-radius:3px;background:rgba(255,255,255,0.15)}
+@media(max-width:440px){.phone{width:100vw;height:100vh;border-radius:0;padding:0;box-shadow:none}.phone::before{display:none}.phone-screen{border-radius:0}.phone-notch,.phone-bezel-buttons,.phone-home-bar{display:none}}
+
 /* ═══════════ AUTH SCREEN ═══════════ */
-.auth-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg-primary);z-index:400;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.auth-screen{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--bg-primary);z-index:400;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
 .auth-screen.hidden{display:none}
 .auth-box{width:100%;max-width:380px}
 .auth-logo{font-size:48px;margin-bottom:8px;text-align:center}
@@ -262,7 +273,8 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
 .auth-avatar{width:56px;height:56px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;margin:0 auto 12px}
 </style>
 </head>
-<body>
+<body class="phone-bg">
+<div class="phone"><div class="phone-bezel-buttons"><div class="vol-up"></div><div class="vol-down"></div><div class="power"></div></div><div class="phone-screen"><div class="phone-notch"><div class="camera"></div><div class="sensor"></div></div>
 <div id="app">
   <!-- ═══ AUTH SCREEN ═══ -->
   <div class="auth-screen" id="auth-screen">
@@ -275,15 +287,15 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
         <div class="auth-tab" onclick="switchAuthTab('register')">Create Account</div>
       </div>
       <div class="auth-form active" id="auth-login">
-        <input class="auth-input" id="login-email" type="email" placeholder="Email address" autocomplete="email" inputmode="email">
-        <input class="auth-input" id="login-password" type="password" placeholder="Password" autocomplete="current-password">
+        <input class="auth-input" id="login-email" type="email" placeholder="Email address" autocomplete="email" inputmode="email" onkeydown="if(event.key==='Enter')handleLogin()">
+        <input class="auth-input" id="login-password" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')handleLogin()">
         <div class="auth-error" id="login-error"></div>
         <button class="auth-submit" onclick="handleLogin()">Sign In</button>
       </div>
       <div class="auth-form" id="auth-register">
-        <input class="auth-input" id="reg-email" type="email" placeholder="Email address" autocomplete="email" inputmode="email">
-        <input class="auth-input" id="reg-password" type="password" placeholder="Password" autocomplete="new-password">
-        <input class="auth-input" id="reg-confirm" type="password" placeholder="Confirm password" autocomplete="new-password">
+        <input class="auth-input" id="reg-email" type="email" placeholder="Email address" autocomplete="email" inputmode="email" onkeydown="if(event.key==='Enter')handleRegister()">
+        <input class="auth-input" id="reg-password" type="password" placeholder="Password" autocomplete="new-password" onkeydown="if(event.key==='Enter')handleRegister()">
+        <input class="auth-input" id="reg-confirm" type="password" placeholder="Confirm password" autocomplete="new-password" onkeydown="if(event.key==='Enter')handleRegister()">
         <div class="auth-error" id="register-error"></div>
         <button class="auth-submit" onclick="handleRegister()">Create Account</button>
       </div>
@@ -533,7 +545,7 @@ nav{display:flex;align-items:stretch;justify-content:center;gap:0;padding:4px 8p
         <div class="onboarding-slide">
           <div class="onboarding-icon">🔒</div>
           <div class="onboarding-title">Everything Private</div>
-          <div class="onboarding-desc">Your data never leaves this device. Export or import anytime. No accounts. No tracking. No nonsense.</div>
+          <div class="onboarding-desc">Your data never leaves this device. Export or import anytime. Local storage only — private by design. No tracking. No nonsense.</div>
         </div>
       </div>
       <div class="onboarding-dots" id="onboarding-dots"></div>
@@ -2095,5 +2107,6 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 </script>
+<div class="phone-home-bar"></div></div></div>
 </body>
 </html>
