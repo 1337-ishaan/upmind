@@ -21,19 +21,18 @@
       "package": "com.upmind.app",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./icon.svg",
+        "foregroundImage": "./assets/brain.png",
         "backgroundColor": "#0A0F1C"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./icon.svg"
+      "favicon": "./assets/brain.png"
     },
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-haptics",
       "expo-splash-screen"
     ],
     "experiments": {
