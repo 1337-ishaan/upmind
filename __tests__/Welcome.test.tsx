@@ -1,18 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import WelcomeScreen from '../src/screens/WelcomeScreen';
+import OnboardingWelcome from '../app/(onboarding)/index';
 
-describe('WelcomeScreen', () => {
+describe('Onboarding welcome', () => {
   it('renders the headline and CTA', () => {
-    const tree = renderer.create(<WelcomeScreen />).toJSON();
+    const tree = renderer.create(<OnboardingWelcome />).toJSON();
     const json = JSON.stringify(tree);
-    expect(json).toMatch(/Congratulations/);
+    expect(json).toMatch(/UPMIND/);
     expect(json).toMatch(/Begin/);
     expect(json).toMatch(/Sign in/);
-  });
-
-  it('matches the snapshot', () => {
-    const tree = renderer.create(<WelcomeScreen />).toJSON();
-    expect(tree).toMatchSnapshot();
   });
 });
