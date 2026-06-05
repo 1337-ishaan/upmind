@@ -60,6 +60,7 @@ targets:
         PostHogHost: "https://us.i.posthog.com"
         SupabaseURL: "https://ruqemqqomxrpdxorbijc.supabase.co"
         SupabaseAnonKey: "$(SUPABASE_ANON_KEY)"
+        RevenueCatAPIKey: "$(REVENUECAT_API_KEY)"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.upmind.app

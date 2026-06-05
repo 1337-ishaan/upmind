@@ -24,4 +24,16 @@ enum AppSecrets {
     static var hasSupabaseConfig: Bool {
         !supabaseURLString.isEmpty && !supabaseAnonKey.isEmpty
     }
+
+    static let revenueCatAPIKey: String = {
+        guard let k = Bundle.main.object(forInfoDictionaryKey: "RevenueCatAPIKey") as? String,
+              !k.isEmpty, k != "$(REVENUECAT_API_KEY)" else {
+            return ""
+        }
+        return k
+    }()
+
+    static var hasRevenueCatConfig: Bool {
+        !revenueCatAPIKey.isEmpty
+    }
 }
