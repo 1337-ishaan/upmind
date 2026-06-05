@@ -132,11 +132,8 @@ final class EnginePlaceholderTemplateTests: XCTestCase {
     }
 
     // MARK: - recall
-    // NOTE: The Plan 1 placeholder generator collapses `.recall` to a
-    // `ChoiceTrial`, so this test exercises the engine with a choice
-    // response. The real `.recall` code path is exercised by the real
-    // generators in Plan 2. The `.choice` path is otherwise covered by
-    // the Stroop test in `EngineRoundTripTests`.
+    // Real paired generator returns a `.recall(RecallTrial)`. We answer with
+    // the correct choice's id via the `.recall` response.
 
     func testRecallTemplateFullSession() async throws {
         let game = Games.game(.paired)!
@@ -148,10 +145,10 @@ final class EnginePlaceholderTemplateTests: XCTestCase {
             for await event in engine.events {
                 switch event {
                 case .trial(let trial, _):
-                    guard case .choice(let ct) = trial else { continue }
-                    let correct = ct.choices.first(where: { $0.correct })!
+                    guard case .recall(let rt) = trial else { continue }
+                    let correct = rt.choices.first(where: { $0.correct })!
                     try? await Task.sleep(nanoseconds: UInt64.random(in: 250_000_000...350_000_000))
-                    try? await engine.answer(.choice(correct.id))
+                    try? await engine.answer(.recall(correct.id))
                 case .answer(let a):
                     collector.append(.answer(a))
                 case .finish(let r):
@@ -168,7 +165,7 @@ final class EnginePlaceholderTemplateTests: XCTestCase {
         XCTAssertNotNil(finish, "paired should produce a finish event")
         XCTAssertEqual(finish?.gameId, .paired)
         XCTAssertEqual(finish?.answers.count, game.trials)
-        XCTAssertEqual(finish?.score, 100, "All-correct recall-as-choice answers should score 100")
+        XCTAssertEqual(finish?.score, 100, "All-correct recall answers should score 100")
     }
 
     // MARK: - numberLine
