@@ -1,9 +1,10 @@
 import Foundation
 import Observation
+import SwiftData
 
 enum AppFlow: Equatable {
     case loading
-    case anonymous           // never signed in, no onboarding yet
+    case anonymous
     case onboarding
     case signedIn(userId: String)
 }
@@ -13,16 +14,24 @@ enum AppFlow: Equatable {
 final class AppCoordinator {
     var flow: AppFlow = .loading
 
+    let syncWorker: SyncWorker
+    let modelContext: ModelContext
+
     private let authStore: AuthStore
 
     init(authStore: AuthStore) {
         self.authStore = authStore
+        self.syncWorker = SyncWorker(
+            userIdProvider: { [weak authStore] in
+                guard case .signedIn(let userId, _) = authStore?.state else { return nil }
+                return userId
+            }
+        )
+        self.modelContext = ModelContext(SwiftDataStack.container)
     }
 
     func bootstrap() async {
         await authStore.bootstrap()
-        // For Plan 3 R1, we skip onboarding and go straight to the main app
-        // for both anonymous and signed-in users. R7 will add the onboarding flow.
         switch authStore.state {
         case .loading: flow = .loading
         case .anonymous: flow = .anonymous
@@ -37,5 +46,18 @@ final class AppCoordinator {
         case .anonymous, .error: flow = .anonymous
         case .loading: flow = .loading
         }
+    }
+
+    func recordSession(_ result: SessionResult) async {
+        let userId: String
+        switch authStore.state {
+        case .signedIn(let id, _): userId = id
+        default: userId = "anonymous"
+        }
+        await syncWorker.enqueue(
+            result,
+            modelContext: modelContext,
+            userIdentifier: userId
+        )
     }
 }

@@ -1,15 +1,13 @@
 import SwiftUI
 
-/// Single screen that hosts the game player. Routes on `template` to the
-/// appropriate renderer. The view model drives the engine; this view is
-/// a thin presentation layer.
 struct GamePlayerView: View {
     @State private var vm: GamePlayerViewModel
     @Environment(\.theme) private var theme
 
-    init(game: GameDef) {
+    init(game: GameDef, onSessionFinished: @escaping (SessionResult) -> Void = { _ in }) {
         // swiftlint:disable:next force_try
         _vm = State(wrappedValue: try! GamePlayerViewModel(game: game))
+        self.vm.onSessionFinished = onSessionFinished
     }
 
     var body: some View {
@@ -39,9 +37,6 @@ struct GamePlayerView: View {
                 renderer(for: trial, lastCorrect: lastCorrect)
             }
         case .finished(let result):
-            // Full result screen. "Play again" restarts the engine for
-            // the same game; "Done" dismisses the player via
-            // `\.dismiss` (pops the navigation stack).
             SessionResultView(
                 result: result,
                 onPlayAgain: { vm.start() }
@@ -117,11 +112,6 @@ struct GamePlayerView: View {
                 }
             )
         case .recall(let t):
-            // Recall has the same shape as Choice — render it with the
-            // ChoiceRenderer. The `correctId` lives on the trial but the
-            // renderer scores via the per-choice `correct` flag, which the
-            // engine syncs at generator time. `mode` is nil because the
-            // ChoiceRenderer doesn't read it.
             ChoiceRenderer(
                 trial: ChoiceTrial(
                     id: t.id, index: t.index, difficulty: t.difficulty,

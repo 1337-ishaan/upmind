@@ -35,7 +35,9 @@ struct RootView: View {
                     coordinator.handleAuthChange()
                 }
         case .signedIn:
-            GameCatalogView()
+            GameCatalogView { result in
+                Task { await coordinator.recordSession(result) }
+            }
         case .onboarding:
             SignInView(authStore: authStore)
         }

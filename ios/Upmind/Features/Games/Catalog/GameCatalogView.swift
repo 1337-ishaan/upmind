@@ -1,11 +1,14 @@
 import SwiftUI
 
-/// Browseable list of all 42 games. Search bar + horizontal construct
-/// filter at the top; 2-column `LazyVGrid` of `GameCard`s below. Each
-/// card is a `NavigationLink` to `GamePlayerView`.
 struct GameCatalogView: View {
     @State private var vm = GameCatalogViewModel()
     @Environment(\.theme) private var theme
+
+    let onSessionFinished: (SessionResult) -> Void
+
+    init(onSessionFinished: @escaping (SessionResult) -> Void = { _ in }) {
+        self.onSessionFinished = onSessionFinished
+    }
 
     private let columns: [GridItem] = [
         GridItem(.flexible(), spacing: Spacing.sm),
@@ -34,7 +37,7 @@ struct GameCatalogView: View {
             .background(theme.surfaceBase)
             .navigationTitle("Games")
             .navigationDestination(for: GameDef.self) { game in
-                GamePlayerView(game: game)
+                GamePlayerView(game: game, onSessionFinished: onSessionFinished)
             }
         }
     }

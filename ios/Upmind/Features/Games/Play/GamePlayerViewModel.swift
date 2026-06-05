@@ -23,6 +23,12 @@ final class GamePlayerViewModel {
     }
 
     var state: State = .loading
+    var lastResult: SessionResult?
+
+    /// Optional callback fired when the engine emits `.finish`. Set by
+    /// `GamePlayerView` to plumb the result up to whoever owns the
+    /// coordinator (e.g. `AppCoordinator.recordSession`).
+    var onSessionFinished: ((SessionResult) -> Void)?
 
     private let game: GameDef
     private let engine: Engine
@@ -82,7 +88,9 @@ final class GamePlayerViewModel {
                 state = .playing(trial: trial, index: index, total: total, lastCorrect: record.correct)
             }
         case .finish(let result):
+            lastResult = result
             state = .finished(result)
+            onSessionFinished?(result)
             consumeTask?.cancel()
             consumeTask = nil
         }
