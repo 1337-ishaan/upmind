@@ -134,6 +134,18 @@ struct ProfileView: View {
                         .foregroundStyle(theme.error)
                 }
             }
+            NavigationLink {
+                NotificationsSettingsView()
+            } label: {
+                HStack {
+                    Text("Notifications").foregroundStyle(theme.textPrimary)
+                    Spacer()
+                    Image(systemName: "chevron.right").foregroundStyle(theme.textSecondary)
+                }
+                .padding(Spacing.lg)
+                .background(theme.surfaceElevated)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.lg))
+            }
         }
     }
 
