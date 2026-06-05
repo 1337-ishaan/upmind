@@ -13,23 +13,22 @@ struct PaywallView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [theme.surfaceBase, theme.accentPrimary.opacity(0.2)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            GradientTokens.hero.ignoresSafeArea()
 
             VStack(spacing: Spacing.lg) {
                 Spacer().frame(height: Spacing.xl)
-                Text("Train your mind.")
-                    .font(.system(size: 40, weight: .bold, design: .rounded))
-                    .foregroundStyle(theme.textPrimary)
-                Text("42 games across 7 cognitive skills. Premium unlocks Executive Function and unlimited history.")
-                    .font(.body)
-                    .foregroundStyle(theme.textSecondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, Spacing.lg)
+                HeroText("Train your mind.")
+                SubtitleText(
+                    "42 games across 7 cognitive skills. Premium unlocks Executive Function and unlimited history."
+                )
+                .padding(.horizontal, Spacing.lg)
+
+                HStack(spacing: Spacing.md) {
+                    featureBadge("5", "Executive games")
+                    featureBadge("∞", "Unlimited history")
+                    featureBadge("🔥", "Streak protection")
+                }
+                .padding(.horizontal, Spacing.lg)
 
                 VStack(spacing: Spacing.sm) {
                     ForEach(PremiumPlan.allCases) { plan in
@@ -37,17 +36,14 @@ struct PaywallView: View {
                     }
                 }
                 .padding(.horizontal, Spacing.lg)
-                .padding(.top, Spacing.md)
+                .padding(.top, Spacing.xs)
 
-                Button {
+                PrimaryButton(
+                    vm.isPurchasing ? "Processing…" : "Start Premium",
+                    icon: vm.isPurchasing ? nil : "crown.fill",
+                    style: .gradient
+                ) {
                     Task { await buy() }
-                } label: {
-                    Text(vm.isPurchasing ? "Processing…" : "Start Premium")
-                        .font(.title3).bold()
-                        .frame(maxWidth: .infinity, minHeight: MinTapTarget.size)
-                        .background(theme.accentPrimary)
-                        .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: Radius.md))
                 }
                 .disabled(vm.isPurchasing)
                 .padding(.horizontal, Spacing.lg)
@@ -67,12 +63,34 @@ struct PaywallView: View {
 
                 Button("Not now") { dismiss() }
                     .foregroundStyle(theme.textSecondary)
-                    .padding(.top, Spacing.sm)
+                    .padding(.top, Spacing.xs)
 
                 Spacer()
             }
             .padding(.vertical, Spacing.lg)
         }
+    }
+
+    @ViewBuilder
+    private func featureBadge(_ value: String, _ label: String) -> some View {
+        VStack(spacing: Spacing.xxs) {
+            Text(value)
+                .font(.title3).bold()
+                .foregroundStyle(theme.accentPrimary)
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(theme.textSecondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, Spacing.sm)
+        .padding(.horizontal, Spacing.xs)
+        .background(theme.surfaceElevated.opacity(0.6))
+        .clipShape(RoundedRectangle(cornerRadius: Radius.md))
+        .overlay(
+            RoundedRectangle(cornerRadius: Radius.md)
+                .stroke(theme.strokeSubtle.opacity(0.5), lineWidth: 1)
+        )
     }
 
     private func planCard(_ plan: PremiumPlan) -> some View {
@@ -93,8 +111,9 @@ struct PaywallView: View {
                 if let badge = plan.discountBadge {
                     Text(badge)
                         .font(.caption2).bold()
-                        .padding(.horizontal, Spacing.xs).padding(.vertical, 2)
-                        .background(theme.accentPrimary)
+                        .padding(.horizontal, Spacing.xs)
+                        .padding(.vertical, 2)
+                        .background(GradientTokens.proAccent)
                         .foregroundStyle(.white)
                         .clipShape(Capsule())
                 }
@@ -104,11 +123,16 @@ struct PaywallView: View {
             }
             .padding(Spacing.md)
             .background(theme.surfaceElevated)
+            .clipShape(RoundedRectangle(cornerRadius: Radius.md))
             .overlay(
                 RoundedRectangle(cornerRadius: Radius.md)
-                    .stroke(isSelected ? theme.accentPrimary : theme.strokeSubtle, lineWidth: isSelected ? 2 : 1)
+                    .stroke(
+                        isSelected
+                            ? theme.accentPrimary
+                            : theme.strokeSubtle.opacity(0.5),
+                        lineWidth: isSelected ? 2 : 1
+                    )
             )
-            .clipShape(RoundedRectangle(cornerRadius: Radius.md))
         }
         .buttonStyle(.plain)
     }

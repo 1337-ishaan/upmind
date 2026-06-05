@@ -99,3 +99,29 @@ extension Color {
         self = Color(red: r, green: g, blue: b)
     }
 }
+
+// MARK: - Gradients
+
+enum GradientTokens {
+    /// Hero gradient for the paywall + welcome screens — deep navy fading to
+    /// a faint teal wash in the bottom-right corner.
+    static let hero = LinearGradient(
+        colors: [Color(hex: "0F172A"), Color(hex: "0A0F1C"), Color(hex: "14B8A6").opacity(0.15)],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+
+    /// Card accent for the primary brand mark (logo, hero icon, streak ring).
+    static let cardAccent = LinearGradient(
+        colors: [Color(hex: "14B8A6"), Color(hex: "5EEAD4")],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+    )
+
+    /// Warm accent used for the "PRO" pill on premium games.
+    static let proAccent = LinearGradient(
+        colors: [Color(hex: "F59E0B"), Color(hex: "FBBF24")],
+        startPoint: .leading,
+        endPoint: .trailing
+    )
+}

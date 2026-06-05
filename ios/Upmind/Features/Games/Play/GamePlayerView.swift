@@ -12,7 +12,12 @@ struct GamePlayerView: View {
 
     var body: some View {
         ZStack {
-            theme.surfaceBase.ignoresSafeArea()
+            LinearGradient(
+                colors: [theme.surfaceBase, theme.surfaceElevated.opacity(0.5)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
             content
         }
         .navigationBarTitleDisplayMode(.inline)

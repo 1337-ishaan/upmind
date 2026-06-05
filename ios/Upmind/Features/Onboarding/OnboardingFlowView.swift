@@ -96,24 +96,33 @@ private struct WelcomeStep: View {
     let onSkip: () -> Void
 
     var body: some View {
-        VStack(spacing: Spacing.lg) {
+        VStack(spacing: Spacing.xl) {
             Spacer()
-            Text("Upmind")
-                .font(.system(size: 56, weight: .bold, design: .rounded))
-                .foregroundStyle(theme.accentPrimary)
-            Text("Train your mind.\n3 minutes a day.")
-                .font(.title2)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(theme.textPrimary)
-                .padding(.horizontal, Spacing.lg)
+            ZStack {
+                Circle()
+                    .fill(LinearGradient(
+                        colors: [Color(hex: "14B8A6"), Color(hex: "5EEAD4")],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ))
+                    .frame(width: 120, height: 120)
+                    .blur(radius: 30)
+                    .opacity(0.5)
+                Image(systemName: "brain.head.profile")
+                    .font(.system(size: 80, weight: .bold))
+                    .foregroundStyle(GradientTokens.cardAccent)
+            }
+            Spacer().frame(height: Spacing.lg)
+            HeroText("Train your mind.\n3 minutes a day.")
+            SubtitleText("Build cognitive skills with 42 science-backed games.")
             Spacer()
-            Button("Get started", action: onContinue)
-                .font(.title3).bold()
-                .frame(maxWidth: .infinity, minHeight: MinTapTarget.size)
-                .background(theme.accentPrimary)
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: Radius.md))
-                .padding(.horizontal, Spacing.lg)
+            PrimaryButton(
+                "Get started",
+                icon: "arrow.right",
+                style: .gradient,
+                action: onContinue
+            )
+            .padding(.horizontal, Spacing.lg)
             Button("Skip", action: onSkip)
                 .foregroundStyle(theme.textSecondary)
                 .padding(.bottom, Spacing.lg)

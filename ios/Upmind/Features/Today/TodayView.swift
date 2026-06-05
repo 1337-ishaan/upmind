@@ -33,28 +33,65 @@ struct TodayView: View {
     }
 
     private var streakCard: some View {
-        HStack(spacing: Spacing.lg) {
-            ZStack {
-                Circle()
-                    .stroke(theme.strokeSubtle, lineWidth: 8)
-                    .frame(width: 80, height: 80)
-                Text("\(vm.streakDays)")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .foregroundStyle(theme.accentPrimary)
+        VStack(spacing: Spacing.md) {
+            HStack(alignment: .center) {
+                VStack(alignment: .leading, spacing: Spacing.xs) {
+                    Text("Your streak")
+                        .font(.subheadline)
+                        .foregroundStyle(theme.textSecondary)
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text("\(vm.streakDays)")
+                            .font(.system(size: 56, weight: .bold, design: .rounded))
+                            .foregroundStyle(GradientTokens.cardAccent)
+                        Text(vm.streakDays == 1 ? "day" : "days")
+                            .font(.title3)
+                            .foregroundStyle(theme.textSecondary)
+                    }
+                }
+                Spacer()
+                streakRing
             }
-            VStack(alignment: .leading, spacing: Spacing.xs) {
-                Text("\(vm.streakDays)-day streak")
-                    .font(.title3).bold()
-                    .foregroundStyle(theme.textPrimary)
-                Text(streakSubtitle)
-                    .font(.subheadline)
-                    .foregroundStyle(theme.textSecondary)
-            }
-            Spacer()
+            Text(streakSubtitle)
+                .font(.subheadline)
+                .foregroundStyle(theme.textSecondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(Spacing.lg)
         .background(theme.surfaceElevated)
         .clipShape(RoundedRectangle(cornerRadius: Radius.lg))
+        .overlay(
+            RoundedRectangle(cornerRadius: Radius.lg)
+                .stroke(
+                    LinearGradient(
+                        colors: [
+                            theme.accentPrimary.opacity(0.3),
+                            theme.strokeSubtle.opacity(0.3)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+    }
+
+    private var streakRing: some View {
+        ZStack {
+            Circle()
+                .stroke(theme.strokeSubtle, lineWidth: 6)
+                .frame(width: 70, height: 70)
+            Circle()
+                .trim(from: 0, to: min(Double(vm.streakDays) / 30.0, 1.0))
+                .stroke(
+                    GradientTokens.cardAccent,
+                    style: StrokeStyle(lineWidth: 6, lineCap: .round)
+                )
+                .frame(width: 70, height: 70)
+                .rotationEffect(.degrees(-90))
+            Image(systemName: "flame.fill")
+                .font(.title2)
+                .foregroundStyle(theme.accentPrimary)
+        }
     }
 
     private var streakSubtitle: String {
@@ -76,20 +113,31 @@ struct TodayView: View {
             Text(vm.todaysGame.description)
                 .font(.body)
                 .foregroundStyle(theme.textSecondary)
-            Button {
+            PrimaryButton(
+                "Play",
+                icon: "play.fill",
+                style: .gradient
+            ) {
                 onPlayGame(vm.todaysGame)
-            } label: {
-                Text("Play")
-                    .font(.title3).bold()
-                    .frame(maxWidth: .infinity, minHeight: MinTapTarget.size)
-                    .background(theme.accentPrimary)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: Radius.md))
             }
         }
         .padding(Spacing.lg)
         .background(theme.surfaceElevated)
         .clipShape(RoundedRectangle(cornerRadius: Radius.lg))
+        .overlay(
+            RoundedRectangle(cornerRadius: Radius.lg)
+                .stroke(
+                    LinearGradient(
+                        colors: [
+                            theme.accentPrimary.opacity(0.3),
+                            theme.strokeSubtle.opacity(0.3)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
     }
 
     private var syncBanner: some View {
