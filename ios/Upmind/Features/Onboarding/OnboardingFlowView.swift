@@ -9,15 +9,37 @@ enum OnboardingStep: Int, CaseIterable {
 @Observable
 final class OnboardingFlowViewModel {
     var currentStep: OnboardingStep = .welcome
+    private var stepStartTime: Date = Date()
 
     func advance() {
         if let next = OnboardingStep(rawValue: currentStep.rawValue + 1) {
+            let now = Date()
+            let durationMs = Int(now.timeIntervalSince(stepStartTime) * 1000)
+            PostHogManager.shared.track(
+                .onboardingStepCompleted(step: currentStep.analyticsName, durationMs: durationMs)
+            )
             currentStep = next
+            stepStartTime = now
+            PostHogManager.shared.track(.onboardingStepViewed(step: next.analyticsName))
         }
     }
 
     func skip() {
         UserDefaults.standard.set(true, forKey: "Upmind.OnboardingComplete")
+    }
+}
+
+private extension OnboardingStep {
+    /// Stable identifier for analytics. Mirrors the `name` field of each
+    /// step so dashboards can group by it.
+    var analyticsName: String {
+        switch self {
+        case .welcome:  return "welcome"
+        case .value:    return "value"
+        case .survey:   return "survey"
+        case .briefing: return "briefing"
+        case .paywall:  return "paywall"
+        }
     }
 }
 
@@ -51,6 +73,9 @@ struct OnboardingFlowView: View {
                 .animation(.easeInOut, value: vm.currentStep)
                 Spacer()
             }
+        }
+        .onAppear {
+            PostHogManager.shared.track(.onboardingStepViewed(step: vm.currentStep.analyticsName))
         }
         .fullScreenCover(isPresented: $showBriefingPlayer) {
             NavigationStack {

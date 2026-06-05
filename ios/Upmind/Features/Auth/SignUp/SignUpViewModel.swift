@@ -18,5 +18,8 @@ final class SignUpViewModel {
         busy = true
         defer { busy = false }
         await authStore.signUpWithEmail(email: email, password: password)
+        if case .signedIn = authStore.state {
+            PostHogManager.shared.track(.authCompleted(method: "email", isNewUser: true))
+        }
     }
 }

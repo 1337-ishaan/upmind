@@ -3,6 +3,7 @@ import SwiftUI
 struct RootView: View {
     @State private var authStore: AuthStore
     @State private var coordinator: AppCoordinator
+    @State private var hasLoggedAppOpen: Bool = false
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.theme) private var theme
 
@@ -19,6 +20,13 @@ struct RootView: View {
         }
         .environment(\.theme, Theme.tokens(for: colorScheme))
         .task {
+            if !hasLoggedAppOpen {
+                hasLoggedAppOpen = true
+                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.1.0"
+                let firstLaunch = !UserDefaults.standard.bool(forKey: "Upmind.HasLaunched")
+                UserDefaults.standard.set(true, forKey: "Upmind.HasLaunched")
+                PostHogManager.shared.track(.appOpened(isFirstLaunch: firstLaunch, appVersion: version))
+            }
             await coordinator.bootstrap()
         }
     }
