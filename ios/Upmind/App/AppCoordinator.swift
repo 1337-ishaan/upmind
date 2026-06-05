@@ -32,20 +32,16 @@ final class AppCoordinator {
 
     func bootstrap() async {
         await authStore.bootstrap()
-        switch authStore.state {
-        case .loading: flow = .loading
-        case .anonymous: flow = .anonymous
-        case .signedIn(_, _): flow = .signedIn(userId: "")
-        case .error: flow = .anonymous
-        }
+        decide()
     }
 
     func handleAuthChange() {
-        switch authStore.state {
-        case .signedIn(let userId, _): flow = .signedIn(userId: userId)
-        case .anonymous, .error: flow = .anonymous
-        case .loading: flow = .loading
-        }
+        decide()
+    }
+
+    func onboardingComplete() {
+        UserDefaults.standard.set(true, forKey: "Upmind.OnboardingComplete")
+        decide()
     }
 
     func recordSession(_ result: SessionResult) async {
@@ -59,5 +55,19 @@ final class AppCoordinator {
             modelContext: modelContext,
             userIdentifier: userId
         )
+    }
+
+    private func decide() {
+        switch authStore.state {
+        case .loading: flow = .loading
+        case .signedIn(_, _):
+            if !UserDefaults.standard.bool(forKey: "Upmind.OnboardingComplete") {
+                flow = .onboarding
+            } else {
+                flow = .signedIn(userId: "")
+            }
+        case .anonymous, .error:
+            flow = .anonymous
+        }
     }
 }

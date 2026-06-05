@@ -44,7 +44,7 @@ struct RootView: View {
                 }
             )
         case .onboarding:
-            SignInView(authStore: authStore)
+            OnboardingFlowView(onComplete: { coordinator.onboardingComplete() })
         }
     }
 }
