@@ -38,4 +38,37 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(Construct.attention.label, "Attention")
         XCTAssertEqual(Construct.executive.label, "Executive Function")
     }
+
+    func testTrialHasExactly8Templates() {
+        XCTAssertEqual(TemplateKind.allCases.count, 8)
+    }
+
+    func testChoiceTrialStoresPromptAndChoices() {
+        let t = ChoiceTrial(
+            id: UUID(),
+            index: 0,
+            difficulty: 1,
+            prompt: "Name the ink color",
+            choices: [
+                Choice(id: "a", label: "Red", correct: true),
+                Choice(id: "b", label: "Blue", correct: false)
+            ],
+            mode: nil
+        )
+        XCTAssertEqual(t.choices.count, 2)
+        XCTAssertEqual(t.choices.first(where: { $0.correct })?.label, "Red")
+    }
+
+    func testTrialEnumCarriesAssociatedValues() {
+        let t = ChoiceTrial(
+            id: UUID(), index: 0, difficulty: 1,
+            prompt: "p", choices: [], mode: nil
+        )
+        let trial = Trial.choice(t)
+        if case .choice(let inner) = trial {
+            XCTAssertEqual(inner.prompt, "p")
+        } else {
+            XCTFail("Expected .choice case")
+        }
+    }
 }
