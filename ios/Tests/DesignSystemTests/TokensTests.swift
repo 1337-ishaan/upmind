@@ -23,4 +23,21 @@ final class TokensTests: XCTestCase {
     func testMinTapTargetIsHigCompliant() {
         XCTAssertGreaterThanOrEqual(MinTapTarget.size, 44)
     }
+
+    func testColorTokensExistInBothSchemes() {
+        // Light
+        let light = ColorTokens.light
+        XCTAssertNotNil(light.surfaceBase)
+        XCTAssertNotNil(light.accentPrimary)
+        // Dark
+        let dark = ColorTokens.dark
+        XCTAssertNotNil(dark.surfaceBase)
+        XCTAssertNotNil(dark.accentPrimary)
+    }
+
+    func testAccentColorHexMatchesSpec() {
+        // Spec: teal #14B8A6 in both schemes (per existing app)
+        XCTAssertEqual(ColorTokens.light.accentPrimaryHex, "14B8A6")
+        XCTAssertEqual(ColorTokens.dark.accentPrimaryHex, "14B8A6")
+    }
 }
