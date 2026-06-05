@@ -145,4 +145,32 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(byConstruct[.problem]?.count, 5)
         XCTAssertEqual(byConstruct[.executive]?.count, 5)
     }
+
+    func testGeneratorProtocolExposesMakeTrial() {
+        // Concrete test for the protocol: any conforming type can be invoked.
+        struct Dummy: TrialGenerator {
+            func makeTrial(index: Int, difficulty: Int) -> Trial {
+                .choice(ChoiceTrial(
+                    id: UUID(),
+                    index: index,
+                    difficulty: difficulty,
+                    prompt: "p",
+                    choices: [Choice(id: "a", label: "A", correct: true)],
+                    mode: nil
+                ))
+            }
+        }
+        let g = Dummy()
+        let trial = g.makeTrial(index: 0, difficulty: 1)
+        XCTAssertEqual(trial.index, 0)
+        XCTAssertEqual(trial.difficulty, 1)
+    }
+
+    func testGeneratorRegistryLooksUpByGameId() {
+        // The registry should return a non-nil generator for every GameId.
+        // Plan 2 will fill in the real generators; for now we just need the lookup path.
+        for id in GameId.allCases {
+            XCTAssertNotNil(Generators.lookup(id), "Missing generator for \(id)")
+        }
+    }
 }
