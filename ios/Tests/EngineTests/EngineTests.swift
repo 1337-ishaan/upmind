@@ -132,7 +132,7 @@ final class EngineTests: XCTestCase {
 
     func testCatalogLookupById() {
         XCTAssertEqual(Games.game(.stroop)?.name, "Stroop")
-        XCTAssertNil(Games.game(.fooBar))
+        XCTAssertNil(Games.game("fooBar"))
     }
 
     func testCatalogGroupedByConstruct() {

@@ -1,6 +1,5 @@
 import SwiftUI
 
-@MainActor
 enum Theme {
     /// Upmind ships dark-first; user can opt into the light scheme in Profile (Phase 3 of Plan 3).
     static let defaultScheme: ColorScheme = .dark
@@ -15,7 +14,6 @@ enum Theme {
 }
 
 private struct ThemeKey: EnvironmentKey {
-    @MainActor
     static let defaultValue: ColorTokens = Theme.tokens(for: Theme.defaultScheme)
 }
 

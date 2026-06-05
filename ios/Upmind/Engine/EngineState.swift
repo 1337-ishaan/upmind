@@ -8,12 +8,11 @@ struct EngineState: Sendable {
     var answers: [AnswerRecord]
     var currentIndex: Int
     /// Wall-clock start of the session. Display-only (used for `SessionResult.startedAt`).
+    /// Wall-clock start of the session. Display-only (used for `SessionResult.startedAt`).
     var startTime: Date
-    /// `ContinuousClock` instant the session started. Reserved for future total-duration
-    /// calculations; per-trial RT uses `trialStartInstant`.
-    var startTimeInstant: ContinuousClock.Instant
-    /// `ContinuousClock` instant the current trial started. Used for per-trial RT.
-    var trialStartInstant: ContinuousClock.Instant
+    /// `ContinuousClock.Instant` the current trial started. Used for per-trial RT
+    /// (no wall-clock skew). Reset on every emitted trial.
+    var trialStart: ContinuousClock.Instant
     var isFinished: Bool
     var isStarted: Bool
     var drifts: Int
@@ -23,15 +22,13 @@ struct EngineState: Sendable {
     var userIdentifier: String
 
     init(game: GameDef, userIdentifier: String = "anonymous") {
-        let clock = ContinuousClock()
         self.game = game
         self.difficulty = 1
         self.trials = []
         self.answers = []
         self.currentIndex = 0
         self.startTime = .distantPast
-        self.startTimeInstant = clock.now
-        self.trialStartInstant = clock.now
+        self.trialStart = ContinuousClock.now
         self.isFinished = false
         self.isStarted = false
         self.drifts = 0

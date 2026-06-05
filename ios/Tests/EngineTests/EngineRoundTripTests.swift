@@ -5,29 +5,39 @@ final class EngineRoundTripTests: XCTestCase {
 
     func testStroopSessionProducesFinishEventWithExpectedScore() async throws {
         let game = Games.game(.stroop)!
-        let mockClock = MockClock()
         let collector = EventCollector()
-        let engine = try Engine(game: game, userIdentifier: "test", clock: mockClock)
-        let consumeTask = Task {
+        let engine = try Engine(game: game, userIdentifier: "test")
+
+        // Drive the engine from the consumer side. We iterate the event
+        // stream and, for every `.trial`, look up the correct choice and
+        // call `engine.answer` — no race with the consumer because we're
+        // the only consumer. The artificial per-trial sleep keeps RTs
+        // above the 180ms drift floor and varied enough to avoid the
+        // streak-walk detector.
+        let driver = Task<SessionResult?, Never> {
+            var finish: SessionResult?
             for await event in engine.events {
-                collector.append(event)
+                switch event {
+                case .trial(let trial, _):
+                    guard case .choice(let ct) = trial else { continue }
+                    let correct = ct.choices.first(where: { $0.correct })!
+                    // 250–350ms per trial: above the 180ms floor, below 5s
+                    // total for 20 trials.
+                    try? await Task.sleep(nanoseconds: UInt64.random(in: 250_000_000...350_000_000))
+                    try? await engine.answer(.choice(correct.id))
+                case .answer(let a):
+                    collector.append(.answer(a))
+                case .finish(let r):
+                    collector.append(.finish(r))
+                    finish = r
+                }
             }
+            return finish
         }
+
         await engine.start()
-        // Drive 20 trials; the choice id 'red' / 'green' / 'blue' / 'yellow' is the ink.
-        // We don't know the correct one ahead of time, so we capture it from the trial.
-        // The mock clock advances 20–50ms per trial so RTs are realistic
-        // (well above the 180ms drift floor) and the whole test runs instantly.
-        var rng = SeededRNG(seed: 1)
-        for _ in 0..<game.trials {
-            let lastTrial = collector.lastTrial()
-            guard case .choice(let ct) = lastTrial else { XCTFail(); return }
-            let correct = ct.choices.first(where: { $0.correct })!
-            mockClock.advance(by: .milliseconds(20 + rng.int(upperBound: 30)))
-            try await engine.answer(.choice(correct.id))
-        }
-        let finish = collector.lastFinish()
-        consumeTask.cancel()
+        let finish = await driver.value
+
         XCTAssertNotNil(finish, "Engine should have finished after 20 trials")
         XCTAssertEqual(finish?.gameId, .stroop)
         XCTAssertEqual(finish?.answers.count, 20)
@@ -39,24 +49,31 @@ final class EngineRoundTripTests: XCTestCase {
 
     func testWrongAnswerReducesScore() async throws {
         let game = Games.game(.stroop)!
-        let mockClock = MockClock()
         let collector = EventCollector()
-        let engine = try Engine(game: game, userIdentifier: "test", clock: mockClock)
-        let consumeTask = Task {
+        let engine = try Engine(game: game, userIdentifier: "test")
+
+        let driver = Task<SessionResult?, Never> {
+            var finish: SessionResult?
             for await event in engine.events {
-                collector.append(event)
+                switch event {
+                case .trial(let trial, _):
+                    guard case .choice(let ct) = trial else { continue }
+                    let wrong = ct.choices.first(where: { !$0.correct })!
+                    try? await Task.sleep(nanoseconds: UInt64.random(in: 250_000_000...350_000_000))
+                    try? await engine.answer(.choice(wrong.id))
+                case .answer(let a):
+                    collector.append(.answer(a))
+                case .finish(let r):
+                    collector.append(.finish(r))
+                    finish = r
+                }
             }
+            return finish
         }
+
         await engine.start()
-        for _ in 0..<game.trials {
-            let lastTrial = collector.lastTrial()
-            guard case .choice(let ct) = lastTrial else { XCTFail(); return }
-            let wrong = ct.choices.first(where: { !$0.correct })!
-            mockClock.advance(by: .milliseconds(50))
-            try await engine.answer(.choice(wrong.id))
-        }
-        let finish = collector.lastFinish()
-        consumeTask.cancel()
+        let finish = await driver.value
+
         XCTAssertNotNil(finish)
         XCTAssertEqual(finish?.score, 0)
         XCTAssertEqual(finish?.accuracy, 0)
@@ -64,18 +81,16 @@ final class EngineRoundTripTests: XCTestCase {
 
     func testAbortingSessionFinishesWithoutScore() async throws {
         let game = Games.game(.stroop)!
-        let mockClock = MockClock()
-        let collector = EventCollector()
-        let engine = try Engine(game: game, userIdentifier: "test", clock: mockClock)
-        let consumeTask = Task {
-            for await event in engine.events {
-                collector.append(event)
-            }
+        let engine = try Engine(game: game, userIdentifier: "test")
+
+        // Drain the stream so the engine can emit freely.
+        let drain = Task {
+            for await _ in engine.events { }
         }
         await engine.start()
         await engine.abort()
-        consumeTask.cancel()
-        // After abort, a new answer should be rejected.
+        drain.cancel()
+
         do {
             try await engine.answer(.choice("anything"))
             XCTFail("Should have thrown")
@@ -89,66 +104,23 @@ final class EngineRoundTripTests: XCTestCase {
 
 // MARK: - Test helpers
 
-/// Deterministic clock. Time only advances when `advance(by:)` is called;
-/// `sleep(for:)` advances the clock instantly without real-time delay.
-final class MockClock: Clock, @unchecked Sendable {
-    typealias Duration = ContinuousClock.Duration
-    private let lock = NSLock()
-    private var _now: ContinuousClock.Instant
-
-    init() {
-        self._now = ContinuousClock().now
-    }
-
-    var now: ContinuousClock.Instant {
-        lock.lock()
-        defer { lock.unlock() }
-        return _now
-    }
-
-    func advance(by duration: Duration) {
-        lock.lock()
-        _now = _now.advanced(by: duration)
-        lock.unlock()
-    }
-
-    func sleep(for duration: Duration) async throws {
-        advance(by: duration)
-    }
-
-    func sleep(until deadline: ContinuousClock.Instant, tolerance: Duration?) async throws {
-        let delta: Duration
-        lock.lock()
-        delta = deadline - _now
-        lock.unlock()
-        advance(by: delta)
-    }
-}
-
 /// Thread-safe collector for events emitted by the Engine on its AsyncStream.
 /// Wraps an internal lock so consumers can read snapshots without races.
 final class EventCollector: @unchecked Sendable {
     private let lock = NSLock()
-    private var trials: [(Trial, Int)] = []
     private var answers: [AnswerRecord] = []
     private var finishes: [SessionResult] = []
 
-    func append(_ event: Engine.Event) {
+    func append(_ event: _CollectorEvent) {
         lock.lock(); defer { lock.unlock() }
         switch event {
-        case .trial(let t, let i): trials.append((t, i))
-        case .answer(let a):       answers.append(a)
-        case .finish(let r):       finishes.append(r)
+        case .answer(let a): answers.append(a)
+        case .finish(let r): finishes.append(r)
         }
     }
+}
 
-    func lastTrial() -> Trial? {
-        lock.lock(); defer { lock.unlock() }
-        return trials.last?.0
-    }
-
-    func lastFinish() -> SessionResult? {
-        lock.lock(); defer { lock.unlock() }
-        return finishes.last
-    }
+enum _CollectorEvent {
+    case answer(AnswerRecord)
+    case finish(SessionResult)
 }

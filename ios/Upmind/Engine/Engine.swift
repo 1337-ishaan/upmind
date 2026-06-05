@@ -2,7 +2,7 @@ import Foundation
 
 /// Drives one cognitive-training session. The engine is framework-agnostic
 /// (no SwiftUI / UIKit imports) so it can be tested in isolation and
-/// potentially reused on watchOS later.
+/// potentially reused on a watchOS app later.
 actor Engine {
 
     enum Event: Sendable {
@@ -12,9 +12,7 @@ actor Engine {
     }
 
     private(set) var state: EngineState
-    /// Clock for measuring reaction time. Inject `MockClock` in tests so
-    /// time advances on demand instead of via real `Task.sleep`.
-    let clock: any Clock<Duration>
+
     /// Stream of events emitted during the session. Consumers iterate with
     /// `for await event in engine.events`. Yielded non-blockingly from inside
     /// the actor; consumers never need to `await` an emit.
@@ -33,14 +31,12 @@ actor Engine {
 
     init(
         game: GameDef,
-        userIdentifier: String = "anonymous",
-        clock: any Clock<Duration> = ContinuousClock()
+        userIdentifier: String = "anonymous"
     ) throws {
         guard Games.game(game.id) != nil else {
             throw EngineError.unknownGame(game.id.rawValue)
         }
         self.state = EngineState(game: game, userIdentifier: userIdentifier)
-        self.clock = clock
         let (stream, continuation) = AsyncStream<Event>.makeStream()
         self.eventStream = stream
         self.eventContinuation = continuation
@@ -66,7 +62,7 @@ actor Engine {
         state.trials = trials
         state.isStarted = true
         state.startTime = Date()
-        state.startTimeInstant = clock.now
+        state.trialStart = ContinuousClock.now
         emitNextTrial()
     }
 
@@ -77,12 +73,11 @@ actor Engine {
             throw EngineError.duplicateAnswer
         }
         let trial = state.trials[state.currentIndex]
-        let elapsed = clock.now - state.trialStartInstant
-        // 1 second = 1e18 attoseconds; 1 millisecond = 1e15 attoseconds.
-        let totalSeconds = Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds) / 1e18
-        let rtMs = Int((totalSeconds * 1000).rounded())
+        let now = ContinuousClock.now
+        let elapsed = now - state.trialStart
+        let rtMs = Self.durationToMs(elapsed)
         let correct = try isCorrect(trial: trial, response: response)
-        let drift = detectDrift(rtMs: rtMs, response: response, trialIndex: state.currentIndex)
+        let drift = detectDrift(rtMs: rtMs, response: response)
         if drift { state.drifts += 1 }
         let record = AnswerRecord(
             trialIndex: state.currentIndex,
@@ -109,7 +104,7 @@ actor Engine {
     // MARK: - Private
 
     private func emitNextTrial() {
-        state.trialStartInstant = clock.now
+        state.trialStart = ContinuousClock.now
         let trial = state.trials[state.currentIndex]
         eventContinuation.yield(.trial(trial, index: state.currentIndex))
     }
@@ -151,14 +146,22 @@ actor Engine {
         eventContinuation.finish()
     }
 
+    /// Convert a `Duration` (from `ContinuousClock`) to milliseconds.
+    private static func durationToMs(_ duration: Duration) -> Int {
+        let comps = duration.components
+        let totalSeconds = Double(comps.seconds) + Double(comps.attoseconds) / 1e18
+        return Int((totalSeconds * 1000).rounded())
+    }
+
     /// Determines whether `response` is the correct answer for `trial`.
     /// Throws `EngineError.invalidResponse` if the response shape does not
     /// match the trial's template. This is a programming bug, not a user
     /// error — it should be caught in development, not silently scored wrong.
     private func isCorrect(trial: Trial, response: TrialResponse) throws -> Bool {
         switch (trial, response) {
-        case (.choice(let t), .choice(let id)),
-             (.recall(let t), .recall(let id)):
+        case (.choice(let t), .choice(let id)):
+            return t.choices.first(where: { $0.id == id })?.correct ?? false
+        case (.recall(let t), .recall(let id)):
             return t.choices.first(where: { $0.id == id })?.correct ?? false
         case (.reaction(let t), .reaction(let pressed)):
             return pressed == t.shouldPress
@@ -186,7 +189,7 @@ actor Engine {
         }
     }
 
-    private func detectDrift(rtMs: Int, response: TrialResponse, trialIndex: Int) -> Bool {
+    private func detectDrift(rtMs: Int, response: TrialResponse) -> Bool {
         if rtMs < rtImpossibleFloorMs { return true }
         // Streak walk: if any of the last `driftStreakCap` answers have the
         // same RT and response, flag the current trial. A bot or "next" key
