@@ -558,6 +558,6 @@ This way Phase 7 can read the flag from day one, and Phase 10 is just "wire up t
 ## Implementation status
 
 - [x] Plan 1: Foundation + Engine — see `docs/superpowers/plans/2026-06-05-upmind-swift-plan-1-foundation-engine.md`
-- [ ] Plan 2: Game Player
+- [x] Plan 2: Game Player
 - [ ] Plan 3: Auth + Backend + Paywall
 - [ ] Plan 4: Ship
