@@ -38,6 +38,7 @@ struct RootView: View {
             RootTabView(
                 modelContext: coordinator.modelContext,
                 syncWorker: coordinator.syncWorker,
+                authStore: authStore,
                 onSessionFinished: { result in
                     Task { await coordinator.recordSession(result) }
                 }

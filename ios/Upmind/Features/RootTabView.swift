@@ -4,6 +4,7 @@ import SwiftData
 struct RootTabView: View {
     let modelContext: ModelContext
     let syncWorker: SyncWorker
+    let authStore: AuthStore
     let onSessionFinished: (SessionResult) -> Void
     @Environment(\.theme) private var theme
 
@@ -28,9 +29,8 @@ struct RootTabView: View {
                 .tag(2)
 
             ProfileView(
-                authStore: AuthStore(),
-                syncWorker: syncWorker,
-                pendingCountProvider: { syncWorker.pendingCount }
+                authStore: authStore,
+                syncWorker: syncWorker
             )
                 .tabItem { Label("Profile", systemImage: "person.crop.circle") }
                 .tag(3)
