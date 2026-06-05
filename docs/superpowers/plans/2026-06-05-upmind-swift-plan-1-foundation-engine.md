@@ -884,8 +884,6 @@ enum GameId: String, CaseIterable, Codable, Sendable, Hashable, Identifiable {
     case matrix, logic, mentalrot, matchpairs, towers
     // Executive (premium)
     case trailmix, rulefind, setshift, planning, inhibit
-    // Extra from RN catalog
-    case strooprt
 
     var id: String { rawValue }
 
@@ -1564,9 +1562,6 @@ enum Games {
         .init(id: .setshift,     name: "Set Shifting",          construct: .executive,template: .choice,  trials: 16, description: "Switch categories",                       isPremium: true),
         .init(id: .planning,     name: "Planning (Zoo Map)",    construct: .executive,template: .grid,    trials: 1,  description: "Plan a route",                            isPremium: true),
         .init(id: .inhibit,      name: "Inhibition",            construct: .executive,template: .choice,  trials: 16, description: "Stop the impulse",                       isPremium: true),
-
-        // ── Extra from RN catalog ──
-        .init(id: .strooprt,     name: "Stroop Reaction",       construct: .processing,template: .reaction,trials: 20, description: "Stroop under time pressure",              isPremium: false),
     ]
 
     static func game(_ id: GameId) -> GameDef? {
