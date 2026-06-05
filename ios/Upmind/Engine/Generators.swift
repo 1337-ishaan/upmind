@@ -72,9 +72,56 @@ enum Generators {
     }
 
     /// Look up the generator for a given game id.
-    /// Plan 2 will replace placeholders with real implementations.
+    /// Stroop uses the real generator; everything else is a placeholder until Plan 2.
     static func lookup(_ id: GameId) -> TrialGenerator? {
         guard let game = Games.game(id) else { return nil }
-        return Placeholder(gameId: game.id, construct: game.construct, template: game.template)
+        switch id {
+        case .stroop:
+            return realStroop
+        default:
+            return Placeholder(gameId: game.id, construct: game.construct, template: game.template)
+        }
+    }
+}
+
+extension Generators {
+
+    /// Real Stroop generator. Prompts the user to name the ink color of a
+    /// color word (e.g. the word "BLUE" rendered in red ink).
+    /// The prompt encodes the word; the correct choice encodes the ink.
+    /// This makes it observable to tests and easy to render in Plan 2.
+    static let realStroop = StroopGenerator()
+
+    struct StroopGenerator: TrialGenerator {
+        private let colors: [String] = ["RED", "GREEN", "BLUE", "YELLOW"]
+        private let inks:   [String] = ["red", "green", "blue", "yellow"]
+
+        func makeTrial(index: Int, difficulty: Int) -> Trial {
+            var rng = SeededRNG(seed: UInt64(bitPattern: Int64(index + 1)))
+            // 50% chance of incongruent (ink != word) to keep it challenging.
+            let wordIdx = rng.int(upperBound: colors.count)
+            let word = colors[wordIdx]
+            let inkIdx: Int
+            if rng.unit() < 0.5 {
+                inkIdx = wordIdx
+            } else {
+                inkIdx = (wordIdx + 1 + rng.int(upperBound: inks.count - 1)) % inks.count
+            }
+            let ink = inks[inkIdx]
+            // Distractors: the other three inks (regardless of word).
+            let distractors = inks.indices.filter { $0 != inkIdx }.map { inks[$0] }
+            let choiceLabels = rng.shuffled([ink] + distractors)
+            let choices: [Choice] = choiceLabels.map { label in
+                Choice(id: label.lowercased(), label: label, correct: label == ink)
+            }
+            return .choice(ChoiceTrial(
+                id: UUID(),
+                index: index,
+                difficulty: difficulty,
+                prompt: word,
+                choices: choices,
+                mode: nil
+            ))
+        }
     }
 }
