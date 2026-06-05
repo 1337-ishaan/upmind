@@ -24,6 +24,10 @@
 	<false/>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>Upmind uses notifications to remind you about your daily drill, warn before your streak ends, and recap your weekly progress.</string>
+	<key>PostHogAPIKey</key>
+	<string>$(POSTHOG_API_KEY)</string>
+	<key>PostHogHost</key>
+	<string>https://us.i.posthog.com</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

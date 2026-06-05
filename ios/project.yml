@@ -56,6 +56,8 @@ targets:
           UIApplicationSupportsMultipleScenes: false
         ITSAppUsesNonExemptEncryption: false
         NSUserNotificationsUsageDescription: "Upmind uses notifications to remind you about your daily drill, warn before your streak ends, and recap your weekly progress."
+        PostHogAPIKey: "$(POSTHOG_API_KEY)"
+        PostHogHost: "https://us.i.posthog.com"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.upmind.app
