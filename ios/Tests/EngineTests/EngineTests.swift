@@ -22,4 +22,20 @@ final class EngineTests: XCTestCase {
         XCTAssertNotNil(EngineError.unknownGame("foo").errorDescription)
         XCTAssertNotNil(EngineError.duplicateAnswer.errorDescription)
     }
+
+    func testConstructHasExactly7Cases() {
+        XCTAssertEqual(Construct.allCases.count, 7)
+    }
+
+    func testConstructOrderMatchesRnCatalog() {
+        // Order matters for the radial chart and the construct filter.
+        XCTAssertEqual(Construct.allCases, [
+            .attention, .memory, .processing, .numeracy, .verbal, .problem, .executive
+        ])
+    }
+
+    func testConstructLabelIsHumanReadable() {
+        XCTAssertEqual(Construct.attention.label, "Attention")
+        XCTAssertEqual(Construct.executive.label, "Executive Function")
+    }
 }
