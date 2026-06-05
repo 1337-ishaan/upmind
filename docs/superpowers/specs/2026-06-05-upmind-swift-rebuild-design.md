@@ -554,3 +554,10 @@ This way Phase 7 can read the flag from day one, and Phase 10 is just "wire up t
 - RevenueCat webhook needs a Supabase Edge Function deployed; we don't have a deploy pipeline yet — Phase 7 will stand one up
 - 42 generators is the longest phase (4). Each is small but the count is high. Plan will suggest parallelizing with subagents
 - The Figma community file (node 0-3329) is a reference, not a prescription; the spec derives its own iOS 26 design language
+
+## Implementation status
+
+- [x] Plan 1: Foundation + Engine — see `docs/superpowers/plans/2026-06-05-upmind-swift-plan-1-foundation-engine.md`
+- [ ] Plan 2: Game Player
+- [ ] Plan 3: Auth + Backend + Paywall
+- [ ] Plan 4: Ship
