@@ -71,4 +71,36 @@ final class EngineTests: XCTestCase {
             XCTFail("Expected .choice case")
         }
     }
+
+    func testResponseChoiceCarriesChoiceId() {
+        let r = TrialResponse.choice("a")
+        if case .choice(let id) = r {
+            XCTAssertEqual(id, "a")
+        } else {
+            XCTFail("Expected .choice")
+        }
+    }
+
+    func testResponseNumberLineCarriesDouble() {
+        let r = TrialResponse.numberLine(0.42)
+        if case .numberLine(let v) = r {
+            XCTAssertEqual(v, 0.42, accuracy: 0.0001)
+        } else {
+            XCTFail("Expected .numberLine")
+        }
+    }
+
+    func testAnswerRecordStoresAllFields() {
+        let rec = AnswerRecord(
+            trialIndex: 3,
+            rtMs: 812,
+            correct: true,
+            response: .choice("a"),
+            drift: false
+        )
+        XCTAssertEqual(rec.trialIndex, 3)
+        XCTAssertEqual(rec.rtMs, 812)
+        XCTAssertTrue(rec.correct)
+        XCTAssertFalse(rec.drift)
+    }
 }
