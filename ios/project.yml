@@ -39,6 +39,12 @@ targets:
     platform: iOS
     sources:
       - path: Upmind
+    configFiles:
+      # Secrets.xcconfig is gitignored. Copy from Secrets.example.xcconfig
+      # and fill in your dev keys. If the file is missing, xcodegen warns
+      # but the project still builds — the app will run in anonymous mode.
+      Debug: Upmind/Library/Config/Secrets.xcconfig
+      Release: Upmind/Library/Config/Secrets.xcconfig
     info:
       path: Upmind/Library/Config/Info.plist
       properties:
@@ -56,9 +62,18 @@ targets:
           UIApplicationSupportsMultipleScenes: false
         ITSAppUsesNonExemptEncryption: false
         NSUserNotificationsUsageDescription: "Upmind uses notifications to remind you about your daily drill, warn before your streak ends, and recap your weekly progress."
-        PostHogAPIKey: "$(POSTHOG_API_KEY)"
+        # Public project URLs (not secrets) are inlined here. The xcodebuild
+        # Info.plist substitution truncates URL values at the first colon when
+        # sourced from xcconfig, so we hardcode them in the plist directly.
+        # The xcconfig path only works for values without colons (i.e. API keys).
+        SupabaseURL: "https://vchsujpxhtudwdripwnk.supabase.co"
         PostHogHost: "https://us.i.posthog.com"
-        SupabaseURL: "https://ruqemqqomxrpdxorbijc.supabase.co"
+        # Secret API keys are read from $(VAR_NAME) placeholders that
+        # xcodebuild resolves from a gitignored Secrets.xcconfig. See
+        # Secrets.example.xcconfig for the format. The Supabase service-role
+        # key (sb_secret_*) must NEVER appear here — it bypasses RLS and is
+        # for server-side use only.
+        PostHogAPIKey: "$(POSTHOG_API_KEY)"
         SupabaseAnonKey: "$(SUPABASE_ANON_KEY)"
         RevenueCatAPIKey: "$(REVENUECAT_API_KEY)"
     settings:
