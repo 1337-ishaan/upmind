@@ -103,4 +103,46 @@ final class EngineTests: XCTestCase {
         XCTAssertTrue(rec.correct)
         XCTAssertFalse(rec.drift)
     }
+
+    func testCatalogHasExactly42Games() {
+        XCTAssertEqual(Games.all.count, 42)
+    }
+
+    func testEachGameHasValidIdAndConstruct() {
+        for g in Games.all {
+            XCTAssertFalse(g.name.isEmpty, "\(g.id) has no name")
+            XCTAssertGreaterThan(g.trials, 0, "\(g.id) has no trials")
+            XCTAssertFalse(g.description.isEmpty, "\(g.id) has no description")
+        }
+    }
+
+    func testCatalogMatchesGameIdCases() {
+        let catalogIds = Set(Games.all.map(\.id))
+        let enumIds = Set(GameId.allCases)
+        XCTAssertEqual(catalogIds, enumIds, "Catalog and GameId enum must agree exactly")
+    }
+
+    func testPremiumCatalogEntriesAreExecutive() {
+        let premium = Games.all.filter(\.isPremium)
+        XCTAssertEqual(premium.count, 5)
+        for g in premium {
+            XCTAssertEqual(g.construct, .executive)
+        }
+    }
+
+    func testCatalogLookupById() {
+        XCTAssertEqual(Games.game(.stroop)?.name, "Stroop")
+        XCTAssertNil(Games.game(.fooBar))
+    }
+
+    func testCatalogGroupedByConstruct() {
+        let byConstruct = Games.grouped(by: \.construct)
+        XCTAssertEqual(byConstruct[.attention]?.count, 7)
+        XCTAssertEqual(byConstruct[.memory]?.count, 7)
+        XCTAssertEqual(byConstruct[.processing]?.count, 5)
+        XCTAssertEqual(byConstruct[.numeracy]?.count, 7)
+        XCTAssertEqual(byConstruct[.verbal]?.count, 6)
+        XCTAssertEqual(byConstruct[.problem]?.count, 5)
+        XCTAssertEqual(byConstruct[.executive]?.count, 5)
+    }
 }
