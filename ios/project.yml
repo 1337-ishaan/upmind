@@ -1,0 +1,95 @@
+name: Upmind
+options:
+  bundleIdPrefix: com.upmind
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+  groupSortPosition: top
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    TARGETED_DEVICE_FAMILY: "1,2"   # iPhone + iPad
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    GENERATE_INFOPLIST_FILE: NO
+    INFOPLIST_FILE: Upmind/Library/Config/Info.plist
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""            # fill in later in Xcode
+    CODE_SIGN_STYLE: Automatic
+packages:
+  PostHog:
+    url: https://github.com/PostHog/posthog-ios
+    from: "3.6.0"
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    from: "2.30.0"
+  RevenueCat:
+    url: https://github.com/RevenueCat/purchases-ios
+    from: "5.20.0"
+  SnapshotTesting:
+    url: https://github.com/pointfreeco/swift-snapshot-testing
+    from: "1.18.0"
+targets:
+  Upmind:
+    type: application
+    platform: iOS
+    sources:
+      - path: Upmind
+    info:
+      path: Upmind/Library/Config/Info.plist
+      properties:
+        CFBundleDisplayName: Upmind
+        UILaunchScreen:
+          UIColorName: ""
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        ITSAppUsesNonExemptEncryption: false
+        NSUserNotificationsUsageDescription: "Upmind uses notifications to remind you about your daily drill, warn before your streak ends, and recap your weekly progress."
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.upmind.app
+    dependencies:
+      - package: PostHog
+        product: PostHog
+      - package: Supabase
+        product: Supabase
+      - package: RevenueCat
+        product: RevenueCat
+  UpmindTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests
+    dependencies:
+      - target: Upmind
+      - package: SnapshotTesting
+        product: SnapshotTesting
+    settings:
+      base:
+        BUNDLE_LOADER: $(TEST_HOST)
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/Upmind.app/Upmind
+schemes:
+  Upmind:
+    build:
+      targets:
+        Upmind: all
+        UpmindTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - UpmindTests
+    archive:
+      config: Release
