@@ -39,18 +39,13 @@ struct GamePlayerView: View {
                 renderer(for: trial, lastCorrect: lastCorrect)
             }
         case .finished(let result):
-            // Placeholder: real result view lands in Round 3.
-            // For now show the score so we can verify end-to-end.
-            VStack(spacing: Spacing.md) {
-                Text("Session complete")
-                    .font(.title2)
-                    .foregroundStyle(theme.textPrimary)
-                Text("Score: \(result.score)")
-                    .font(.system(size: 48, weight: .bold, design: .rounded))
-                    .foregroundStyle(theme.accentPrimary)
-                Text("Accuracy: \(Int(result.accuracy * 100))%")
-                    .foregroundStyle(theme.textSecondary)
-            }
+            // Full result screen. "Play again" restarts the engine for
+            // the same game; "Done" dismisses the player via
+            // `\.dismiss` (pops the navigation stack).
+            SessionResultView(
+                result: result,
+                onPlayAgain: { vm.start() }
+            )
         case .error(let message):
             VStack(spacing: Spacing.md) {
                 Image(systemName: "exclamationmark.triangle")

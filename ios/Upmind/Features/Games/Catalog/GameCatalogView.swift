@@ -1,38 +1,48 @@
 import SwiftUI
 
-/// Stub catalog for Round 1. Lists all 42 games by name. Tap to launch
-/// the player. Round 3 replaces this with a 2-column grid + construct
-/// filter chips.
+/// Browseable list of all 42 games. Search bar + horizontal construct
+/// filter at the top; 2-column `LazyVGrid` of `GameCard`s below. Each
+/// card is a `NavigationLink` to `GamePlayerView`.
 struct GameCatalogView: View {
-    private let games = Games.all
+    @State private var vm = GameCatalogViewModel()
     @Environment(\.theme) private var theme
+
+    private let columns: [GridItem] = [
+        GridItem(.flexible(), spacing: Spacing.sm),
+        GridItem(.flexible(), spacing: Spacing.sm),
+    ]
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(games) { game in
-                    NavigationLink(value: game) {
-                        HStack {
-                            Text(game.name)
-                                .foregroundStyle(theme.textPrimary)
-                            Spacer()
-                            if game.isPremium {
-                                Text("PRO")
-                                    .font(.caption2).bold()
-                                    .padding(.horizontal, 6).padding(.vertical, 2)
-                                    .background(theme.accentPrimary.opacity(0.2))
-                                    .foregroundStyle(theme.accentPrimary)
-                                    .clipShape(Capsule())
+            VStack(spacing: 0) {
+                searchField
+                ConstructFilterChips(selection: $vm.selectedConstruct)
+                    .padding(.vertical, Spacing.sm)
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: Spacing.sm) {
+                        ForEach(vm.filteredGames) { game in
+                            NavigationLink(value: game) {
+                                GameCard(game: game)
                             }
+                            .buttonStyle(.plain)
                         }
                     }
+                    .padding(.horizontal, Spacing.lg)
+                    .padding(.bottom, Spacing.xl)
                 }
             }
-            .listStyle(.plain)
+            .background(theme.surfaceBase)
             .navigationTitle("Games")
             .navigationDestination(for: GameDef.self) { game in
                 GamePlayerView(game: game)
             }
         }
+    }
+
+    private var searchField: some View {
+        TextField("Search games", text: $vm.searchText)
+            .textFieldStyle(.roundedBorder)
+            .padding(.horizontal, Spacing.lg)
+            .padding(.top, Spacing.sm)
     }
 }
