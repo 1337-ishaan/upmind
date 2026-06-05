@@ -558,6 +558,24 @@ This way Phase 7 can read the flag from day one, and Phase 10 is just "wire up t
 ## Implementation status
 
 - [x] Plan 1: Foundation + Engine — see `docs/superpowers/plans/2026-06-05-upmind-swift-plan-1-foundation-engine.md`
-- [x] Plan 2: Game Player
-- [ ] Plan 3: Auth + Backend + Paywall
+- [x] Plan 2: Game Player — see `docs/superpowers/plans/2026-06-05-upmind-swift-plan-2-game-player.md`
+- [x] Plan 3: Auth + Backend + Paywall — see `docs/superpowers/plans/2026-06-05-upmind-swift-plan-3-auth-backend-paywall.md`
 - [ ] Plan 4: Ship
+- [ ] UI polish round
+
+## Plan 3 status (2026-06-05)
+
+Plan 3 implements Auth, Backend, and Paywall phases. The app is now a runnable MVP:
+
+- **Auth:** Email/password + Apple Sign In via Supabase. Anonymous mode default.
+- **Backend:** Local-first session cache in SwiftData; SyncWorker pushes to Supabase in the background when a user is signed in.
+- **Paywall:** RevenueCat manager + glass-card paywall. Weekly $9.99 / Yearly $39.99. Premium gating on 5 Executive Function games.
+- **Screens:** Today (daily drill + streak), Games (catalog), Leaderboard (placeholder data), Profile (sign-in/out + premium status).
+- **Onboarding:** 5-step flow (Welcome, Value, Survey, Briefing, Paywall) shown once for new users.
+
+### Known limitations
+- No real Supabase or RevenueCat credentials in this dev env. `AppSecrets.hasSupabaseConfig` and `hasRevenueCatConfig` are false, so the app runs in anonymous mode and paywall purchases don't complete. Drop in real keys via Xcode build settings to activate.
+- Survey step is a placeholder; no input collected.
+- Leaderboard is mock data; no real `leaderboard` view in Supabase.
+- Snapshot tests for 8 renderers fail until reference images are recorded (`SNAPSHOT_TESTING_RECORD=all`).
+- UI is functional but not polished. The user explicitly flagged this. A polish round is queued.
