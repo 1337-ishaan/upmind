@@ -54,8 +54,11 @@ upmind/
           ScoringTests.swift
           GeneratorTests.swift
           CatalogTests.swift
+          EngineRoundTripTests.swift
+          EnginePlaceholderTemplateTests.swift
         DesignSystemTests/
           TokensTests.swift
+          ThemeTests.swift
   .gitignore                                 # updated to ignore ios/build/, ios/.build/
 ```
 
@@ -311,8 +314,6 @@ schemes:
   <string>$(MARKETING_VERSION)</string>
   <key>CFBundleVersion</key>
   <string>$(CURRENT_PROJECT_VERSION)</string>
-  <key>LSRequiresIPhoneOS</key>
-  <true/>
   <key>UIApplicationSceneManifest</key>
   <dict>
     <key>UIApplicationSupportsMultipleScenes</key>
@@ -1074,7 +1075,7 @@ import Foundation
 
 /// The eight trial shapes. Mirrors the React Native engine 1:1.
 /// `type` is renamed to `typed` because `type` is a reserved Swift keyword.
-enum TemplateKind: String, CaseIterable, Codable, Sendable, Hashable {
+enum TemplateKind: String, CaseIterable, Codable, Sendable, Equatable {
     case choice
     case reaction
     case sequence
@@ -1087,13 +1088,13 @@ enum TemplateKind: String, CaseIterable, Codable, Sendable, Hashable {
 
 // MARK: - Choice
 
-struct Choice: Codable, Sendable, Hashable, Identifiable {
+struct Choice: Codable, Sendable, Equatable, Identifiable {
     let id: String
     let label: String
     let correct: Bool
 }
 
-struct ChoiceTrial: Sendable, Hashable, Identifiable {
+struct ChoiceTrial: Sendable, Equatable, Identifiable {
     let id: UUID
     let index: Int
     let difficulty: Int
@@ -1105,7 +1106,7 @@ struct ChoiceTrial: Sendable, Hashable, Identifiable {
 
 // MARK: - Reaction
 
-struct ReactionTrial: Sendable, Hashable, Identifiable {
+struct ReactionTrial: Sendable, Equatable, Identifiable {
     let id: UUID
     let index: Int
     let difficulty: Int
@@ -1121,13 +1122,13 @@ struct ReactionTrial: Sendable, Hashable, Identifiable {
     let channel: ReactionChannel
 }
 
-enum ReactionChannel: String, Codable, Sendable, Hashable {
+enum ReactionChannel: String, Codable, Sendable, Equatable {
     case visual, audio, either
 }
 
 // MARK: - Sequence
 
-struct SequenceTrial: Sendable, Hashable, Identifiable {
+struct SequenceTrial: Sendable, Equatable, Identifiable {
     let id: UUID
     let index: Int
     let difficulty: Int
@@ -1140,7 +1141,7 @@ struct SequenceTrial: Sendable, Hashable, Identifiable {
     let choices: [String]?
 }
 
-enum SequenceItem: Codable, Sendable, Hashable {
+enum SequenceItem: Codable, Sendable, Equatable {
     case digit(String)
     case block(row: Int, col: Int, gridSize: Int)
 
@@ -1154,7 +1155,7 @@ enum SequenceItem: Codable, Sendable, Hashable {
 
 // MARK: - Grid
 
-struct GridTrial: Sendable, Hashable, Identifiable {
+struct GridTrial: Sendable, Equatable, Identifiable {
     let id: UUID
     let index: Int
     let difficulty: Int
@@ -1168,14 +1169,14 @@ struct GridTrial: Sendable, Hashable, Identifiable {
     let target: String?
 }
 
-struct GridCell: Codable, Sendable, Hashable {
+struct GridCell: Codable, Sendable, Equatable {
     let row: Int
     let col: Int
 }
 
 // MARK: - Recall
 
-struct RecallTrial: Sendable, Hashable, Identifiable {
+struct RecallTrial: Sendable, Equatable, Identifiable {
     let id: UUID
     let index: Int
     let difficulty: Int
@@ -1187,7 +1188,7 @@ struct RecallTrial: Sendable, Hashable, Identifiable {
 
 // MARK: - NumberLine
 
-struct NumberLineTrial: Sendable, Hashable, Identifiable {
+struct NumberLineTrial: Sendable, Equatable, Identifiable {
     let id: UUID
     let index: Int
     let difficulty: Int
@@ -1201,7 +1202,7 @@ struct NumberLineTrial: Sendable, Hashable, Identifiable {
 
 // MARK: - Typed
 
-struct TypedTrial: Sendable, Hashable, Identifiable {
+struct TypedTrial: Sendable, Equatable, Identifiable {
     let id: UUID
     let index: Int
     let difficulty: Int
@@ -1213,7 +1214,7 @@ struct TypedTrial: Sendable, Hashable, Identifiable {
 
 // MARK: - Sort
 
-struct SortTrial: Sendable, Hashable, Identifiable {
+struct SortTrial: Sendable, Equatable, Identifiable {
     let id: UUID
     let index: Int
     let difficulty: Int
@@ -1226,7 +1227,7 @@ struct SortTrial: Sendable, Hashable, Identifiable {
 
 /// The trial envelope passed to renderers. Renderers `switch` on the case
 /// to get the correct associated value.
-enum Trial: Sendable, Hashable, Identifiable {
+enum Trial: Sendable, Equatable, Identifiable {
     case choice(ChoiceTrial)
     case reaction(ReactionTrial)
     case sequence(SequenceTrial)
@@ -1370,7 +1371,7 @@ Expected: "Cannot find 'TrialResponse' in scope"
 import Foundation
 
 /// A user's response to a trial. Each case maps 1:1 to a `Trial` template.
-enum TrialResponse: Sendable, Hashable {
+enum TrialResponse: Sendable, Equatable {
     case choice(String)              // ChoiceTrial: selected Choice.id
     case reaction(Bool)              // ReactionTrial: did the user press
     case sequence([String])          // SequenceTrial: ordered items (digit or "r:c")
@@ -1381,7 +1382,7 @@ enum TrialResponse: Sendable, Hashable {
     case sort(Int)                   // SortTrial: chosen category index
 }
 
-struct AnswerRecord: Sendable, Hashable {
+struct AnswerRecord: Sendable, Equatable {
     let trialIndex: Int
     let rtMs: Int
     let correct: Bool
@@ -1390,7 +1391,11 @@ struct AnswerRecord: Sendable, Hashable {
     let drift: Bool
 }
 
-struct SessionResult: Sendable, Hashable {
+struct SessionResult: Sendable, Equatable {
+    /// Stable per-session identifier. Generated at engine init.
+    let sessionId: UUID
+    /// Anonymous device/user id for Plan 1. Resolved to a Supabase user id in Plan 3.
+    let userIdentifier: String
     let gameId: GameId
     let construct: Construct
     let startedAt: Date
@@ -1699,10 +1704,9 @@ Expected: "Cannot find 'Scoring' in scope"
 import Foundation
 
 /// A computed score for a completed session. Mirrors the React Native formula:
-/// `score = round(accuracy × 100)` with an optional RT-stability modifier.
-/// v1 keeps it simple (accuracy-only) to match the existing PWA prototype; the
-/// stability modifier is reserved for v2.
-struct ScoreBreakdown: Sendable, Hashable {
+/// `score = round(accuracy × 100)`. This is the same formula as the existing
+/// PWA prototype. An RT-stability modifier is reserved for v2 but not in v1.
+struct ScoreBreakdown: Sendable, Equatable {
     let accuracy: Double
     let rtMedianMs: Int
     let rtStddevMs: Int
@@ -1841,6 +1845,10 @@ import Foundation
 /// A pure function that produces one trial for a given game.
 /// v1 uses an internal seeded RNG so the same (index, difficulty) gives
 /// the same trial on every run — important for replay and testing.
+///
+/// `difficulty`: 1 = baseline. Generators MAY use this to scale
+/// (e.g., N-back depth, grid size, distractor count). Generators that
+/// don't scale MUST ignore it.
 protocol TrialGenerator: Sendable {
     func makeTrial(index: Int, difficulty: Int) -> Trial
 }
@@ -2214,23 +2222,36 @@ struct EngineState: Sendable {
     var trials: [Trial]
     var answers: [AnswerRecord]
     var currentIndex: Int
+    /// Wall-clock start of the session. Display-only (used for `SessionResult.startedAt`).
     var startTime: Date
-    var trialStart: Date
+    /// `ContinuousClock` instant the session started. Reserved for future total-duration
+    /// calculations; per-trial RT uses `trialStartInstant`.
+    var startTimeInstant: ContinuousClock.Instant
+    /// `ContinuousClock` instant the current trial started. Used for per-trial RT.
+    var trialStartInstant: ContinuousClock.Instant
     var isFinished: Bool
     var isStarted: Bool
     var drifts: Int
+    /// Stable session identifier. Generated once at engine init, included in `SessionResult`.
+    var sessionId: UUID
+    /// Anonymous device/user identifier. Resolved to a Supabase user id in Plan 3.
+    var userIdentifier: String
 
-    init(game: GameDef) {
+    init(game: GameDef, userIdentifier: String = "anonymous") {
+        let clock = ContinuousClock()
         self.game = game
         self.difficulty = 1
         self.trials = []
         self.answers = []
         self.currentIndex = 0
         self.startTime = .distantPast
-        self.trialStart = .distantPast
+        self.startTimeInstant = clock.now
+        self.trialStartInstant = clock.now
         self.isFinished = false
         self.isStarted = false
         self.drifts = 0
+        self.sessionId = UUID()
+        self.userIdentifier = userIdentifier
     }
 }
 ```
@@ -2254,18 +2275,43 @@ actor Engine {
     }
 
     private(set) var state: EngineState
-    private let listener: @Sendable (Event) async -> Void
+    /// Clock for measuring reaction time. Inject `MockClock` in tests so
+    /// time advances on demand instead of via real `Task.sleep`.
+    let clock: any Clock<Duration>
+    /// Stream of events emitted during the session. Consumers iterate with
+    /// `for await event in engine.events`. Yielded non-blockingly from inside
+    /// the actor; consumers never need to `await` an emit.
+    private let eventStream: AsyncStream<Event>
+    private let eventContinuation: AsyncStream<Event>.Continuation
 
-    /// Drift floor: reaction times below 100ms are flagged as impossible-human.
-    private let rtImpossibleFloorMs: Int = 100
+    /// Drift floor: reaction times below 180ms are flagged as impossible-human.
+    /// (Humans don't go faster than ~200ms for simple visual RT.)
+    private let rtImpossibleFloorMs: Int = 180
+    /// Drift streak cap: walk back at most this many prior answers when looking
+    /// for a streak of identical RT + response.
+    private let driftStreakCap: Int = 5
+    /// Aggregate flag: a session whose median RT sits below this threshold is
+    /// impossibly fast, so we add one extra drift to the count.
+    private let aggregateMedianFloorMs: Int = 250
 
-    init(game: GameDef, listener: @escaping @Sendable (Event) async -> Void) throws {
+    init(
+        game: GameDef,
+        userIdentifier: String = "anonymous",
+        clock: any Clock<Duration> = ContinuousClock()
+    ) throws {
         guard Games.game(game.id) != nil else {
             throw EngineError.unknownGame(game.id.rawValue)
         }
-        self.state = EngineState(game: game)
-        self.listener = listener
+        self.state = EngineState(game: game, userIdentifier: userIdentifier)
+        self.clock = clock
+        let (stream, continuation) = AsyncStream<Event>.makeStream()
+        self.eventStream = stream
+        self.eventContinuation = continuation
     }
+
+    /// Public stream of events. Iterate from the UI / ViewModel with
+    /// `for await event in engine.events { ... }`.
+    nonisolated var events: AsyncStream<Event> { eventStream }
 
     // MARK: - Lifecycle
 
@@ -2283,7 +2329,8 @@ actor Engine {
         state.trials = trials
         state.isStarted = true
         state.startTime = Date()
-        await emitNextTrial()
+        state.startTimeInstant = clock.now
+        emitNextTrial()
     }
 
     func answer(_ response: TrialResponse) async throws {
@@ -2293,8 +2340,11 @@ actor Engine {
             throw EngineError.duplicateAnswer
         }
         let trial = state.trials[state.currentIndex]
-        let rtMs = Int(Date().timeIntervalSince(state.trialStart) * 1000)
-        let correct = isCorrect(trial: trial, response: response)
+        let elapsed = clock.now - state.trialStartInstant
+        // 1 second = 1e18 attoseconds; 1 millisecond = 1e15 attoseconds.
+        let totalSeconds = Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds) / 1e18
+        let rtMs = Int((totalSeconds * 1000).rounded())
+        let correct = try isCorrect(trial: trial, response: response)
         let drift = detectDrift(rtMs: rtMs, response: response, trialIndex: state.currentIndex)
         if drift { state.drifts += 1 }
         let record = AnswerRecord(
@@ -2305,41 +2355,49 @@ actor Engine {
             drift: drift
         )
         state.answers.append(record)
-        await listener(.answer(record))
+        eventContinuation.yield(.answer(record))
         state.currentIndex += 1
         if state.currentIndex >= state.trials.count {
-            await finish()
+            finish()
         } else {
-            await emitNextTrial()
+            emitNextTrial()
         }
     }
 
-    func abort() async {
+    func abort() {
         state.isFinished = true
+        eventContinuation.finish()
     }
 
     // MARK: - Private
 
-    private func emitNextTrial() async {
-        state.trialStart = Date()
+    private func emitNextTrial() {
+        state.trialStartInstant = clock.now
         let trial = state.trials[state.currentIndex]
-        await listener(.trial(trial, index: state.currentIndex))
+        eventContinuation.yield(.trial(trial, index: state.currentIndex))
     }
 
-    private func finish() async {
+    private func finish() {
         state.isFinished = true
         let finishedAt = Date()
         let correctCount = state.answers.filter(\.correct).count
-        let total = max(1, state.answers.count)
         let rts = state.answers.map(\.rtMs)
+        let medianRt = Scoring.median(rts)
+        // Aggregate flag: if the whole session sits below the human floor,
+        // count one extra drift.
+        if medianRt > 0, medianRt < aggregateMedianFloorMs {
+            state.drifts += 1
+        }
         let breakdown = Scoring.score(
             correct: correctCount,
             total: state.answers.count,
-            rtMedianMs: Scoring.median(rts),
+            rtMedianMs: medianRt,
             rtStddevMs: Scoring.standardDeviation(rts),
             drifts: state.drifts
         )
         let result = SessionResult(
+            sessionId: state.sessionId,
+            userIdentifier: state.userIdentifier,
             gameId: state.game.id,
             construct: state.game.construct,
             startedAt: state.startTime,
@@ -2352,11 +2410,15 @@ actor Engine {
             accuracy: breakdown.accuracy,
             drifts: breakdown.drifts
         )
-        await listener(.finish(result))
-        _ = total  // silence unused warning if compiler is overly strict
+        eventContinuation.yield(.finish(result))
+        eventContinuation.finish()
     }
 
-    private func isCorrect(trial: Trial, response: TrialResponse) -> Bool {
+    /// Determines whether `response` is the correct answer for `trial`.
+    /// Throws `EngineError.invalidResponse` if the response shape does not
+    /// match the trial's template. This is a programming bug, not a user
+    /// error — it should be caught in development, not silently scored wrong.
+    private func isCorrect(trial: Trial, response: TrialResponse) throws -> Bool {
         switch (trial, response) {
         case (.choice(let t), .choice(let id)),
              (.recall(let t), .recall(let id)):
@@ -2381,16 +2443,21 @@ actor Engine {
         case (.sort(let t), .sort(let idx)):
             return idx == t.answerIndex
         default:
-            return false
+            // Response shape doesn't match the trial template — a programming
+            // bug. We throw rather than returning false so a dev catches it.
+            throw EngineError.invalidResponse
         }
     }
 
     private func detectDrift(rtMs: Int, response: TrialResponse, trialIndex: Int) -> Bool {
         if rtMs < rtImpossibleFloorMs { return true }
-        // Repeated identical response + RT across trials is suspicious.
-        guard let last = state.answers.last else { return false }
-        if last.rtMs == rtMs && last.response == response {
-            return true
+        // Streak walk: if any of the last `driftStreakCap` answers have the
+        // same RT and response, flag the current trial. A bot or "next" key
+        // spammer produces this pattern; a human rarely does.
+        for prior in state.answers.reversed().prefix(driftStreakCap) {
+            if prior.rtMs == rtMs && prior.response == response {
+                return true
+            }
         }
         return false
     }
@@ -2433,45 +2500,58 @@ final class EngineRoundTripTests: XCTestCase {
 
     func testStroopSessionProducesFinishEventWithExpectedScore() async throws {
         let game = Games.game(.stroop)!
+        let mockClock = MockClock()
         let collector = EventCollector()
-        let engine = try Engine(game: game) { event in
-            await collector.append(event)
+        let engine = try Engine(game: game, userIdentifier: "test", clock: mockClock)
+        let consumeTask = Task {
+            for await event in engine.events {
+                await collector.append(event)
+            }
         }
         await engine.start()
         // Drive 20 trials; the choice id 'red' / 'green' / 'blue' / 'yellow' is the ink.
         // We don't know the correct one ahead of time, so we capture it from the trial.
+        // The mock clock advances 20–50ms per trial so RTs are realistic
+        // (well above the 180ms drift floor) and the whole test runs instantly.
         var rng = SeededRNG(seed: 1)
         for _ in 0..<game.trials {
             let lastTrial = await collector.lastTrial()
             guard case .choice(let ct) = lastTrial else { XCTFail(); return }
-            // The generator marks exactly one choice as correct.
             let correct = ct.choices.first(where: { $0.correct })!
-            // Slight randomization of answer latency so RT is non-zero and not all identical.
-            try? await Task.sleep(nanoseconds: UInt64(20_000_000 + rng.int(upperBound: 30) * 1_000_000))
+            mockClock.advance(by: .milliseconds(20 + rng.int(upperBound: 30)))
             try await engine.answer(.choice(correct.id))
         }
         let finish = await collector.lastFinish()
+        consumeTask.cancel()
         XCTAssertNotNil(finish, "Engine should have finished after 20 trials")
         XCTAssertEqual(finish?.gameId, .stroop)
         XCTAssertEqual(finish?.answers.count, 20)
         XCTAssertEqual(finish?.score, 100, "All-correct answers should produce a perfect score")
-        XCTAssertEqual(finish?.drifts, 0, "No drift should be detected")
+        XCTAssertEqual(finish?.drifts, 0, "No drift should be detected with realistic RTs")
+        XCTAssertNotNil(finish?.sessionId, "SessionResult must carry a session id")
+        XCTAssertEqual(finish?.userIdentifier, "test")
     }
 
     func testWrongAnswerReducesScore() async throws {
         let game = Games.game(.stroop)!
+        let mockClock = MockClock()
         let collector = EventCollector()
-        let engine = try Engine(game: game) { event in
-            await collector.append(event)
+        let engine = try Engine(game: game, userIdentifier: "test", clock: mockClock)
+        let consumeTask = Task {
+            for await event in engine.events {
+                await collector.append(event)
+            }
         }
         await engine.start()
         for _ in 0..<game.trials {
             let lastTrial = await collector.lastTrial()
             guard case .choice(let ct) = lastTrial else { XCTFail(); return }
             let wrong = ct.choices.first(where: { !$0.correct })!
+            mockClock.advance(by: .milliseconds(50))
             try await engine.answer(.choice(wrong.id))
         }
         let finish = await collector.lastFinish()
+        consumeTask.cancel()
         XCTAssertNotNil(finish)
         XCTAssertEqual(finish?.score, 0)
         XCTAssertEqual(finish?.accuracy, 0)
@@ -2479,12 +2559,17 @@ final class EngineRoundTripTests: XCTestCase {
 
     func testAbortingSessionFinishesWithoutScore() async throws {
         let game = Games.game(.stroop)!
+        let mockClock = MockClock()
         let collector = EventCollector()
-        let engine = try Engine(game: game) { event in
-            await collector.append(event)
+        let engine = try Engine(game: game, userIdentifier: "test", clock: mockClock)
+        let consumeTask = Task {
+            for await event in engine.events {
+                await collector.append(event)
+            }
         }
         await engine.start()
         await engine.abort()
+        consumeTask.cancel()
         // After abort, a new answer should be rejected.
         do {
             try await engine.answer(.choice("anything"))
@@ -2498,6 +2583,42 @@ final class EngineRoundTripTests: XCTestCase {
 }
 
 // MARK: - Test helpers
+
+/// Deterministic clock. Time only advances when `advance(by:)` is called;
+/// `sleep(for:)` advances the clock instantly without real-time delay.
+final class MockClock: Clock, @unchecked Sendable {
+    typealias Duration = ContinuousClock.Duration
+    private let lock = NSLock()
+    private var _now: ContinuousClock.Instant
+
+    init() {
+        self._now = ContinuousClock().now
+    }
+
+    var now: ContinuousClock.Instant {
+        lock.lock()
+        defer { lock.unlock() }
+        return _now
+    }
+
+    func advance(by duration: Duration) {
+        lock.lock()
+        _now = _now.advanced(by: duration)
+        lock.unlock()
+    }
+
+    func sleep(for duration: Duration) async throws {
+        advance(by: duration)
+    }
+
+    func sleep(until deadline: ContinuousClock.Instant, tolerance: Duration?) async throws {
+        let delta: Duration
+        lock.lock()
+        delta = deadline - _now
+        lock.unlock()
+        advance(by: delta)
+    }
+}
 
 actor EventCollector {
     private var trials: [(Trial, Int)] = []
@@ -2524,7 +2645,7 @@ cd /Users/ishaanparmar/Desktop/projects/upmind/ios
 xcodebuild -project Upmind.xcodeproj -scheme Upmind -destination 'platform=iOS Simulator,name=iPhone 16 Pro' test 2>&1 | tail -20
 ```
 
-Expected: all tests pass — `Test Suite 'All tests' passed` with 27 total tests (24 prior + 3 new)
+Expected: all tests pass — `Test Suite 'All tests' passed` with 34 total tests (31 prior + 3 new)
 
 - [ ] **Step 3: Commit**
 
@@ -2536,7 +2657,145 @@ git commit -m "test(engine): round-trip Stroop session — all-correct, all-wron
 
 ---
 
-## Task 16: PostHog — Initial config (no event tracking yet)
+## Task 16: Engine — Round-trip tests for the other 7 trial templates
+
+**Files:**
+- Create: `ios/Tests/EngineTests/EnginePlaceholderTemplateTests.swift`
+
+The Stroop round-trip test in Task 15 only exercises the `.choice` template (Stroop uses a choice trial). The other 7 templates (`reaction`, `sequence`, `grid`, `recall`, `numberLine`, `typed`, `sort`) need their own end-to-end tests using the placeholder generator from Task 12. Each test starts the engine, drives every trial in the game to completion with the correct response, and asserts a `score == 100` finish event.
+
+- [ ] **Step 1: Write the tests**
+
+`ios/Tests/EngineTests/EnginePlaceholderTemplateTests.swift`:
+
+```swift
+import XCTest
+@testable import Upmind
+
+final class EnginePlaceholderTemplateTests: XCTestCase {
+
+    /// Drives a full placeholder-generated game session, sending the correct
+    /// response for each trial as computed by `correctResponse(_:trial:)`.
+    /// Asserts the finish event has score 100.
+    private func assertFullSessionScores100(
+        game: GameId,
+        correctResponse: (Int, Trial) -> TrialResponse
+    ) async throws {
+        let gameDef = Games.game(game)!
+        let mockClock = MockClock()
+        let collector = EventCollector()
+        let engine = try Engine(game: gameDef, userIdentifier: "test", clock: mockClock)
+        let consumeTask = Task {
+            for await event in engine.events {
+                await collector.append(event)
+            }
+        }
+        await engine.start()
+        for i in 0..<gameDef.trials {
+            let trial = await collector.lastTrial()
+            XCTAssertNotNil(trial, "Engine should have emitted a trial at index \(i)")
+            let response = correctResponse(i, trial!)
+            mockClock.advance(by: .milliseconds(50))
+            try await engine.answer(response)
+        }
+        let finish = await collector.lastFinish()
+        consumeTask.cancel()
+        XCTAssertNotNil(finish, "\(game.rawValue) should produce a finish event")
+        XCTAssertEqual(finish?.score, 100, "\(game.rawValue) all-correct answers should produce a perfect score")
+        XCTAssertEqual(finish?.accuracy ?? 0, 1.0, accuracy: 0.0001)
+    }
+
+    // MARK: - reaction (placeholder: shouldPress = index % 2 == 0)
+
+    func testReactionTemplateFullSession() async throws {
+        try await assertFullSessionScores100(game: .reaction) { _, trial in
+            guard case .reaction(let t) = trial else { XCTFail("expected .reaction"); return .reaction(false) }
+            return .reaction(t.shouldPress)
+        }
+    }
+
+    // MARK: - sequence (placeholder: answer = ["3", "7", "1"] every trial)
+
+    func testSequenceTemplateFullSession() async throws {
+        try await assertFullSessionScores100(game: .digitspan) { _, trial in
+            guard case .sequence(let t) = trial else { XCTFail("expected .sequence"); return .sequence([]) }
+            return .sequence(t.answer)
+        }
+    }
+
+    // MARK: - grid (placeholder: answer = (0, 0) every trial)
+
+    func testGridTemplateFullSession() async throws {
+        try await assertFullSessionScores100(game: .canceltask) { _, trial in
+            guard case .grid(let t) = trial else { XCTFail("expected .grid"); return .grid(GridCell(row: 0, col: 0)) }
+            return .grid(t.answer)
+        }
+    }
+
+    // MARK: - recall (placeholder collapses .recall to a ChoiceTrial; we send .choice)
+
+    func testRecallTemplateFullSession() async throws {
+        // NOTE: The Plan 1 placeholder generator collapses `.recall` to a
+        // `ChoiceTrial`, so we exercise the engine with a choice response.
+        // The actual `.recall` code path is exercised by the real generators
+        // in Plan 2.
+        try await assertFullSessionScores100(game: .paired) { _, trial in
+            guard case .choice(let ct) = trial else { XCTFail("expected .choice from collapsed recall"); return .choice("") }
+            let correct = ct.choices.first(where: { $0.correct })!
+            return .choice(correct.id)
+        }
+    }
+
+    // MARK: - numberLine (placeholder: target = 42, tolerance = 0.05)
+
+    func testNumberLineTemplateFullSession() async throws {
+        try await assertFullSessionScores100(game: .numline) { _, trial in
+            guard case .numberLine(let t) = trial else { XCTFail("expected .numberLine"); return .numberLine(0) }
+            return .numberLine(t.target)
+        }
+    }
+
+    // MARK: - typed (placeholder: answerPattern = ".*" — anything matches)
+
+    func testTypedTemplateFullSession() async throws {
+        try await assertFullSessionScores100(game: .verbfluency) { _, trial in
+            guard case .typed = trial else { XCTFail("expected .typed"); return .typed("") }
+            return .typed("anything matches the .* pattern")
+        }
+    }
+
+    // MARK: - sort (placeholder: answerIndex = 0 every trial)
+
+    func testSortTemplateFullSession() async throws {
+        try await assertFullSessionScores100(game: .towers) { _, trial in
+            guard case .sort(let t) = trial else { XCTFail("expected .sort"); return .sort(0) }
+            return .sort(t.answerIndex)
+        }
+    }
+}
+```
+
+- [ ] **Step 2: Run the tests to verify they pass**
+
+```bash
+cd /Users/ishaanparmar/Desktop/projects/upmind/ios
+xcodegen generate
+xcodebuild -project Upmind.xcodeproj -scheme Upmind -destination 'platform=iOS Simulator,name=iPhone 16 Pro' test 2>&1 | tail -20
+```
+
+Expected: `Test Suite 'EnginePlaceholderTemplateTests' passed` — 7 new tests. Total tests now 41 (34 prior + 7 new).
+
+- [ ] **Step 3: Commit**
+
+```bash
+cd /Users/ishaanparmar/Desktop/projects/upmind
+git add ios/Tests/EngineTests/EnginePlaceholderTemplateTests.swift
+git commit -m "test(engine): round-trip the 7 placeholder templates — reaction through sort"
+```
+
+---
+
+## Task 17: PostHog — Initial config (no event tracking yet)
 
 **Files:**
 - Create: `ios/Upmind/Library/Analytics/PostHogManager.swift`
@@ -2647,7 +2906,7 @@ cd /Users/ishaanparmar/Desktop/projects/upmind/ios
 xcodebuild -project Upmind.xcodeproj -scheme Upmind -destination 'platform=iOS Simulator,name=iPhone 16 Pro' test 2>&1 | tail -10
 ```
 
-Expected: 27 tests still pass
+Expected: 41 tests still pass (24 prior Engine + 7 DesignSystem + 3 Engine round-trip + 7 placeholder template tests)
 
 - [ ] **Step 6: Commit**
 
@@ -2661,7 +2920,7 @@ git commit -m "feat(analytics): PostHogManager bootstrap with opt-in toggle (no 
 
 ---
 
-## Task 17: Final verification — full test run, doc touch-ups
+## Task 18: Final verification — full test run, doc touch-ups
 
 **Files:**
 - Modify: `docs/superpowers/specs/2026-06-05-upmind-swift-rebuild-design.md` (link to plan)
@@ -2673,7 +2932,7 @@ cd /Users/ishaanparmar/Desktop/projects/upmind/ios
 xcodebuild -project Upmind.xcodeproj -scheme Upmind -destination 'platform=iOS Simulator,name=iPhone 16 Pro' clean test 2>&1 | tail -10
 ```
 
-Expected: `** TEST SUCCEEDED **`, with 27 tests passed across `EngineTests`, `ScoringTests`, `GeneratorTests`, `EngineRoundTripTests`, `DesignSystemTests`.
+Expected: `** TEST SUCCEEDED **`, with 41 tests passed across `EngineTests`, `ScoringTests`, `GeneratorTests`, `EngineRoundTripTests`, `EnginePlaceholderTemplateTests`, `DesignSystemTests`.
 
 - [ ] **Step 2: Verify the directory structure matches the plan**
 
@@ -2712,7 +2971,7 @@ echo ""
 echo "Plan 1 complete. Summary:"
 echo "  - $(git -C /Users/ishaanparmar/Desktop/projects/upmind log --oneline | wc -l | tr -d ' ') commits since spec"
 echo "  - $(find /Users/ishaanparmar/Desktop/projects/upmind/ios -name '*.swift' | wc -l | tr -d ' ') Swift files"
-echo "  - 27 tests across Engine, Scoring, Generator, EngineRoundTrip, DesignSystem"
+echo "  - 41 tests across Engine, Scoring, Generator, EngineRoundTrip, EnginePlaceholderTemplate, DesignSystem"
 echo ""
 echo "Next: Plan 2 (Game Player + 41 remaining game generators)."
 ```
@@ -2727,9 +2986,9 @@ echo "Next: Plan 2 (Game Player + 41 remaining game generators)."
 - ✅ DesignSystem tokens (Tasks 3–5)
 - ✅ Engine — Trial types, Engine actor, Scoring (Tasks 6–11)
 - ✅ Engine — Generator protocol + 1 real generator (Tasks 12–13)
-- ✅ Engine — Engine actor with lifecycle (Tasks 14–15)
-- ✅ PostHog bootstrap (Task 16)
-- ✅ Verification + status link (Task 17)
+- ✅ Engine — Engine actor with lifecycle (Tasks 14–16)
+- ✅ PostHog bootstrap (Task 17)
+- ✅ Verification + status link (Task 18)
 
 **Out of plan-1 scope (deferred):**
 - 8 components (PrimaryButton, Card, etc.) — written in Plan 2 alongside renderers

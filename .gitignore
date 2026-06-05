@@ -2,7 +2,6 @@ node_modules/
 .expo/
 dist/
 web-build/
-ios/
 android/
 .DS_Store
 *.tsbuildinfo
@@ -10,7 +9,6 @@ android/
 .env
 *.log
 coverage/
-ios/
 android/
 .vscode/
 .idea/

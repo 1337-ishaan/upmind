@@ -235,7 +235,7 @@ struct ScoreBreakdown: Sendable {
 }
 ```
 
-Same formula as RN: `score = round(accuracy × 100)` with RT stability modifier matching the existing `0.6 + 0.4 × stability` weight.
+Score is computed as `round(accuracy × 100)`. This is the same formula as the existing PWA prototype. An RT-stability modifier is reserved for v2 but not in v1.
 
 ### Game catalog (`Engine/Catalog.swift`)
 
