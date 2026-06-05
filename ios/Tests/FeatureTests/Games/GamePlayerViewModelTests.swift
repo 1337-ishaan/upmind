@@ -87,4 +87,65 @@ final class GamePlayerViewModelTests: XCTestCase {
         // untouched state by now.
         XCTFail("State did not evolve after answering first trial: \(vm.state)")
     }
+
+    /// The VM should evolve state when the engine emits a `.reaction`
+    /// trial — i.e. the VM is template-agnostic and works for any of the
+    /// 8 trial shapes. This is the Round 2 coverage for the renderer
+    /// wiring milestone: a non-choice game must round-trip through the
+    /// VM just like Stroop.
+    ///
+    /// The `.reaction` game uses the placeholder generator which sets
+    /// `shouldPress = (index % 2 == 0)`. We answer with the correct
+    /// value for the first trial (index 0 → shouldPress = true) and
+    /// assert that the state moves past the initial `.playing(0, nil)`.
+    func testReactionTemplateSurfacesAndEvolvesState() async throws {
+        let game = Games.game(.reaction)!
+        let vm = try GamePlayerViewModel(game: game, userIdentifier: "test")
+        XCTAssertEqual(vm.state, .loading, "Fresh VM should be in .loading")
+
+        vm.start()
+        defer { vm.abort() }
+
+        // Wait for the engine to emit the first trial. The placeholder
+        // generator always produces a reaction trial for the reaction game.
+        let deadline = Date().addingTimeInterval(2.0)
+        while Date() < deadline {
+            if case .playing = vm.state { break }
+            try await Task.sleep(nanoseconds: 50_000_000)
+        }
+
+        guard case .playing(let trial, let index, let total, let lastCorrect) = vm.state else {
+            XCTFail("Expected .playing state for reaction game, got \(vm.state)")
+            return
+        }
+        XCTAssertEqual(trial.template, .reaction, "Simple Reaction must surface a reaction trial")
+        XCTAssertEqual(index, 0, "First trial should have index 0")
+        XCTAssertEqual(total, game.trials, "Total should match the game's trial count")
+        XCTAssertNil(lastCorrect, "No answer given yet, lastCorrect should be nil")
+        guard case .reaction(let rt) = trial else {
+            XCTFail("Expected a reaction trial in payload")
+            return
+        }
+
+        // Answer correctly. RT is varied to avoid streak-walk drift.
+        try? await Task.sleep(nanoseconds: UInt64.random(in: 250_000_000...350_000_000))
+        await vm.answer(.reaction(rt.shouldPress))
+
+        // Wait for state to evolve past the first trial.
+        let deadline2 = Date().addingTimeInterval(2.0)
+        while Date() < deadline2 {
+            switch vm.state {
+            case .playing(_, let idx, _, let lc) where idx > 0 || lc != nil:
+                return
+            case .finished:
+                return
+            case .error:
+                return
+            default:
+                try await Task.sleep(nanoseconds: 50_000_000)
+            }
+        }
+
+        XCTFail("Reaction game state did not evolve after answering first trial: \(vm.state)")
+    }
 }

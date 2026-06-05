@@ -73,15 +73,70 @@ struct GamePlayerView: View {
                     Task { await vm.answer(.choice(id)) }
                 }
             )
-        // Other templates land in Round 2. For now, a placeholder.
-        default:
-            VStack(spacing: Spacing.md) {
-                Image(systemName: "hammer")
-                    .font(.largeTitle)
-                    .foregroundStyle(theme.textSecondary)
-                Text("Renderer pending (Round 2)")
-                    .foregroundStyle(theme.textSecondary)
-            }
+        case .reaction(let t):
+            ReactionRenderer(
+                trial: t,
+                lastCorrect: lastCorrect,
+                onAnswer: { pressed in
+                    Task { await vm.answer(.reaction(pressed)) }
+                }
+            )
+        case .sequence(let t):
+            SequenceRenderer(
+                trial: t,
+                lastCorrect: lastCorrect,
+                onAnswer: { items in
+                    Task { await vm.answer(.sequence(items)) }
+                }
+            )
+        case .grid(let t):
+            GridRenderer(
+                trial: t,
+                lastCorrect: lastCorrect,
+                onAnswer: { cell in
+                    Task { await vm.answer(.grid(cell)) }
+                }
+            )
+        case .numberLine(let t):
+            NumberLineRenderer(
+                trial: t,
+                lastCorrect: lastCorrect,
+                onAnswer: { v in
+                    Task { await vm.answer(.numberLine(v)) }
+                }
+            )
+        case .typed(let t):
+            TypedRenderer(
+                trial: t,
+                lastCorrect: lastCorrect,
+                onAnswer: { s in
+                    Task { await vm.answer(.typed(s)) }
+                }
+            )
+        case .sort(let t):
+            SortRenderer(
+                trial: t,
+                lastCorrect: lastCorrect,
+                onAnswer: { idx in
+                    Task { await vm.answer(.sort(idx)) }
+                }
+            )
+        case .recall(let t):
+            // Recall has the same shape as Choice — render it with the
+            // ChoiceRenderer. The `correctId` lives on the trial but the
+            // renderer scores via the per-choice `correct` flag, which the
+            // engine syncs at generator time. `mode` is nil because the
+            // ChoiceRenderer doesn't read it.
+            ChoiceRenderer(
+                trial: ChoiceTrial(
+                    id: t.id, index: t.index, difficulty: t.difficulty,
+                    prompt: t.prompt, choices: t.choices, mode: nil
+                ),
+                lastCorrect: lastCorrect,
+                onAnswer: { id in
+                    Task { await vm.answer(.recall(id)) }
+                }
+            )
         }
     }
 }
