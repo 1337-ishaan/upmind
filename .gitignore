@@ -2,13 +2,13 @@ node_modules/
 .expo/
 dist/
 web-build/
+android/
 .DS_Store
 *.tsbuildinfo
 .env*.local
 .env
 *.log
 coverage/
-ios/
 android/
 .vscode/
 .idea/
@@ -16,3 +16,24 @@ android/
 # Real secrets in this folder's mcp.json — never commit.
 .cursor/mcp.json
 .cursor/**/mcp.json
+
+# Swift / Xcode
+ios/build/
+ios/.build/
+ios/DerivedData/
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcworkspace/xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Package.resolved
+
+# xcodegen
+ios/Upmind.xcodeproj/
+
+# Local secrets
+ios/Upmind/Library/Config/Secrets.xcconfig
